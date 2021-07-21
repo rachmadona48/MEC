@@ -394,9 +394,6 @@
                         }, 1000);
                         return false;
                     }
-
-                    $('#submit-modal_add_int').hide();
-                    $('#spinner-modal_add_int').show();
                     
                 },
                 success: (data) => {
@@ -429,10 +426,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-modal_add_int').show();
-                    $('#spinner-modal_add_int').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -487,8 +480,6 @@
                         return false;
                     }
                     
-                    $('#submit-modal_edit_int').hide();
-                    $('#spinner-modal_edit_int').show();
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -521,10 +512,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_edit_int').show();
-                    $('#spinner-modal_edit_int').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -545,39 +532,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    if ($('#mdl_add_qt_int_type').val() == ''){
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error('Invalid type', 'ERROR');
-                        }, 1000);
-                        return false;
-                    }
-
-                    /*jika file tidak kosong*/
-                    if ($('#mdl_add_qt_int_file').val() != ''){
-                        var mdl_add_qt_int_file = document.getElementById("mdl_add_qt_int_file").files[0].name;
-                        var ext = mdl_add_qt_int_file.split('.').pop().toLowerCase();
-                        if(jQuery.inArray(ext, ['jpeg','jpg','png']) == -1) 
-                        {
-                            setTimeout(function() {
-                                toastr.options = {
-                                    closeButton: true,
-                                    progressBar: true,
-                                    showMethod: 'slideDown',
-                                    timeOut: 4000
-                                };
-                                toastr.error('Invalid Image', 'ERROR');
-                            }, 1000);
-                            return false;
-                        }
-                    }
-                    $('#submit-modal_add_qt_int').hide();
-                    $('#spinner-modal_add_qt_int').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -613,10 +568,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_qt_int').show();
-                    $('#spinner-modal_add_qt_int').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -636,27 +587,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-
-                    /*jika file tidak kosong*/
-                    if ($('#mdl_edit_qt_int_file').val() != ''){
-                        var mdl_edit_qt_int_file = document.getElementById("mdl_edit_qt_int_file").files[0].name;
-                        var ext = mdl_edit_qt_int_file.split('.').pop().toLowerCase();
-                        if(jQuery.inArray(ext, ['jpeg','jpg','png']) == -1) 
-                        {
-                            setTimeout(function() {
-                                toastr.options = {
-                                    closeButton: true,
-                                    progressBar: true,
-                                    showMethod: 'slideDown',
-                                    timeOut: 4000
-                                };
-                                toastr.error('Invalid Image', 'ERROR');
-                            }, 1000);
-                            return false;
-                        }
-                    }
-                    $('#submit-modal_edit_qt_int').hide();
-                    $('#spinner-modal_edit_qt_int').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -691,9 +622,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },complete: function() {
-                    $('#submit-modal_edit_qt_int').show();
-                    $('#spinner-modal_edit_qt_int').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -714,8 +642,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_add_ans').hide();
-                    $('#spinner-modal_add_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -751,10 +678,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_ans').show();
-                    $('#spinner-modal_add_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -774,8 +697,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_edit_ans').hide();
-                    $('#spinner-modal_edit_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -811,10 +733,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_edit_ans').show();
-                    $('#spinner-modal_edit_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -835,8 +753,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_add_text_ans').hide();
-                    $('#spinner-modal_add_text_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -872,10 +789,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_text_ans').show();
-                    $('#spinner-modal_add_text_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -896,8 +809,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_edit_ans_text').hide();
-                    $('#spinner-modal_edit_ans_text').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -933,10 +845,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_edit_ans_text').show();
-                    $('#spinner-modal_edit_ans_text').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -956,8 +864,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_add_matching_ans').hide();
-                    $('#spinner-modal_add_matching_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -993,10 +900,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_matching_ans').show();
-                    $('#spinner-modal_add_matching_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -1016,8 +919,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_edit_matching_ans').hide();
-                    $('#spinner-modal_edit_matching_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -1052,10 +954,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-modal_edit_matching_ans').show();
-                    $('#spinner-modal_edit_matching_ans').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -1214,8 +1112,7 @@
                 data: {data:data_form},
                 dataType  : "JSON",
                 beforeSend: function(){
-                    $('#submit-saveResponse').hide();
-                    $('#spinner-saveResponse').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -1249,10 +1146,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-saveResponse').show();
-                    $('#spinner-saveResponse').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -3556,7 +3449,6 @@
             });
         }
     }
-
 
     function add_answers(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,id_question){
         if(state_interactive=='Publish'){

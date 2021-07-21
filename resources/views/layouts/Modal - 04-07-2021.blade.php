@@ -855,25 +855,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_add_int" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success" >Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_add_int" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </form>
         </div>
@@ -952,25 +936,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_edit_int" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_edit_int" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1005,19 +973,11 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Type</label>
                         <div class="col-sm-10">
-                            <select data-placeholder="Type" class="form-control m-b" id="mdl_add_qt_int_type" name="mdl_add_qt_int_type" required="" >
-                                <option value="">--Pilih--</option>
+                            <select data-placeholder="Type" class="form-control m-b" id="mdl_add_qt_int_type" name="mdl_add_qt_int_type" required="">
                                 <option value="Text">Text</option>
                                 <option value="Option">Option</option>
                                 <option value="Matching">Matching</option>
                             </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="id_mdl_add_qt_int_file">
-                        <label class="col-sm-2 control-label">Image</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control m-b" id="mdl_add_qt_int_file" name="mdl_add_qt_int_file" placeholder="File" accept="image/*"/>
                         </div>
                     </div>
 
@@ -1032,25 +992,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_add_qt_int" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_add_qt_int" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1087,19 +1031,11 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Type</label>
                         <div class="col-sm-10">
-                            <select data-placeholder="Type" class="form-control m-b" id="mdl_edit_qt_int_type" name="mdl_edit_qt_int_type" required="" >
-                                <option value="">--Pilih--</option>
+                            <select data-placeholder="Type" class="form-control m-b" id="mdl_edit_qt_int_type" name="mdl_edit_qt_int_type" required="">
                                 <option value="Text">Text</option>
                                 <option value="Option">Option</option>
                                 <option value="Matching">Matching</option>
                             </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group" id="id_mdl_edit_qt_int_file">
-                        <label class="col-sm-2 control-label">Image</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control m-b" id="mdl_edit_qt_int_file" name="mdl_edit_qt_int_file" placeholder="File" accept="image/*"/>
                         </div>
                     </div>
 
@@ -1114,25 +1050,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_edit_qt_int" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_edit_qt_int" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1191,25 +1111,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_add_ans" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_add_ans" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1268,25 +1172,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_edit_ans" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_edit_ans" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1333,25 +1221,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_add_text_ans" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_add_text_ans" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1398,25 +1270,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_edit_ans_text" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_edit_ans_text" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1471,25 +1327,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_add_matching_ans" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_add_matching_ans" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -1542,25 +1382,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer" id="submit-modal_edit_matching_ans" style="margin-top: 0px !important;">
+                <div class="modal-footer" style="margin-top: 0px !important;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-success">Save</button>
-                </div>
-                <div class="modal-footer" id="spinner-modal_edit_matching_ans" style="margin-top: 0px !important;display: none;">
-                    <div class="sk-spinner sk-spinner-circle">
-                        <div class="sk-circle1 sk-circle"></div>
-                        <div class="sk-circle2 sk-circle"></div>
-                        <div class="sk-circle3 sk-circle"></div>
-                        <div class="sk-circle4 sk-circle"></div>
-                        <div class="sk-circle5 sk-circle"></div>
-                        <div class="sk-circle6 sk-circle"></div>
-                        <div class="sk-circle7 sk-circle"></div>
-                        <div class="sk-circle8 sk-circle"></div>
-                        <div class="sk-circle9 sk-circle"></div>
-                        <div class="sk-circle10 sk-circle"></div>
-                        <div class="sk-circle11 sk-circle"></div>
-                        <div class="sk-circle12 sk-circle"></div>
-                    </div>
                 </div>
             </form>
         </div>

@@ -67,6 +67,12 @@ class InteractiveController extends Controller
         }else{
             $input = $request->all();
             $file_name = time().'.'.$request->mdl_add_int_file->getClientOriginalExtension();
+
+            $path = public_path('upload/'.Session::get('kd_smt_active').'/interactive/');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
             $request->mdl_add_int_file->move(public_path('upload/'.Session::get('kd_smt_active').'/interactive/'),$file_name); 
         }
 
@@ -249,7 +255,21 @@ class InteractiveController extends Controller
         $state = 'Show';
         $sort = InteractiveModel::last_sort_question($id_pelajaran,$id_week,$id_interactive);
 
-        $insert = InteractiveModel::add_question_interactive($id_pelajaran,$id_week,$id_interactive,$name_question,$type,$required,$state,$sort);
+        if ($request->file('mdl_add_qt_int_file') == null) {
+            $file_name = null;
+        }else{
+            $input = $request->all();
+            $file_name = time().'.'.$request->mdl_add_qt_int_file->getClientOriginalExtension();
+
+            $path = public_path('upload/'.Session::get('kd_smt_active').'/question/');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            $request->mdl_add_qt_int_file->move(public_path('upload/'.Session::get('kd_smt_active').'/question/'),$file_name); 
+        }
+
+        $insert = InteractiveModel::add_question_interactive($id_pelajaran,$id_week,$id_interactive,$name_question,$type,$required,$state,$sort,$file_name);
         if($insert){
             $respon='SUKSES';
             $msg='';
@@ -270,7 +290,21 @@ class InteractiveController extends Controller
         $type = $request->mdl_edit_qt_int_type;
         $required = $request->mdl_edit_qt_int_required;
 
-        $insert = InteractiveModel::Update_question($id_question,$name_question,$type,$required);
+        if ($request->file('mdl_edit_qt_int_file') == null) {
+            $file_name = null;
+        }else{
+            $input = $request->all();
+            $file_name = time().'.'.$request->mdl_edit_qt_int_file->getClientOriginalExtension();
+
+            $path = public_path('upload/'.Session::get('kd_smt_active').'/question/');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            $request->mdl_edit_qt_int_file->move(public_path('upload/'.Session::get('kd_smt_active').'/question/'),$file_name); 
+        }
+
+        $insert = InteractiveModel::Update_question($id_question,$name_question,$type,$required,$file_name);
         if($insert){
             $respon='SUKSES';
             $msg='';
@@ -776,6 +810,12 @@ class InteractiveController extends Controller
         }else{
             $input = $request->all();
             $file_name = time().'.'.$request->file_upload_response->getClientOriginalExtension();
+
+            $path = public_path('upload/'.Session::get('kd_smt_active').'/interactive_response_upload/');
+            if(!File::isDirectory($path)){
+                File::makeDirectory($path, 0777, true, true);
+            }
+
             $request->file_upload_response->move(public_path('upload/'.Session::get('kd_smt_active').'/interactive_response_upload/'),$file_name); 
 
             $insert = InteractiveModel::add_upload_appraisal($request->session()->get('username'),$new_idResponse,$id_interactive,$file_name);

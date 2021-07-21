@@ -206,7 +206,7 @@ class InteractiveModel extends Model
         return $return;
     }
 
-    public static function add_question_interactive($id_pelajaran,$id_week,$id_interactive,$name_question,$type,$required,$state,$sort){
+    public static function add_question_interactive($id_pelajaran,$id_week,$id_interactive,$name_question,$type,$required,$state,$sort,$file_name){
 
         $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_question")->insertGetId(
             [
@@ -218,16 +218,18 @@ class InteractiveModel extends Model
                 'required' => $required,
                 'state' => $state,
                 'sort' => $sort,
+                'file' => $file_name,
             ]
         );
         return $insert;
     }
 
-    public static function Update_question($id_question,$name_question,$type,$required){
+    public static function Update_question($id_question,$name_question,$type,$required,$file_name){
         date_default_timezone_set('Asia/Jakarta');
 
         $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_question
                 SET name_question = '".$name_question."',
+                file = '".$file_name."',
                 type = '".$type."',
                 required = '".$required."'
                 where id = ".$id_question."

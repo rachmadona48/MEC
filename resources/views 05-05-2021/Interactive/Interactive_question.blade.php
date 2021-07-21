@@ -25,7 +25,6 @@
                             <tr style="background-color: skyblue;">
                                 <th width="10px"><center>Orders</center></th>
                                 <th style="width: 25%">Questions</th>
-                                <th style="width: 10%"><center>Image</center></th>
                                 <th style="width: 10%"><center>Type & Required</center></th>
                                 <th style="width: 40%"><center>Answers</center></th>
                                 <th style="width: 15%"><center>Action</center></th>
@@ -48,18 +47,11 @@
                                 </td>
                                 <td>
                                     <center>
-                                        <?php if (!empty($key->file)){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
-                                        <?php } ?>
-                                    </center>
-                                </td>
-                                <td>
-                                    <center>
                                         <?php echo $key->type;?><br/>
                                         <?php echo $key->required;?>
                                     </center>
                                 </td>
-                                <td align="center" style="vertical-align: middle;"> 
+                                <td align="center" style="vertical-align: middle;">
                                     <?php if($key->type=='Option') { ?>
                                         <?php
                                             $sql = 'SELECT ans.*
@@ -92,7 +84,7 @@
                                             <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Add Answer" onclick="add_answers('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>')"><i class="fa fa-plus"></i> Answer</button>
 
                                     <!-- Text input -->
-                                    <?php }elseif($key->type=='Text'){ ?> 
+                                    <?php }else{ ?> 
                                         <?php
                                             $sql_count_text = 'SELECT count(*) as jml_d
                                                     FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
@@ -123,32 +115,7 @@
                                             <?php echo $query_text->name_answer;?> (<?php echo $query_text->skor;?>)
                                             <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit Answer" onclick="edit_answers_text('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>','<?php echo $query_text->id; ?>','<?php echo $query_text->name_answer; ?>','<?php echo $query_text->true; ?>','<?php echo $query_text->skor; ?>')"><i class="fa fa-edit"></i></button>
                                         <?php }
-                                        }elseif($key->type=='Matching'){ ?> 
-                                        <?php
-
-                                            $sql = 'SELECT ans.*
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
-                                                    WHERE ans.pelajaran = "'.$id_pelajaran.'"
-                                                    AND ans.id_week = "'.$id_week.'" 
-                                                    AND ans.id_interactive = "'.$id_interactive.'" 
-                                                    AND ans.id_question = "'.$key->id.'" 
-                                                    '
-                                            ;   
-                                            // echo $sql;exit();
-                                            $query=collect(\DB::select($sql));
-                                            foreach ($query as $ans) { 
-                                            ?>
-                                                <?php echo $ans->question_matching;?> : <?php echo $ans->name_answer;?> (<?php echo $ans->skor;?>)
-                                                <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit Answer" onclick="edit_answers_matching('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>','<?php echo $ans->id; ?>','<?php echo $ans->question_matching; ?>','<?php echo $ans->name_answer; ?>','<?php echo $ans->true; ?>','<?php echo $ans->skor; ?>')"><i class="fa fa-edit"></i></button>
-
-                                                <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete Answer" onclick="del_answers('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>','<?php echo $ans->id; ?>')"><i class="fa fa-trash"></i></button>
-
-                                                <hr style="margin-bottom:2px; margin-top:2px" />
-
-                                            <?php } ?> 
-
-                                            <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Add Answer" onclick="add_answers_matching('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>')"><i class="fa fa-plus"></i> Answer Matching</button>
-                                        <?php } ?> 
+                                        } ?> 
                                     
                                 </td>
                                 <td>

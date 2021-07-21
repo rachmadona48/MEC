@@ -381,22 +381,6 @@
                             return false;
                         }
                     }
-
-                    if ($('#mdl_add_int_type').val() == 'Canvas' && $('#mdl_add_int_canvas').val() == ''){
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error('Link canvas is empty', 'ERROR');
-                        }, 1000);
-                        return false;
-                    }
-
-                    $('#submit-modal_add_int').hide();
-                    $('#spinner-modal_add_int').show();
                     
                 },
                 success: (data) => {
@@ -429,10 +413,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-modal_add_int').show();
-                    $('#spinner-modal_add_int').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -473,22 +453,7 @@
                             return false;
                         }
                     }
-
-                    if ($('#mdl_edit_int_type').val() == 'Canvas' && $('#mdl_edit_int_canvas').val() == ''){
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error('Link canvas is empty', 'ERROR');
-                        }, 1000);
-                        return false;
-                    }
                     
-                    $('#submit-modal_edit_int').hide();
-                    $('#spinner-modal_edit_int').show();
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -521,10 +486,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_edit_int').show();
-                    $('#spinner-modal_edit_int').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -545,39 +506,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    if ($('#mdl_add_qt_int_type').val() == ''){
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error('Invalid type', 'ERROR');
-                        }, 1000);
-                        return false;
-                    }
-
-                    /*jika file tidak kosong*/
-                    if ($('#mdl_add_qt_int_file').val() != ''){
-                        var mdl_add_qt_int_file = document.getElementById("mdl_add_qt_int_file").files[0].name;
-                        var ext = mdl_add_qt_int_file.split('.').pop().toLowerCase();
-                        if(jQuery.inArray(ext, ['jpeg','jpg','png']) == -1) 
-                        {
-                            setTimeout(function() {
-                                toastr.options = {
-                                    closeButton: true,
-                                    progressBar: true,
-                                    showMethod: 'slideDown',
-                                    timeOut: 4000
-                                };
-                                toastr.error('Invalid Image', 'ERROR');
-                            }, 1000);
-                            return false;
-                        }
-                    }
-                    $('#submit-modal_add_qt_int').hide();
-                    $('#spinner-modal_add_qt_int').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -613,10 +542,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_qt_int').show();
-                    $('#spinner-modal_add_qt_int').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -636,27 +561,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-
-                    /*jika file tidak kosong*/
-                    if ($('#mdl_edit_qt_int_file').val() != ''){
-                        var mdl_edit_qt_int_file = document.getElementById("mdl_edit_qt_int_file").files[0].name;
-                        var ext = mdl_edit_qt_int_file.split('.').pop().toLowerCase();
-                        if(jQuery.inArray(ext, ['jpeg','jpg','png']) == -1) 
-                        {
-                            setTimeout(function() {
-                                toastr.options = {
-                                    closeButton: true,
-                                    progressBar: true,
-                                    showMethod: 'slideDown',
-                                    timeOut: 4000
-                                };
-                                toastr.error('Invalid Image', 'ERROR');
-                            }, 1000);
-                            return false;
-                        }
-                    }
-                    $('#submit-modal_edit_qt_int').hide();
-                    $('#spinner-modal_edit_qt_int').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -691,9 +596,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },complete: function() {
-                    $('#submit-modal_edit_qt_int').show();
-                    $('#spinner-modal_edit_qt_int').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -714,8 +616,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_add_ans').hide();
-                    $('#spinner-modal_add_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -751,10 +652,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_ans').show();
-                    $('#spinner-modal_add_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -774,8 +671,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_edit_ans').hide();
-                    $('#spinner-modal_edit_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -811,10 +707,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_edit_ans').show();
-                    $('#spinner-modal_edit_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -835,8 +727,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_add_text_ans').hide();
-                    $('#spinner-modal_add_text_ans').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -872,10 +763,6 @@
                         }, 1000);
                     }
                 },
-                complete: function() {
-                    $('#submit-modal_add_text_ans').show();
-                    $('#spinner-modal_add_text_ans').hide();                      
-                },
                 error: function(data){
                     console.log(data);
                 }
@@ -896,8 +783,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function(){
-                    $('#submit-modal_edit_ans_text').hide();
-                    $('#spinner-modal_edit_ans_text').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -932,130 +818,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-modal_edit_ans_text').show();
-                    $('#spinner-modal_edit_ans_text').hide();                      
-                },
-                error: function(data){
-                    console.log(data);
-                }
-            });
-        });
-
-        $('#save_answer_matching').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-
-            $.ajax({
-                type:'POST',
-                url: "{{ url('/add_answer_matching') }}",
-                data: formData,
-                dataType: 'json',
-                cache:false,
-                contentType: false,
-                processData: false,
-                beforeSend: function(){
-                    $('#submit-modal_add_matching_ans').hide();
-                    $('#spinner-modal_add_matching_ans').show();
-                },
-                success: (data) => {
-                    if(data.respon == 'SUKSES'){
-                        kode_grade = $("#mdl_add_matching_ans_kode_grade").val();
-                        id_pelajaran = $("#mdl_add_matching_ans_id_pelajaran").val();
-                        id_week = $("#mdl_add_matching_ans_id_week").val();
-                        week = $("#mdl_add_matching_ans_week").val();
-                        id_interactive = $("#mdl_add_matching_ans_id_interactive").val();
-                        name_interactive = $("#mdl_add_matching_ans_name_interactive").val();
-                        state_interactive = $("#mdl_add_matching_ans_state_interactive").val();
-
-                        $('#modal_add_matching_ans').modal('hide');
-                        show_question_interactive(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive)
-                        // div_info();  
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.info('Succes add answer', 'SUCCESS');
-                        }, 1000);
-                    }else{
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error(data.msg, 'ERROR');
-                        }, 1000);
-                    }
-                },
-                complete: function() {
-                    $('#submit-modal_add_matching_ans').show();
-                    $('#spinner-modal_add_matching_ans').hide();                      
-                },
-                error: function(data){
-                    console.log(data);
-                }
-            });
-        });
-
-        $('#edit_answer_matching').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-
-            $.ajax({
-                type:'POST',
-                url: "{{ url('/edit_answer_matching') }}",
-                data: formData,
-                dataType: 'json',
-                cache:false,
-                contentType: false,
-                processData: false,
-                beforeSend: function(){
-                    $('#submit-modal_edit_matching_ans').hide();
-                    $('#spinner-modal_edit_matching_ans').show();
-                },
-                success: (data) => {
-                    if(data.respon == 'SUKSES'){
-                        kode_grade = $("#mdl_edit_matching_ans_kode_grade").val();
-                        id_pelajaran = $("#mdl_edit_matching_ans_id_pelajaran").val();
-                        id_week = $("#mdl_edit_matching_ans_id_week").val();
-                        week = $("#mdl_edit_matching_ans_week").val();
-                        id_interactive = $("#mdl_edit_matching_ans_id_interactive").val();
-                        name_interactive = $("#mdl_edit_matching_ans_name_interactive").val();
-                        state_interactive = $("#mdl_edit_matching_ans_state_interactive").val();
-
-                        $('#modal_edit_matching_ans').modal('hide');
-                        show_question_interactive(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive)
-                        // div_info();  
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.info('Succes add answer', 'SUCCESS');
-                        }, 1000);
-                    }else{
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error(data.msg, 'ERROR');
-                        }, 1000);
-                    }
-                },
-                complete: function() {
-                    $('#submit-modal_edit_matching_ans').show();
-                    $('#spinner-modal_edit_matching_ans').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -1149,60 +911,6 @@
             });
         });
 
-        $('#saveResponse_canvas').submit(function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-
-            $.ajax({
-                type:'POST',
-                url: "{{ url('/save_response_canvas') }}",
-                data: formData,
-                dataType: 'json',
-                cache:false,
-                contentType: false,
-                processData: false,
-                beforeSend: function(){
-                    
-                },
-                success: (data) => {
-                    if(data.respon == 'SUKSES'){
-                        // $('#modal_tlm_add_lmp').modal('hide');
-                        kode_grade = $("#kode_grade").val();
-                        id_pelajaran = $("#id_pelajaran").val();
-                        id_week = $("#id_week").val();
-                        week = $("#minggu").val();
-                        name_interactive = $("#name_interactive").val();
-                        state_interactive = $("#state_interactive").val();
-
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.info('Succes Save', 'SUCCESS');
-                        }, 1000);
-
-                        interactive(kode_grade,id_pelajaran,id_week,week);
-                    }else{
-                        setTimeout(function() {
-                            toastr.options = {
-                                closeButton: true,
-                                progressBar: true,
-                                showMethod: 'slideDown',
-                                timeOut: 4000
-                            };
-                            toastr.error(data.msg, 'ERROR');
-                        }, 1000);
-                    }
-                },
-                error: function(data){
-                    console.log(data);
-                }
-            });
-        });
-
         $('#saveResponse').submit(function(e) {
             e.preventDefault();
             var dataString = $("#saveResponse").serialize();
@@ -1214,8 +922,7 @@
                 data: {data:data_form},
                 dataType  : "JSON",
                 beforeSend: function(){
-                    $('#submit-saveResponse').hide();
-                    $('#spinner-saveResponse').show();
+                    
                 },
                 success: (data) => {
                     if(data.respon == 'SUKSES'){
@@ -1249,10 +956,6 @@
                             toastr.error(data.msg, 'ERROR');
                         }, 1000);
                     }
-                },
-                complete: function() {
-                    $('#submit-saveResponse').show();
-                    $('#spinner-saveResponse').hide();                      
                 },
                 error: function(data){
                     console.log(data);
@@ -1299,13 +1002,7 @@
                             toastr.info('Succes update appraisal', 'SUCCESS');
                         }, 1000);
 
-                        if(type=='General'){
-                            show_appraisal_general(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,state_interactive,type,id_appraisal,idResponse,username);
-                        }else if(type=='Upload'){
-                            show_appraisal_upload(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,state_interactive,type,id_appraisal,idResponse,username);
-                        }else if(type=='Canvas'){
-                            show_appraisal_canvas(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,state_interactive,type,id_appraisal,idResponse,username);
-                        }
+                        show_appraisal_general(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,state_interactive,type,id_appraisal,idResponse,username);
                     }else{
                         setTimeout(function() {
                             toastr.options = {
@@ -3075,13 +2772,8 @@
         var type_int = $('#mdl_add_int_type').val()
         if(type_int=='Upload'){
             $('#id_mdl_add_int_file').show();
-            $('#id_mdl_add_int_canvas').hide();
-        }else if(type_int=='Canvas'){
+        }else{
             $('#id_mdl_add_int_file').hide();
-            $('#id_mdl_add_int_canvas').show();
-        }else if(type_int=='General'){
-            $('#id_mdl_add_int_file').hide();
-             $('#id_mdl_add_int_canvas').hide();
         }
     }
 
@@ -3187,13 +2879,8 @@
         var type_int = $('#mdl_edit_int_type').val()
         if(type_int=='Upload'){
             $('#id_mdl_edit_int_file').show();
-            $('#id_mdl_edit_int_canvas').hide();
-        }else if(type_int=='Canvas'){
+        }else{
             $('#id_mdl_edit_int_file').hide();
-            $('#id_mdl_edit_int_canvas').show();
-        }else if(type_int=='General'){
-            $('#id_mdl_edit_int_file').hide();
-             $('#id_mdl_edit_int_canvas').hide();
         }
     }
 
@@ -3249,24 +2936,6 @@
         $.ajax({
             type:'POST',
             url: "{{ url('/show_file_interactive') }}",
-            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,file_upload:file_upload},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function show_canvas_interactive(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,file_upload){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/show_canvas_interactive') }}",
             data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,file_upload:file_upload},
             dataType: 'json',
             success: (data) => {
@@ -3339,24 +3008,6 @@
         $.ajax({
             type:'POST',
             url: "{{ url('/show_response_appraisal_upload') }}",
-            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,type:type,idResponse:idResponse,username:username,id_appraisal:id_appraisal},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function show_appraisal_canvas(kode_grade,id_pelajaran,id_week,minggu,id_interactive,name_interactive,state_interactive,type,id_appraisal,idResponse,username){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/show_response_appraisal_canvas') }}",
             data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,type:type,idResponse:idResponse,username:username,id_appraisal:id_appraisal},
             dataType: 'json',
             success: (data) => {
@@ -3557,7 +3208,6 @@
         }
     }
 
-
     function add_answers(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,id_question){
         if(state_interactive=='Publish'){
             swal("Cancelled", "Interactive is publish", "error");
@@ -3673,27 +3323,6 @@
         });
     }
 
-    function response_interactive_canvas(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,date_from,
-        date_to){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/response_interactive_canvas') }}",
-            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,week:week,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,date_from:date_from,date_to:date_to},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
     function response_interactive(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,date_from,
         date_to){
         var _token  = $('meta[name="csrf-token"]').attr('content');
@@ -3761,80 +3390,12 @@
         }
     }
 
-    function add_answers_matching(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,id_question){
-        if(state_interactive=='Publish'){
-            swal("Cancelled", "Interactive is publish", "error");
-        }else{
-            // $("#mdl_add_ans_name_answer").val('');
-
-            title = 'Add question and answer matching';
-            
-            $("#title_add_matching_ans").html(title);
-            // data = $('#'+kolom).html();
-            $("#mdl_add_matching_ans_kode_grade").val(kode_grade);
-            $("#mdl_add_matching_ans_id_pelajaran").val(id_pelajaran);
-            $("#mdl_add_matching_ans_id_week").val(id_week);
-            $("#mdl_add_matching_ans_week").val(week);
-            $("#mdl_add_matching_ans_id_interactive").val(id_interactive);
-            $("#mdl_add_matching_ans_name_interactive").val(name_interactive);
-            $("#mdl_add_matching_ans_state_interactive").val(state_interactive);
-            $("#mdl_add_matching_ans_id_question").val(id_question);
-            $('#modal_add_matching_ans').modal('show');
-        }
-    }
-
-    function edit_answers_matching(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,id_question,id_answer,question_matching,name_answer,true_answer,skor){
-        if(state_interactive=='Publish'){
-            swal("Cancelled", "Interactive is publish", "error");
-        }else{
-
-            title = 'Edit answer matching';
-            
-            $("#title_edit_matching_ans").html(title);
-            // data = $('#'+kolom).html();
-            $("#mdl_edit_matching_ans_kode_grade").val(kode_grade);
-            $("#mdl_edit_matching_ans_id_pelajaran").val(id_pelajaran);
-            $("#mdl_edit_matching_ans_id_week").val(id_week);
-            $("#mdl_edit_matching_ans_week").val(week);
-            $("#mdl_edit_matching_ans_id_interactive").val(id_interactive);
-            $("#mdl_edit_matching_ans_name_interactive").val(name_interactive);
-            $("#mdl_edit_matching_ans_state_interactive").val(state_interactive);
-            $("#mdl_edit_matching_ans_id_question").val(id_question);
-            $("#mdl_edit_matching_ans_id_answer").val(id_answer);
-            $("#mdl_edit_matching_ans_question_matching").val(question_matching);
-            $("#mdl_edit_matching_ans_name_answer").val(name_answer);
-            $("#mdl_edit_matching_ans_skor").val(skor);
-            $('#modal_edit_matching_ans').modal('show');
-        }
-    }
-
     function show_file_response_interactive(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,date_from,
         date_to){
         var _token  = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             type:'POST',
             url: "{{ url('/show_file_response_interactive_upload') }}",
-            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,week:week,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,date_from:date_from,date_to:date_to},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function show_canvas_response_interactive(kode_grade,id_pelajaran,id_week,week,id_interactive,name_interactive,state_interactive,date_from,
-        date_to){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/show_canvas_response_interactive') }}",
             data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,week:week,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,date_from:date_from,date_to:date_to},
             dataType: 'json',
             success: (data) => {
@@ -3857,212 +3418,6 @@
             type:'POST',
             url: "{{ url('/show_response_interactive') }}",
             data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,week:week,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,date_from:date_from,date_to:date_to},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_tlm_int(minggu){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_tlm_int') }}",
-            data: {_token:_token,minggu:minggu},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_tlm(minggu){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_tlm') }}",
-            data: {_token:_token,minggu:minggu},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_tlm_detail(minggu,id){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_tlm_Detail') }}",
-            data: {_token:_token,minggu:minggu,id:id},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_show_tlm_slide_lmp(id_detail,id_lmp,minggu){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_Show_tlm_slide_lmp') }}",
-            data: {_token:_token,id_detail:id_detail,id_lmp:id_lmp,minggu:minggu},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_int(minggu){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_int') }}",
-            data: {_token:_token,minggu:minggu},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_show_file_interactive(minggu,id,file_upload,name){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_show_file_interactive') }}",
-            data: {_token:_token,minggu:minggu,id:id,file_upload:file_upload,name:name},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_show_file_response_interactive(minggu,id,state,name){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_show_file_response_interactive') }}",
-            data: {_token:_token,minggu:minggu,id:id,state:state,name:name},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_response_interactive_canvas(minggu,id_interactive,name_interactive,state_interactive){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_response_interactive_canvas') }}",
-            data: {_token:_token,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_show_canvas_response_interactive(minggu,id_interactive,name_interactive,state_interactive){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_show_canvas_response_interactive') }}",
-            data: {_token:_token,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_response_interactive(minggu,id_interactive,name_interactive,state_interactive,date_from,date_to){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_response_interactive') }}",
-            data: {_token:_token,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive,date_from:date_from,date_to:date_to},
-            dataType: 'json',
-            success: (data) => {
-                if(data.respon == 'SUKSES'){
-                    $("#div_tlm").html(data.div);
-                }else{
-                    swal("Cancelled", data.msg, "error");
-                }
-            },
-            error: function(data){
-                console.log(data);
-            }
-        });
-    }
-
-    function parent_show_response_interactive(minggu,id_interactive,name_interactive,state_interactive){
-        var _token  = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type:'POST',
-            url: "{{ url('/parent_show_response_interactive') }}",
-            data: {_token:_token,minggu:minggu,id_interactive:id_interactive,name_interactive:name_interactive,state_interactive:state_interactive},
             dataType: 'json',
             success: (data) => {
                 if(data.respon == 'SUKSES'){

@@ -69,10 +69,8 @@
 
                                         <?php if ($key->type=='Upload'){ ?>
                                             <button class="btn btn-outline btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="Show File Question" onclick="show_file_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->file_upload;?>')"><i class="fa fa-file-pdf-o"></i></button>
-                                        <?php }elseif ($key->type=='General'){ ?>
+                                        <?php }else{ ?>
                                             <button class="btn btn-outline btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Show Question" onclick="show_question_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>')"><i class="fa fa-question-circle"></i></button>
-                                        <?php }elseif ($key->type=='Canvas'){ ?>
-                                            <button class="btn btn-outline btn-white btn-xs" data-toggle="tooltip" data-placement="top" title="Show Canvas Movie" onclick="show_canvas_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>')"><i class="fa fa-file-movie-o"></i></button>
                                         <?php } ?>
 
                                         <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Show Appraisal Student" onclick="show_appraisal('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->type; ?>')"><i class="fa fa-comments-o"></i></button>
@@ -98,7 +96,8 @@
                                                 <?php }else{ ?>
                                                     <button class="btn btn-outline btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Show answer the questions" onclick="show_file_response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
                                                 <?php } ?>
-                                        <?php }elseif ($key->type=='General'){ ?>
+                                        <?php }else{ ?>
+                                            <!-- <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Answer the questions" onclick="response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button> -->
 
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
@@ -113,21 +112,6 @@
                                                     <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Answer the questions" onclick="response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
                                                 <?php }else{ ?>
                                                     <button class="btn btn-outline btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Show answer the questions" onclick="show_response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
-                                                <?php } ?>
-                                        <?php }elseif ($key->type=='Canvas'){ ?>
-                                            <?php
-                                                $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
-                                                            WHERE id_interactive = "'.$key->id.'" 
-                                                            AND username ="'.$username.'"'
-                                                            ;   
-                                                // echo $sql_count;exit();
-                                                $query_count=collect(\DB::select($sql_count))->first();
-                                                if($query_count->jml_d<=0){
-                                            ?>
-                                                    <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Answer the questions with video interactive" onclick="response_interactive_canvas('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
-                                                <?php }else{ ?>
-                                                    <button class="btn btn-outline btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Show answer the questions" onclick="show_canvas_response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
                                                 <?php } ?>
                                         <?php } ?>
                                     <?php } ?>

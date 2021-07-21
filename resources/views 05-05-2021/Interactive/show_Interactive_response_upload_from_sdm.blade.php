@@ -15,7 +15,8 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <?php echo $link_canvas; ?>
+                    <object data="{!! asset('upload/'.Session::get('kd_smt_active').'/interactive_response_upload') !!}/<?php echo $file; ?>" type="application/pdf" width="100%" height="800px">  
+                    </object>
                 </div>
                 <div class="ibox-content">
                     <form method="POST" enctype="multipart/form-data" id="update_appraisal" action="javascript:void(0)" >
