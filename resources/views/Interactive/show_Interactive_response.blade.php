@@ -28,6 +28,25 @@
                                             <td style="width:2%"><?php echo $key->sort; ?>.</td>
                                             <td><?php echo $key->name_question; ?></td>
                                         </tr>
+                                        <?php if (!empty($key->file)){ ?>
+                                        <tr>
+                                            <td style="width:2%"></td>
+                                            <td>
+                                                <div class="lightBoxGallery">
+                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    </a>
+                                                    
+                                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <a class="close">×</a>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr>
                                             <td style="width:2%"></td>
                                             <td>
@@ -84,6 +103,25 @@
                                             <td style="width:2%"><?php echo $key->sort; ?>.</td>
                                             <td><?php echo $key->name_question; ?></td>
                                         </tr>
+                                        <?php if (!empty($key->file)){ ?>
+                                        <tr>
+                                            <td style="width:2%"></td>
+                                            <td>
+                                                <div class="lightBoxGallery">
+                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    </a>
+                                                    
+                                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <a class="close">×</a>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr>
                                             <td style="width:2%"></td>
                                             <td>
@@ -115,44 +153,63 @@
                                     </table>
                             <?php }else if($key->type=='Matching'){ ?>
                                 <table style="width:100%">
-                                        <tr>
-                                            <td style="width:2%"><?php echo $key->sort; ?>.</td>
-                                            <td><?php echo $key->name_question; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:2%"></td>
-                                            <td>
-                                                <?php 
-                                                    if($key->required=='Yes'){
-                                                        $req = 'required="" ';
-                                                    }else{
-                                                        $req = '';
-                                                    }
-                                                ?>
+                                    <tr>
+                                        <td style="width:2%"><?php echo $key->sort; ?>.</td>
+                                        <td><?php echo $key->name_question; ?></td>
+                                    </tr>
+                                    <?php if (!empty($key->file)){ ?>
+                                    <tr>
+                                        <td style="width:2%"></td>
+                                        <td>
+                                            <div class="lightBoxGallery">
+                                                <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                    <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                </a>
                                                 
-                                                <?php 
-                                                    $sql_qt = '
-                                                            SELECT res.id as id_responses,res.response,res.skor,res.`true`,ans.question_matching
-                                                            from mdn120202021.mec_interactive_responses res
-                                                            LEFT JOIN mdn120202021.mec_interactive_answers ans on res.id_answer = ans.id
-                                                            WHERE res.id_interactive =  "'.$id_interactive.'" 
-                                                            AND res.id_question = "'.$key->id.'"
-                                                            AND res.idResponse = "'.$idResponse.'"
-                                                            '
-                                                    ;   
-                                                    // echo $sql_qt;exit();
-                                                    $query_qt=collect(\DB::select($sql_qt));
-                                                    foreach ($query_qt as $key_ans) {
-                                                ?>
-                                                <div class="radio">
-                                                    <label>
-                                                    <b><?php echo $key_ans->question_matching; ?> : <?php echo $key_ans->response; ?></b>
-                                                    </label>
+                                                <div id="blueimp-gallery" class="blueimp-gallery">
+                                                    <div class="slides"></div>
+                                                    <h3 class="title"></h3>
+                                                    <a class="close">×</a>
                                                 </div>
-                                                <?php } ?>
-                                            </td>
-                                        </tr>
-                                    </table>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                    <tr>
+                                        <td style="width:2%"></td>
+                                        <td>
+                                            <?php 
+                                                if($key->required=='Yes'){
+                                                    $req = 'required="" ';
+                                                }else{
+                                                    $req = '';
+                                                }
+                                            ?>
+                                            
+                                            <?php 
+                                                $sql_qt = '
+                                                        SELECT res.id as id_responses,res.response,res.skor,res.`true`,ans.question_matching
+                                                        from mdn120202021.mec_interactive_responses res
+                                                        LEFT JOIN mdn120202021.mec_interactive_answers ans on res.id_answer = ans.id
+                                                        WHERE res.id_interactive =  "'.$id_interactive.'" 
+                                                        AND res.id_question = "'.$key->id.'"
+                                                        AND res.idResponse = "'.$idResponse.'"
+                                                        '
+                                                ;   
+                                                // echo $sql_qt;exit();
+                                                $query_qt=collect(\DB::select($sql_qt));
+                                                foreach ($query_qt as $key_ans) {
+                                            ?>
+                                            <div class="radio">
+                                                <label>
+                                                <b><?php echo $key_ans->question_matching; ?> : <?php echo $key_ans->response; ?></b>
+                                                </label>
+                                            </div>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                </table>
                             <?php } ?>
                         <?php } ?>
                             <div class="ibox-content">

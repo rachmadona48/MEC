@@ -35,6 +35,25 @@
                                             <td style="width:2%"><?php echo $key->sort; ?>.</td>
                                             <td><?php echo $key->name_question; ?></td>
                                         </tr>
+                                        <?php if (!empty($key->file)){ ?>
+                                        <tr>
+                                            <td style="width:2%"></td>
+                                            <td>
+                                                <div class="lightBoxGallery">
+                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    </a>
+                                                    
+                                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <a class="close">×</a>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr>
                                             <td style="width:2%"></td>
                                             <td>
@@ -78,8 +97,29 @@
                                 <table style="width:100%">
                                         <tr>
                                             <td style="width:2%"><?php echo $key->sort; ?>.</td>
-                                            <td><?php echo $key->name_question; ?></td>
+                                            <td>
+                                                <?php echo $key->name_question; ?><br/>
+                                            </td>
                                         </tr>
+                                        <?php if (!empty($key->file)){ ?>
+                                        <tr>
+                                            <td style="width:2%"></td>
+                                            <td>
+                                                <div class="lightBoxGallery">
+                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    </a>
+                                                    
+                                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <a class="close">×</a>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr>
                                             <td style="width:2%"></td>
                                             <td>
@@ -115,6 +155,25 @@
                                             <td style="width:2%"><?php echo $key->sort; ?>.</td>
                                             <td><?php echo $key->name_question; ?></td>
                                         </tr>
+                                        <?php if (!empty($key->file)){ ?>
+                                        <tr>
+                                            <td style="width:2%"></td>
+                                            <td>
+                                                <div class="lightBoxGallery">
+                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    </a>
+                                                    
+                                                    <div id="blueimp-gallery" class="blueimp-gallery">
+                                                        <div class="slides"></div>
+                                                        <h3 class="title"></h3>
+                                                        <a class="close">×</a>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php } ?>
                                         <tr>
                                             <td style="width:2%"></td>
                                             <td>

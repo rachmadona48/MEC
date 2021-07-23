@@ -168,7 +168,7 @@ class InteractiveModel extends Model
     }
 
     public static function show_get_question_interactive($pelajaran,$id_week,$id_interactive){
-        $sql = 'SELECT q.id,q.id_week,q.pelajaran,q.id_interactive,q.name_question,q.type,q.sort,q.required,q.state
+        $sql = 'SELECT q.id,q.id_week,q.pelajaran,q.id_interactive,q.name_question,q.type,q.sort,q.required,q.state,q.file
                 FROM '.Session::get('kd_smt_active').'.mec_interactive_question q
                 WHERE q.pelajaran = "'.$pelajaran.'"
                 AND q.id_week = "'.$id_week.'" 

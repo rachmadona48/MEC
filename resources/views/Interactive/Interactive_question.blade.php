@@ -49,7 +49,18 @@
                                 <td>
                                     <center>
                                         <?php if (!empty($key->file)){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                            <div class="lightBoxGallery">
+                                                <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                    <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                </a>
+                                                
+                                                <div id="blueimp-gallery" class="blueimp-gallery">
+                                                    <div class="slides"></div>
+                                                    <h3 class="title"></h3>
+                                                    <a class="close">×</a>
+                                                </div>
+
+                                            </div>
                                         <?php } ?>
                                     </center>
                                 </td>

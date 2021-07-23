@@ -46,6 +46,8 @@
 <script src="{!! asset('inspinia/js/plugins/flot/jquery.flot.resize.js') !!}"></script>
 <script src="{!! asset('inspinia/js/plugins/flot/jquery.flot.pie.js') !!}"></script>
 <script src="{!! asset('inspinia/js/plugins/flot/jquery.flot.time.js') !!}"></script>
+<!-- blueimp gallery -->
+<script src="{!! asset('inspinia/js/plugins/blueimp/jquery.blueimp-gallery.min.js') !!}"></script>
 
 
 <!-- ChartJS-->

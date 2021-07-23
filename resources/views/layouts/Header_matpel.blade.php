@@ -14,6 +14,8 @@
     <link href="{!! asset('inspinia/css/animate.css') !!}" rel="stylesheet">
     <link href="{!! asset('inspinia/css/style.css') !!}" rel="stylesheet">
 
+    <link href="{!! asset('inspinia/css/plugins/blueimp/css/blueimp-gallery.min.css') !!}" rel="stylesheet">
+
     <link href="{!! asset('inspinia/css/plugins/summernote/summernote.css') !!}" rel="stylesheet">
     <link href="{!! asset('inspinia/css/plugins/summernote/summernote-bs3.css') !!}" rel="stylesheet">
 
