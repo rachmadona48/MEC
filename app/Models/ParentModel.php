@@ -44,9 +44,36 @@ class ParentModel extends Model
     }
 
     public static function get_data_interactive($minggu,$username){
-        $sql = 'SELECT it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
+        // $sql = 'SELECT it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
+        //             DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
+        //             FROM '.Session::get('kd_smt_active').'.mec_interactive it
+        //             WHERE it.id_week in (
+        //                 SELECT id
+        //                 FROM '.Session::get('kd_smt_active').'.weeklyguide
+        //                 WHERE pelajaran in (
+        //                     SELECT
+        //                         p.kode 
+        //                     FROM
+        //                         '.Session::get('kd_smt_active').'.pelajaran p,
+        //                         '.Session::get('kd_smt_active').'.nilai_diknas n 
+        //                     WHERE
+        //                         ( p.kode = n.pelajaran ) 
+        //                         AND ( n.nim = "'.$username.'" ) 
+        //                         AND ( p.english IS NOT NULL ) 
+        //                         AND ( p.is_elearning IS NOT NULL ) 
+        //                     GROUP BY p.kode
+        //                 )
+        //                 AND minggu = "'.$minggu.'" 
+        //             ) 
+        //             AND it.state = "Publish"
+        //             GROUP BY it.id
+        //             '
+        //             ;
+
+        $sql = '    SELECT pl.english,it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                     DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
                     FROM '.Session::get('kd_smt_active').'.mec_interactive it
+                    LEFT JOIN '.Session::get('kd_smt_active').'.pelajaran pl on it.pelajaran = pl.kode AND substr(it.pelajaran, 1, 2)=pl.grade
                     WHERE it.id_week in (
                         SELECT id
                         FROM '.Session::get('kd_smt_active').'.weeklyguide
@@ -58,15 +85,17 @@ class ParentModel extends Model
                                 '.Session::get('kd_smt_active').'.nilai_diknas n 
                             WHERE
                                 ( p.kode = n.pelajaran ) 
-                                AND ( n.nim = "'.$username.'" ) 
+                                AND ( n.nim = "17.090" ) 
                                 AND ( p.english IS NOT NULL ) 
                                 AND ( p.is_elearning IS NOT NULL ) 
                             GROUP BY p.kode
                         )
-                        AND minggu = "'.$minggu.'" 
+                        AND minggu = "15" 
                     ) 
                     AND it.state = "Publish"
                     GROUP BY it.id
+                    ORDER BY pl.english,it.date_from DESC
+                    
                     '
                     ;
         // echo $sql;exit();

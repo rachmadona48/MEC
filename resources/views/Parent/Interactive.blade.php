@@ -18,7 +18,7 @@
                                 <th><center>Category</center></th>
                                 <th><center>Type</center></th>
                                 <th><center>Subject</center></th>
-                                <th><center>Action</center></th>
+                                <th><center>View Detail</center></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,14 +55,15 @@
                                 </td>
                                 <td>
                                     <center>
-                                        <?php 
+                                        <!-- <?php 
                                             $sql_mp = '
                                             SELECT english from '.Session::get('kd_smt_active').'.pelajaran WHERE kode = "'.$key->pelajaran.'" '
                                             ;   
                                             // echo $sql_count;exit();
                                             $query_mp=collect(\DB::select($sql_mp))->first();
                                         ?>
-                                        <?php echo $query_mp->english;?>
+                                        <?php echo $query_mp->english;?> -->
+                                        <?php echo $key->english;?>
                                     </center>
                                 </td>
                                 <td>

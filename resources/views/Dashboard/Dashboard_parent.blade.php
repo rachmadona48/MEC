@@ -43,7 +43,7 @@
                                                         font-size: large;
                                                         font-family: sans-serif;">Week <?php echo $weekly->minggu; ?></p>
                                         </div>
-                                        <div class="widget-text-box" style="height: 90px;">
+                                        <div class="widget-text-box" style="height: 90px; padding: 11px;">
                                             <?php
                                                 $sql_count_int = '
                                                     SELECT COUNT(*) as jml_d
@@ -68,10 +68,141 @@
                                                     )
                                                     AND state = "Publish"
                                                 ';   
-                                                // echo $sql_count;exit();
+                                                // echo $sql_count_int;exit();
                                                 $query_count_int=collect(\DB::select($sql_count_int))->first();
                                             ?>
-                                            <p style="color: black;">Interactive : <?php echo $query_count_int->jml_d; ?></p>
+                                            <p style="color: black; margin: 0 0 0 0;">Interactive : <?php echo $query_count_int->jml_d; ?></p>
+
+
+                                            <?php
+                                                $sql_count_hm = '
+                                                    SELECT COUNT(*) as jml_d
+                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive
+                                                    WHERE id_week in (
+                                                        SELECT id
+                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        WHERE pelajaran in (
+                                                            SELECT
+                                                                p.kode 
+                                                            FROM
+                                                                '.Session::get('kd_smt_active').'.pelajaran p,
+                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                            WHERE
+                                                                ( p.kode = n.pelajaran ) 
+                                                                AND ( n.nim = "'.Session::get('username').'" ) 
+                                                                AND ( p.english IS NOT NULL ) 
+                                                                AND ( p.is_elearning IS NOT NULL ) 
+                                                            GROUP BY p.kode
+                                                        )
+                                                        AND minggu = "'.$weekly->minggu.'" 
+                                                    )
+                                                    AND category = "Homework"
+                                                    AND state = "Publish"
+                                                ';   
+                                                // echo $sql_count_int;exit();
+                                                $query_count_hm=collect(\DB::select($sql_count_hm))->first();
+
+                                                $sql_count_hm_done = '
+                                                    SELECT
+                                                        COUNT(*) as jml_done
+                                                    FROM
+                                                        '.Session::get('kd_smt_active').'.mec_interactive it
+                                                    INNER JOIN '.Session::get('kd_smt_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                    WHERE
+                                                        id_week IN (
+                                                        SELECT
+                                                            id 
+                                                        FROM
+                                                            '.Session::get('kd_smt_active').'.weeklyguide 
+                                                        WHERE
+                                                            pelajaran IN (
+                                                            SELECT
+                                                                p.kode 
+                                                            FROM
+                                                                '.Session::get('kd_smt_active').'.pelajaran p,
+                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                            WHERE
+                                                                ( p.kode = n.pelajaran ) 
+                                                                AND ( n.nim = "'.Session::get('username').'" ) 
+                                                                AND ( p.english IS NOT NULL ) 
+                                                                AND ( p.is_elearning IS NOT NULL ) 
+                                                            GROUP BY
+                                                                p.kode 
+                                                            ) 
+                                                            AND minggu = "'.$weekly->minggu.'" 
+                                                        ) 
+                                                        AND it.category = "Homework"
+                                                        AND it.state = "Publish"
+                                                ';   
+                                                // echo $sql_count_hm_done;exit();
+                                                $query_count_hm_done=collect(\DB::select($sql_count_hm_done))->first();
+                                            ?>
+                                            <p style="color: black; margin: 0 0 0 0;">Homework : <?php echo $query_count_hm->jml_d; ?>, Done : <?php echo $query_count_hm_done->jml_done; ?></p>
+
+                                            <?php
+                                                $sql_count_as = '
+                                                    SELECT COUNT(*) as jml_d
+                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive
+                                                    WHERE id_week in (
+                                                        SELECT id
+                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        WHERE pelajaran in (
+                                                            SELECT
+                                                                p.kode 
+                                                            FROM
+                                                                '.Session::get('kd_smt_active').'.pelajaran p,
+                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                            WHERE
+                                                                ( p.kode = n.pelajaran ) 
+                                                                AND ( n.nim = "'.Session::get('username').'" ) 
+                                                                AND ( p.english IS NOT NULL ) 
+                                                                AND ( p.is_elearning IS NOT NULL ) 
+                                                            GROUP BY p.kode
+                                                        )
+                                                        AND minggu = "'.$weekly->minggu.'" 
+                                                    )
+                                                    AND category = "Assignment"
+                                                    AND state = "Publish"
+                                                ';   
+                                                // echo $sql_count_int;exit();
+                                                $query_count_as=collect(\DB::select($sql_count_as))->first();
+
+                                                $sql_count_as_done = '
+                                                    SELECT
+                                                        COUNT(*) as jml_done
+                                                    FROM
+                                                        '.Session::get('kd_smt_active').'.mec_interactive it
+                                                    INNER JOIN '.Session::get('kd_smt_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                    WHERE
+                                                        id_week IN (
+                                                        SELECT
+                                                            id 
+                                                        FROM
+                                                            '.Session::get('kd_smt_active').'.weeklyguide 
+                                                        WHERE
+                                                            pelajaran IN (
+                                                            SELECT
+                                                                p.kode 
+                                                            FROM
+                                                                '.Session::get('kd_smt_active').'.pelajaran p,
+                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                            WHERE
+                                                                ( p.kode = n.pelajaran ) 
+                                                                AND ( n.nim = "'.Session::get('username').'" ) 
+                                                                AND ( p.english IS NOT NULL ) 
+                                                                AND ( p.is_elearning IS NOT NULL ) 
+                                                            GROUP BY
+                                                                p.kode 
+                                                            ) 
+                                                            AND minggu = "'.$weekly->minggu.'" 
+                                                        ) 
+                                                        AND it.category = "Assignment"
+                                                        AND it.state = "Publish"
+                                                ';   
+                                                // echo $sql_count_hm_done;exit();
+                                                $query_count_as_done=collect(\DB::select($sql_count_as_done))->first();
+                                            ?>
+                                            <p style="color: black; margin: 0 0 0 0;">Assignment : <?php echo $query_count_as->jml_d; ?>, Done : <?php echo $query_count_as_done->jml_done; ?></p>
 
                                             <?php
                                                 $sql_count_tlm = '
@@ -100,7 +231,7 @@
                                                 // echo $sql_count;exit();
                                                 $query_count_tlm=collect(\DB::select($sql_count_tlm))->first();
                                             ?>
-                                            <p style="color: black;">Teaching Learning : <?php echo $query_count_tlm->jml_d; ?></p>
+                                            <p style="color: black; margin: 0 0 0 0;">Teaching Learning Material : <?php echo $query_count_tlm->jml_d; ?></p>
                                         </div>
                                     </a>
 
