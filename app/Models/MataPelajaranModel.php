@@ -1257,4 +1257,25 @@ class MataPelajaranModel extends Model
         return $key;
     }
 
+    public static function List_discuss($id_pelajaran){
+        $sql = '
+                SELECT
+                    f.id,
+                    f.judul,
+                    s.nama,
+                    date_format( f.mulai, "%d-%m-%Y" ) AS t1,
+                    date_format( f.ditutup, "%d-%m-%Y" ) AS t2 
+                FROM
+                    '.Session::get('kd_smt_active').'.forum_topic f
+                    LEFT JOIN db_madania_bogor.tbl_sdm s on f.guru = s.finger
+                WHERE
+                    f.pelajaran = "'.$id_pelajaran.'"
+                ORDER BY
+                    mulai'
+                ;   
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql));
+        return $key;
+    }
+
 }

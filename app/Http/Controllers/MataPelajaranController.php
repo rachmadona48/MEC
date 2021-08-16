@@ -26,6 +26,7 @@ class MataPelajaranController extends Controller
             $data['id_menu'] = '#menu_'.$kode_grade.'_'.$id_pelajaran;
             $mp = MenuModel::matpel($id_pelajaran);
             $data['judul'] = $mp->english;
+            $data['kode_grade'] = $kode_grade;
             $data['id_pelajaran'] = $id_pelajaran;
             $data['week'] = MataPelajaranModel::pelajaran_week($id_pelajaran);
             $data['count_week'] = MataPelajaranModel::pelajaran_count_week($id_pelajaran);
@@ -1292,6 +1293,23 @@ class MataPelajaranController extends Controller
         
         return view('MataPelajaran.Week_scan',$data);
 
+    }
+
+    public function Get_list_discuss(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data['id_pelajaran'] = $id_pelajaran = $request->id_pelajaran;
+        $data['kode_grade'] = $kode_grade = $request->kode_grade;
+
+        $data['list_discuss'] = MataPelajaranModel::List_discuss($id_pelajaran);
+        
+        $div = view('MataPelajaran.List_discuss',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
     }
 
     

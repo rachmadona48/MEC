@@ -4076,6 +4076,26 @@
             }
         });
     }
+
+    function get_discuss(kode_grade,id_pelajaran){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/get_list_discuss') }}",
+            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_discuss").html(data.div);
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
 </script>
 
 

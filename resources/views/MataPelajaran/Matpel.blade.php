@@ -212,7 +212,18 @@
         
 
     </div>
+
+    <!-- discuss -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox"  id="div_discuss">
+                
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 
 @include('layouts.Footer')
@@ -227,6 +238,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         f_pie_learning_type(<?php echo $id_pelajaran; ?>);  
+        get_discuss(<?php echo $kode_grade; ?>,<?php echo $id_pelajaran; ?>)
     });
     
 </script>
