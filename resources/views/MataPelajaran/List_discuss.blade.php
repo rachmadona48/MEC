@@ -45,7 +45,7 @@
                         <center>
                             <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit" onclick="edit_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>','<?php echo $key->nama;?>','<?php echo $key->t1;?>','<?php echo $key->t2;?>')"><i class="fa fa-edit"></i></button>
 
-                            <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>')"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>')"><i class="fa fa-trash"></i></button>
                         </center>
                     </td>
                 </tr>

@@ -1312,5 +1312,40 @@ class MataPelajaranController extends Controller
         echo json_encode($return);
     }
 
+    public function Save_discuss(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $id_pelajaran = $request->id_pelajaran;
+        $judul = $request->judul;
+        $ditutup = date('Y-m-d',strtotime($request->ditutup));
+        $isi = $request->isi;
+
+        $save = MataPelajaranModel::Sv_discuss($id_pelajaran,$judul,$ditutup,$isi,$request->session()->get('username'));
+        if($save){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Del_discuss(Request $request)
+    {
+        $id = $request->id;
+
+        $update = MataPelajaranModel::delete_discuss($id);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
     
 }

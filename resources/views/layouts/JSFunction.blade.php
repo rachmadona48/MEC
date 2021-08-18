@@ -46,6 +46,15 @@
             }
         });
 
+        $('#date_close_discuss .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format:'dd-mm-yyyy',
+        });
+
         $('#mdl_edit_date_topic_date_from').datepicker({
             format:'dd-mm-yyyy',
         });
@@ -1328,13 +1337,6 @@
 
         
     });
-
-
-
-
-
-
-
 
 
 
@@ -4095,6 +4097,112 @@
                 console.log(data);
             }
         });
+    }
+
+    function add_discuss(kode_grade,id_pelajaran){
+        $("#mdl_add_discuss_kode_grade").val(kode_grade);
+        $("#mdl_add_discuss_id_pelajaran").val(id_pelajaran);
+        $("#mdl_add_discuss_judul").val('');
+        $('#modal_add_discuss').modal('show');
+    }
+
+    function save_discuss(){
+        kode_grade = $("#mdl_add_discuss_kode_grade").val();
+        id_pelajaran = $("#mdl_add_discuss_id_pelajaran").val();
+        judul = $("#mdl_add_discuss_judul").val();
+        ditutup = $('#mdl_add_discuss_ditutup').val();
+        isi = $("#mdl_add_discuss_isi").code();
+
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/save_discuss') }}",
+            data: {_token:_token,id_pelajaran:id_pelajaran,judul:judul,ditutup:ditutup,isi:isi},
+            dataType: 'json',
+            beforeSend: function(){
+                if (judul=='' || judul==null){
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.error('Topic Title is empty!', 'ERROR');
+                    }, 1000);
+                    return false;
+                }
+                $('#submit-modal_add_discuss').hide();
+                $('#spinner-modal_add_discuss').show();
+            },
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $('#modal_add_discuss').modal('hide');
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.info('Succes Add Topic Discuss', 'SUCCESS');
+                    }, 1000);
+                    get_discuss(kode_grade,id_pelajaran)
+                }
+            },
+            complete: function() {
+                $('#submit-modal_add_discuss').show();
+                $('#spinner-modal_add_discuss').hide();                      
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+
+        // $('#modal_edit_topic').modal('show');
+    }
+
+    function delete_discuss(kode_grade,id_pelajaran,id,judul){
+        swal({
+                title: "Are want to Delete "+judul+" ?",
+                // text: "Your will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, Delete!",
+                cancelButtonText: "No, cancel!",
+                closeOnConfirm: true,
+                closeOnCancel: false },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var _token  = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type:'POST',
+                        url: "{{ url('/del_discuss') }}",
+                        data: {_token:_token,id:id},
+                        dataType: 'json',
+                        success: (data) => {
+                            if(data.respon == 'SUKSES'){
+                                get_discuss(kode_grade,id_pelajaran)
+                                setTimeout(function() {
+                                    toastr.options = {
+                                        closeButton: true,
+                                        progressBar: true,
+                                        showMethod: 'slideDown',
+                                        timeOut: 4000
+                                    };
+                                    toastr.info('Succes Delete Discuss', 'SUCCESS');
+                                }, 1000);
+                            }
+                        },
+                        error: function(data){
+                            console.log(data);
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your Discuss is safe :)", "error");
+                }
+            });
     }
 </script>
 

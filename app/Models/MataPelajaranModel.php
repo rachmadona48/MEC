@@ -1278,4 +1278,25 @@ class MataPelajaranModel extends Model
         return $key;
     }
 
+    public static function Sv_discuss($id_pelajaran,$judul,$ditutup,$isi,$username){
+        date_default_timezone_set('Asia/Jakarta');
+        $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
+            values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
+        // echo $sql;exit(); 
+        $query=collect(\DB::insert($sql));
+        return $query;
+    }
+
+    public static function delete_discuss($id){
+        $sql_del = "DELETE FROM ".Session::get('kd_smt_active').".forum_topic where id = ".$id;
+        // echo $sql_del;exit(); 
+        $query_del=collect(\DB::delete($sql_del));
+
+        $sql_del_cm = "DELETE FROM ".Session::get('kd_smt_active').".forum_comment where topic = ".$id;
+        // echo $sql_del;exit(); 
+        $query_del_cm=collect(\DB::delete($sql_del_cm));
+
+        return $query_del_cm;
+    }
+
 }
