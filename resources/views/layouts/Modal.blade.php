@@ -1622,6 +1622,62 @@
     </div>
 </div>
 
+<div class="modal inmodal" id="modal_edit_discuss" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-laptop modal-icon"></i>
+                <h4>Edit Topic</h4>
+            </div>
+            <div class="modal-body" style="pediting: 20px 40px 15px 30px;">
+
+                <div class="form-group">
+                    <label class="control-label">Topic Title</label>
+                    <input type="hidden" id="mdl_edit_discuss_id" class="form-control">
+                    <input type="hidden" id="mdl_edit_discuss_kode_grade" class="form-control">
+                    <input type="hidden" id="mdl_edit_discuss_id_pelajaran" class="form-control">
+                    <input type="text" id="mdl_edit_discuss_judul" class="form-control">
+                </div>
+
+                <div class="form-group" id="date_close_discuss">
+                    <label class="control-label">Close Date</label>
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" id="mdl_edit_discuss_ditutup" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Description</label>
+                    <textarea id="mdl_edit_discuss_isi" class="summernote"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer" id="submit-modal_edit_discuss">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="save_edit_discuss()">Save</button>
+            </div>
+            <div class="modal-footer" id="spinner-modal_edit_discuss" style="margin-top: 0px !important;display: none;">
+                <div class="sk-spinner sk-spinner-circle">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

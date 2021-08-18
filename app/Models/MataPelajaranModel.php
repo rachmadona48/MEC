@@ -1262,6 +1262,7 @@ class MataPelajaranModel extends Model
                 SELECT
                     f.id,
                     f.judul,
+                    f.isi,
                     s.nama,
                     date_format( f.mulai, "%d-%m-%Y" ) AS t1,
                     date_format( f.ditutup, "%d-%m-%Y" ) AS t2 
@@ -1280,10 +1281,42 @@ class MataPelajaranModel extends Model
 
     public static function Sv_discuss($id_pelajaran,$judul,$ditutup,$isi,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
+        if(!empty($ditutup)){
+            $ditutup = date('Y-m-d',strtotime($ditutup));
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
             values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
+        }else{
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai) 
+            values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."')";
+        }
+
         // echo $sql;exit(); 
         $query=collect(\DB::insert($sql));
+        return $query;
+    }
+
+    public static function Update_discuss($id,$judul,$ditutup,$isi){
+        date_default_timezone_set('Asia/Jakarta');
+        if(!empty($ditutup)){
+            $ditutup = date('Y-m-d',strtotime($ditutup));
+            $sql = "UPDATE ".Session::get('kd_smt_active').".forum_topic 
+                    SET judul='".$judul."',
+                    ditutup='".$ditutup."',
+                    isi='".$isi."'
+                    where id = ".$id."
+                    ";
+        }else{
+            $sql = "UPDATE ".Session::get('kd_smt_active').".forum_topic 
+                    SET judul='".$judul."',
+                    isi='".$isi."'
+                    where id = ".$id."
+                    ";
+        }
+
+        // echo $sql;exit();
+        $query=collect(\DB::update($sql));
+
+
         return $query;
     }
 
@@ -1297,6 +1330,26 @@ class MataPelajaranModel extends Model
         $query_del_cm=collect(\DB::delete($sql_del_cm));
 
         return $query_del_cm;
+    }
+
+    public static function Get_discuss($id){
+        $sql = '
+                SELECT
+                    f.id,
+                    f.judul,
+                    f.isi,
+                    s.nama,
+                    date_format( f.mulai, "%d-%m-%Y %h:%i" ) AS t1,
+                    date_format( f.ditutup, "%d-%m-%Y" ) AS t2 
+                FROM
+                    '.Session::get('kd_smt_active').'.forum_topic f
+                    LEFT JOIN db_madania_bogor.tbl_sdm s on f.guru = s.finger
+                WHERE
+                    f.id = '.$id.' '
+                ;   
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql))->first();
+        return $key;
     }
 
 }

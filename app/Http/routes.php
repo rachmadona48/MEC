@@ -102,7 +102,9 @@ Route::get('/Scan_Ld/{kd_smt_active}/{kode_grade}/{id_pelajaran}/{id_week}/{ming
 
 Route::resource('/get_list_discuss', 'MataPelajaranController@Get_list_discuss');
 Route::resource('/save_discuss', 'MataPelajaranController@Save_discuss');
+Route::resource('/save_edit_discuss', 'MataPelajaranController@Save_edit_discuss');
 Route::resource('/del_discuss', 'MataPelajaranController@Del_discuss');
+Route::resource('/get_comment_discuss', 'MataPelajaranController@Get_comment_discuss');
 
 Route::resource('/interactive', 'InteractiveController@Interactive');
 Route::resource('/add_interactive', 'InteractiveController@Add_interactive');

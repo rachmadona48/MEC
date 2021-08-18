@@ -4162,6 +4162,76 @@
         // $('#modal_edit_topic').modal('show');
     }
 
+    function edit_discuss(kode_grade,id_pelajaran,id,judul,isi,ditutup){
+        // console.log(isi)
+        // console.log(state)
+        $("#mdl_edit_discuss_id").val(id);
+        $("#mdl_edit_discuss_kode_grade").val(kode_grade);
+        $("#mdl_edit_discuss_id_pelajaran").val(id_pelajaran);
+        $("#mdl_edit_discuss_judul").val(judul);
+        $("#mdl_edit_discuss_isi").code(isi);
+        $("#mdl_edit_discuss_ditutup").val(ditutup);
+        $('#modal_edit_discuss').modal('show');
+        
+    }
+
+    function save_edit_discuss(){
+        id = $("#mdl_edit_discuss_id").val();
+        kode_grade = $("#mdl_edit_discuss_kode_grade").val();
+        id_pelajaran = $("#mdl_edit_discuss_id_pelajaran").val();
+        judul = $("#mdl_edit_discuss_judul").val();
+        ditutup = $('#mdl_edit_discuss_ditutup').val();
+        isi = $("#mdl_edit_discuss_isi").code();
+
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/save_edit_discuss') }}",
+            data: {_token:_token,id:id,judul:judul,ditutup:ditutup,isi:isi},
+            dataType: 'json',
+            beforeSend: function(){
+                if (judul=='' || judul==null){
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.error('Topic Title is empty!', 'ERROR');
+                    }, 1000);
+                    return false;
+                }
+                $('#submit-modal_edit_discuss').hide();
+                $('#spinner-modal_edit_discuss').show();
+            },
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $('#modal_edit_discuss').modal('hide');
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.info('Succes Edit Topic Discuss', 'SUCCESS');
+                    }, 1000);
+                    get_discuss(kode_grade,id_pelajaran)
+                }
+            },
+            complete: function() {
+                $('#submit-modal_edit_discuss').show();
+                $('#spinner-modal_edit_discuss').hide();                      
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+
+        // $('#modal_edit_topic').modal('show');
+    }
+
     function delete_discuss(kode_grade,id_pelajaran,id,judul){
         swal({
                 title: "Are want to Delete "+judul+" ?",
@@ -4203,6 +4273,26 @@
                     swal("Cancelled", "Your Discuss is safe :)", "error");
                 }
             });
+    }
+
+    function comment_discuss(kode_grade,id_pelajaran,id){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/get_comment_discuss') }}",
+            data: {_token:_token,id:id,kode_grade:kode_grade,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_discuss").html(data.div);
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
     }
 </script>
 

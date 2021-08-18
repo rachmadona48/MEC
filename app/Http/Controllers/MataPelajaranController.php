@@ -1317,7 +1317,7 @@ class MataPelajaranController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $id_pelajaran = $request->id_pelajaran;
         $judul = $request->judul;
-        $ditutup = date('Y-m-d',strtotime($request->ditutup));
+        $ditutup = $request->ditutup;
         $isi = $request->isi;
 
         $save = MataPelajaranModel::Sv_discuss($id_pelajaran,$judul,$ditutup,$isi,$request->session()->get('username'));
@@ -1327,6 +1327,24 @@ class MataPelajaranController extends Controller
             $respon='GAGAL';
         }
 
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Save_edit_discuss(Request $request)
+    {
+        $id = $request->id;
+        $judul = $request->judul;
+        $ditutup = $request->ditutup;
+        $isi = $request->isi;
+
+        $update = MataPelajaranModel::Update_discuss($id,$judul,$ditutup,$isi);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
 
         $return = array('respon' => $respon);
         echo json_encode($return);
@@ -1344,6 +1362,25 @@ class MataPelajaranController extends Controller
         }
 
         $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Get_comment_discuss(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data['id'] = $id = $request->id;
+        $data['id_pelajaran'] = $id_pelajaran = $request->id_pelajaran;
+        $data['kode_grade'] = $kode_grade = $request->kode_grade;
+
+        $data['discuss'] = MataPelajaranModel::Get_discuss($id);
+        
+        // $div = view('MataPelajaran.List_discuss',$data);
+        $div = view('MataPelajaran.Comment_discuss',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
         echo json_encode($return);
     }
 
