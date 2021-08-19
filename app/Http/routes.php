@@ -105,6 +105,9 @@ Route::resource('/save_discuss', 'MataPelajaranController@Save_discuss');
 Route::resource('/save_edit_discuss', 'MataPelajaranController@Save_edit_discuss');
 Route::resource('/del_discuss', 'MataPelajaranController@Del_discuss');
 Route::resource('/get_comment_discuss', 'MataPelajaranController@Get_comment_discuss');
+Route::resource('/send_comment', 'MataPelajaranController@Send_comment');
+Route::resource('/reply_comment', 'MataPelajaranController@Reply_comment');
+Route::resource('/del_comment', 'MataPelajaranController@Del_comment');
 
 Route::resource('/interactive', 'InteractiveController@Interactive');
 Route::resource('/add_interactive', 'InteractiveController@Add_interactive');

@@ -19,16 +19,22 @@
 
         <div class="col-md-12">
             <div class="chat-discussion">
-
+                <?php foreach ($komen as $key) { ?>
                 <div class="chat-message left">
                     <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
                     <div class="message">
-                        <a class="message-author" href="#"> Michael Smith </a>
-                        <span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
-                        <span class="message-content">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                        <a class="message-author" href="#"> <?php echo $key->nama; ?> </a>
+                        <span class="message-date"> <?php echo $key->tgl; ?> 
+                            <?php if ($user_id == $key->guru && $key->siswa == null){ ?>
+                                <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>','<?php echo $key->id; ?>')"><i class="fa fa-times"></i></button>
+                            <?php }elseif ($user_id == $key->siswa && $key->guru == null){ ?>
+                                <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>','<?php echo $key->id; ?>')"><i class="fa fa-times"></i></button>
+                            <?php } ?>
                         </span>
-                        <input type="text" class="form-control" placeholder="Reply..."> 
+                        <span class="message-content">
+                        <?php echo $key->isi; ?>
+                        </span>
+                        <input type="text" class="form-control" id="reply_comment_discuss_<?php echo $key->id; ?>" placeholder="Reply (Enter to reply)" onkeypress="reply_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>','<?php echo $key->id; ?>')"> 
                         <!-- <div class="input-group">
                             <input type="text" class="form-control" placeholder="Reply..."> 
                             <span class="input-group-btn"> 
@@ -36,58 +42,46 @@
                             </span>
                         </div> -->
                     </div>
-                </div>
-                    <div class="chat-message right">
-                        <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
-                        <div class="message">
-                            <a class="message-author" href="#"> Karl Jordan </a>
-                            <span class="message-date">  Fri Jan 25 2015 - 11:12:36 </span>
-                            <span class="message-content">
-                            Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover.
-                            </span>
-                        </div>
-                    </div>
-                    <div class="chat-message right">
-                        <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
-                        <div class="message">
-                            <a class="message-author" href="#"> Michael Smith </a>
-                            <span class="message-date">  Fri Jan 25 2015 - 11:12:36 </span>
-                            <span class="message-content">
-                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration.
-                            </span>
-                        </div>
-                    </div>
+                    <?php
+                        $sql = 'SELECT
+                                    cm.id,
+                                    cm.nama,
+                                    cm.isi,
+                                    cm.guru,
+                                    cm.siswa,
+                                    date_format( cm.tanggal, "%d %M %Y %h:%i" ) AS tgl
+                                FROM
+                                    '.Session::get('kd_smt_active').'.forum_comment cm
+                                WHERE
+                                    cm.topic = '.$id.'
+                                    AND cm.parent_comment = '.$key->id.'
+                                '
+                        ;   
+                        // echo $sql;exit();
+                        $query=collect(\DB::select($sql));
+                        foreach ($query as $reply) { 
+                    ?>
 
-
-                <div class="chat-message left">
-                    <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
-                    <div class="message">
-                        <a class="message-author" href="#"> Alice Jordan </a>
-                        <span class="message-date">  Fri Jan 25 2015 - 11:12:36 </span>
-                        <span class="message-content">
-                        All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
-                            It uses a dictionary of over 200 Latin words.
-                        </span>
-                        <input type="text" class="form-control" placeholder="Reply..."> 
-                        <!-- <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Reply..."> 
-                            <span class="input-group-btn"> 
-                                <button type="button" class="btn btn-primary">Send!</button>
-                            </span>
-                        </div> -->
-                    </div>
-                </div>
-                    <div class="chat-message right">
-                        <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
-                        <div class="message">
-                            <a class="message-author" href="#"> Mark Smith </a>
-                            <span class="message-date">  Fri Jan 25 2015 - 11:12:36 </span>
-                            <span class="message-content">
-                            All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.
-                                It uses a dictionary of over 200 Latin words.
-                            </span>
+                        <div class="chat-message right">
+                            <img class="message-avatar" src="{!! asset('image/user.jpg') !!}" alt="" >
+                            <div class="message">
+                                <a class="message-author" href="#"> <?php echo $reply->nama; ?> </a>
+                                <span class="message-date">  
+                                    <?php if ($user_id == $reply->guru && $reply->siswa == null){ ?>
+                                        <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>','<?php echo $reply->id; ?>')"><i class="fa fa-times"></i></button>
+                                    <?php }elseif ($user_id == $reply->siswa && $reply->guru == null){ ?>
+                                        <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>','<?php echo $reply->id; ?>')"><i class="fa fa-times"></i></button>
+                                    <?php } ?>
+                                    <?php echo $reply->tgl; ?> 
+                                </span>
+                                <span class="message-content">
+                                <?php echo $reply->isi; ?>
+                                </span>
+                            </div>
                         </div>
-                    </div>
+                    <?php } ?>
+                </div>
+                <?php } ?> 
 
             </div>
 
@@ -98,7 +92,8 @@
         <div class="col-lg-12">
             <div class="chat-message-form">
                 <div class="form-group">
-                    <textarea class="form-control message-input" btn-lg nam="message" placeholder="Comment (Enter to send comment)" onclick="send_comment('<?php echo $id; ?>')"></textarea>
+                    <textarea class="form-control message-input" id="comment_discuss" btn-lg nam="message" placeholder="Comment (Enter to send comment)" 
+                    onkeypress="send_comment('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id; ?>')"></textarea>
                 </div>
                 <!-- <div class="input-group">
                     <textarea class="form-control message-input" name="message" placeholder="Enter message text"></textarea>

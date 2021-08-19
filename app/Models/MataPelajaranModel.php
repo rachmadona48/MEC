@@ -1352,4 +1352,71 @@ class MataPelajaranModel extends Model
         return $key;
     }
 
+    public static function Get_comment($id){
+        $sql = '
+                SELECT
+                    cm.id,
+                    cm.nama,
+                    cm.isi,
+                    cm.guru,
+                    cm.siswa,
+                    date_format( cm.tanggal, "%d %M %Y %h:%i" ) AS tgl
+                FROM
+                    '.Session::get('kd_smt_active').'.forum_comment cm
+                WHERE
+                    cm.topic = '.$id.' 
+                    AND cm.parent_comment is null'
+                ;   
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql));
+        return $key;
+    }
+
+    public static function Sv_comment($id,$comment_discuss,$username,$tipe,$nama){
+        date_default_timezone_set('Asia/Jakarta');
+        if($tipe=='sdm'){
+            // $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
+            // values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
+
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_comment (topic,guru,nama,isi,tanggal) 
+            values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."')";
+        }else{
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_comment (topic,siswa,nama,isi,tanggal) 
+            values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."')";
+        }
+
+        // echo $sql;exit(); 
+        $query=collect(\DB::insert($sql));
+        return $query;
+    }
+
+    public static function Sv_reply_comment($id,$parent_comment,$comment_discuss,$username,$tipe,$nama){
+        date_default_timezone_set('Asia/Jakarta');
+        if($tipe=='sdm'){
+            // $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
+            // values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
+
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_comment (topic,guru,nama,isi,tanggal,parent_comment) 
+            values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."',".$parent_comment.")";
+        }else{
+            $sql = "insert into ".Session::get('kd_smt_active').".forum_comment (topic,siswa,nama,isi,tanggal,parent_comment) 
+            values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."',".$parent_comment.")";
+        }
+
+        // echo $sql;exit(); 
+        $query=collect(\DB::insert($sql));
+        return $query;
+    }
+
+    public static function delete_comment($id){
+
+        $sql_del_cm = "DELETE FROM ".Session::get('kd_smt_active').".forum_comment where id = ".$id;
+        // echo $sql_del;exit(); 
+        $query_del_cm=collect(\DB::delete($sql_del_cm));
+
+        return $query_del_cm;
+    }
+
+
+
 }

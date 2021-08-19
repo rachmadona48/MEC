@@ -4294,6 +4294,120 @@
             }
         });
     }
+
+    function send_comment(kode_grade,id_pelajaran,id){
+        c_discuss = $("#comment_discuss").val();
+        if (event.keyCode === 13 && comment_discuss != '') {
+                // $("#GFG_Button").click();
+                // alert(comment_discuss)
+                var _token  = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type:'POST',
+                    url: "{{ url('/send_comment') }}",
+                    data: {_token:_token,id:id,c_discuss:c_discuss},
+                    dataType: 'json',
+                    success: (data) => {
+                        // alert(data.respon)
+                        if(data.respon == 'SUKSES'){
+                            comment_discuss(kode_grade,id_pelajaran,id)
+                            setTimeout(function() {
+                                toastr.options = {
+                                    closeButton: true,
+                                    progressBar: true,
+                                    showMethod: 'slideDown',
+                                    timeOut: 4000
+                                };
+                                toastr.info('Succes Add Comment', 'SUCCESS');
+                            }, 1000);
+                            $("#comment_discuss").val(null);
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+                
+        }
+    }
+
+    function reply_comment(kode_grade,id_pelajaran,id_discuss,id_comment){
+        reply_comment_discuss = $("#reply_comment_discuss_"+id_comment).val();
+        if (event.keyCode === 13 && comment_discuss != '') {
+                // $("#GFG_Button").click();
+                // alert(reply_comment_discuss+' vvvv')
+                
+                var _token  = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type:'POST',
+                    url: "{{ url('/reply_comment') }}",
+                    data: {_token:_token,id_discuss:id_discuss,id_comment:id_comment,reply_comment_discuss:reply_comment_discuss},
+                    dataType: 'json',
+                    success: (data) => {
+                        // alert(data.respon)
+                        if(data.respon == 'SUKSES'){
+                            comment_discuss(kode_grade,id_pelajaran,id_discuss)
+                            setTimeout(function() {
+                                toastr.options = {
+                                    closeButton: true,
+                                    progressBar: true,
+                                    showMethod: 'slideDown',
+                                    timeOut: 4000
+                                };
+                                toastr.info('Succes Add Comment', 'SUCCESS');
+                            }, 1000);
+                            $("#reply_comment_discuss_"+id_comment).val(null);
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+                
+        }
+    }
+
+    function delete_comment(kode_grade,id_pelajaran,id_discuss,id_comment){
+        swal({
+                title: "Are want to Delete ?",
+                // text: "Your will not be able to recover this imaginary file!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, Delete!",
+                cancelButtonText: "No, cancel!",
+                closeOnConfirm: true,
+                closeOnCancel: false },
+            function (isConfirm) {
+                if (isConfirm) {
+                    var _token  = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type:'POST',
+                        url: "{{ url('/del_comment') }}",
+                        data: {_token:_token,id_comment:id_comment},
+                        dataType: 'json',
+                        success: (data) => {
+                            if(data.respon == 'SUKSES'){
+                                comment_discuss(kode_grade,id_pelajaran,id_discuss)
+                                setTimeout(function() {
+                                    toastr.options = {
+                                        closeButton: true,
+                                        progressBar: true,
+                                        showMethod: 'slideDown',
+                                        timeOut: 4000
+                                    };
+                                    toastr.info('Succes Delete Comment', 'SUCCESS');
+                                }, 1000);
+                            }
+                        },
+                        error: function(data){
+                            console.log(data);
+                        }
+                    });
+                } else {
+                    swal("Cancelled", "Your Comment is safe :)", "error");
+                }
+            });
+    }
 </script>
 
 

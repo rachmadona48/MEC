@@ -1371,8 +1371,10 @@ class MataPelajaranController extends Controller
         $data['id'] = $id = $request->id;
         $data['id_pelajaran'] = $id_pelajaran = $request->id_pelajaran;
         $data['kode_grade'] = $kode_grade = $request->kode_grade;
+        $data['user_id'] = $request->session()->get('username');
 
         $data['discuss'] = MataPelajaranModel::Get_discuss($id);
+        $data['komen'] = MataPelajaranModel::Get_comment($id);
         
         // $div = view('MataPelajaran.List_discuss',$data);
         $div = view('MataPelajaran.Comment_discuss',$data);
@@ -1381,6 +1383,62 @@ class MataPelajaranController extends Controller
         $msg='';
 
         $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
+    public function Send_comment(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $id = $request->id;
+        $comment_discuss = $request->c_discuss;
+
+        // echo $request->session()->get('username'); exit();
+        $save = MataPelajaranModel::Sv_comment($id,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'));
+        
+        if($save){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Reply_comment(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $id_discuss = $request->id_discuss;
+        $parent_comment = $request->id_comment;
+        $comment_discuss = $request->reply_comment_discuss;
+
+        // echo $request->session()->get('username'); exit();
+        $save = MataPelajaranModel::Sv_reply_comment($id_discuss,$parent_comment,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'));
+        
+        if($save){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Del_comment(Request $request)
+    {
+        $id = $request->id_comment;
+
+        $update = MataPelajaranModel::delete_comment($id);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+        $return = array('respon' => $respon);
         echo json_encode($return);
     }
 

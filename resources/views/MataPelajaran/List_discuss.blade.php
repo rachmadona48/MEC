@@ -16,7 +16,9 @@
                     <th><center>Moderator</center></th>
                     <th><center>Started</center></th>
                     <th><center>Closed</center></th>
-                    <th><center>Action</center></th>
+                    <?php if (Session::get('tipe') == 'sdm'){ ?>
+                        <th><center>Action</center></th>
+                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
@@ -41,13 +43,15 @@
                     <td>
                         <center><?php echo $key->t2;?></center>
                     </td>
-                    <td>
-                        <center>
-                            <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit" onclick="edit_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>','<?php echo $key->isi; ?>','<?php echo $key->t2;?>')"><i class="fa fa-edit"></i></button>
+                    <?php if (Session::get('tipe') == 'sdm'){ ?>
+                        <td>
+                            <center>
+                                <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Edit" onclick="edit_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>','<?php echo $key->isi; ?>','<?php echo $key->t2;?>')"><i class="fa fa-edit"></i></button>
 
-                            <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>')"><i class="fa fa-trash"></i></button>
-                        </center>
-                    </td>
+                                <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_discuss('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->judul; ?>')"><i class="fa fa-trash"></i></button>
+                            </center>
+                        </td>
+                    <?php } ?>
                 </tr>
                 <?php 
                 $no++;
