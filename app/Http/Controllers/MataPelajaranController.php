@@ -1391,9 +1391,10 @@ class MataPelajaranController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         $id = $request->id;
         $comment_discuss = $request->c_discuss;
+        $ip_client = $request->ip();
 
         // echo $request->session()->get('username'); exit();
-        $save = MataPelajaranModel::Sv_comment($id,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'));
+        $save = MataPelajaranModel::Sv_comment($id,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'),$ip_client);
         
         if($save){
             $respon='SUKSES';
@@ -1412,9 +1413,10 @@ class MataPelajaranController extends Controller
         $id_discuss = $request->id_discuss;
         $parent_comment = $request->id_comment;
         $comment_discuss = $request->reply_comment_discuss;
+        $ip_client = $request->ip();
 
         // echo $request->session()->get('username'); exit();
-        $save = MataPelajaranModel::Sv_reply_comment($id_discuss,$parent_comment,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'));
+        $save = MataPelajaranModel::Sv_reply_comment($id_discuss,$parent_comment,$comment_discuss,$request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('nama_lengkap'),$ip_client);
         
         if($save){
             $respon='SUKSES';
