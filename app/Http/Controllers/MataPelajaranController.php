@@ -1444,5 +1444,39 @@ class MataPelajaranController extends Controller
         echo json_encode($return);
     }
 
-    
+    public function Get_list_discuss_parent(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data['id_pelajaran'] = $id_pelajaran = $request->id_pelajaran;
+
+        $data['list_discuss'] = MataPelajaranModel::List_discuss($id_pelajaran);
+        
+        $div = view('MataPelajaran.List_discuss_parent',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
+    public function Get_comment_discuss_parent(Request $request)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $data['id'] = $id = $request->id;
+        $data['id_pelajaran'] = $id_pelajaran = $request->id_pelajaran;
+        $data['user_id'] = $request->session()->get('username');
+
+        $data['discuss'] = MataPelajaranModel::Get_discuss($id);
+        $data['komen'] = MataPelajaranModel::Get_comment($id);
+        
+        // $div = view('MataPelajaran.List_discuss',$data);
+        $div = view('MataPelajaran.Comment_discuss_parent',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
 }

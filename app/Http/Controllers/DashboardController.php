@@ -32,6 +32,7 @@ class DashboardController extends Controller
                 $data['weekly'] = MataPelajaranModel::get_student_weekly($request->session()->get('username'));
                 $profile = DashboardModel::getprofile_siswa($request->session()->get('username'));
                 $data['kelas_siswa'] = $profile->kelas;
+                $data['subject'] = MataPelajaranModel::get_student_subject($request->session()->get('username'));
                 return view('Dashboard.Dashboard_parent',$data);
             }else if($request->session()->get('tipe') == 'sdm'){
                 $data['grade_sdm'] = DashboardModel::grade_sdm($request->session()->get('username'),$request->session()->get('tipe'));

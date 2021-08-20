@@ -24,6 +24,55 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_discuss">Discuss</a>
+                        </h5>
+                    </div>
+                    <div id="collapseOne_discuss" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                    <select data-placeholder="Choose a Subject..." id="subject_discuss" class="chosen-select" style="width:350px;" tabindex="2">
+                                        <option value="">Choose Subject</option>
+                                        <?php foreach ($subject as $key) { ?>
+                                            <option value="<?php echo $key->kode;?>"><?php echo $key->english;?></option>
+                                        <?php } ?>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-outline btn-success" onclick="get_discuss_parent()">Show Discuss</button>
+                            </div>
+                        </div>
+                        <div class="ibox"  id="div_discuss_parent">
+                            <!-- <div class="ibox-content">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr style="background-color: skyblue;">
+                                                <th><center>No</center></th>
+                                                <th>Topic Title</th>
+                                                <th><center>Moderator</center></th>
+                                                <th><center>Started</center></th>
+                                                <th><center>Closed</center></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>  
+                                </div> 
+                            </div>  -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_student">Kelas <?php echo $kelas_siswa; ?></a>
                         </h5>
                     </div>

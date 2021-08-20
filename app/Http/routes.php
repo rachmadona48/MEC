@@ -108,6 +108,8 @@ Route::resource('/get_comment_discuss', 'MataPelajaranController@Get_comment_dis
 Route::resource('/send_comment', 'MataPelajaranController@Send_comment');
 Route::resource('/reply_comment', 'MataPelajaranController@Reply_comment');
 Route::resource('/del_comment', 'MataPelajaranController@Del_comment');
+Route::resource('/get_list_discuss_parent', 'MataPelajaranController@Get_list_discuss_parent');
+Route::resource('/get_comment_discuss_parent', 'MataPelajaranController@Get_comment_discuss_parent');
 
 Route::resource('/interactive', 'InteractiveController@Interactive');
 Route::resource('/add_interactive', 'InteractiveController@Add_interactive');

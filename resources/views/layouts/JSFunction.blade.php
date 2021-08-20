@@ -15,7 +15,8 @@
         $('.summernote').summernote();
 
         var config = {
-                '.chosen-select-semester'           : {width:"400%"}
+                '.chosen-select-semester'  : {width:"400%"},
+                '.chosen-select'           : {width:"200%"}
                 /*'.chosen-select-deselect'  : {allow_single_deselect:true},
                 '.chosen-select-no-single' : {disable_search_threshold:10},
                 '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
@@ -4407,6 +4408,61 @@
                     swal("Cancelled", "Your Comment is safe :)", "error");
                 }
             });
+    }
+
+    function get_discuss_parent(){
+        id_pelajaran = $("#subject_discuss").val();
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/get_list_discuss_parent') }}",
+            data: {_token:_token,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            beforeSend: function(){
+                if (id_pelajaran=='' || id_pelajaran==null){
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.error('Subjects must be selected!', 'ERROR');
+                    }, 1000);
+                    return false;
+                }
+            },
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_discuss_parent").html(data.div);
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function comment_discuss_parent(id_pelajaran,id){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/get_comment_discuss_parent') }}",
+            data: {_token:_token,id:id,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_discuss_parent").html(data.div);
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
     }
 </script>
 

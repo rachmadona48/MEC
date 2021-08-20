@@ -1417,6 +1417,28 @@ class MataPelajaranModel extends Model
         return $query_del_cm;
     }
 
+    public static function get_student_subject($username){
+        $sql = '
+                SELECT
+                    p.kode,p.english
+                FROM
+                    '.Session::get('kd_smt_active').'.pelajaran p,
+                    '.Session::get('kd_smt_active').'.nilai_diknas n 
+                WHERE
+                    ( p.kode = n.pelajaran ) 
+                    AND ( n.nim = "'.$username.'" ) 
+                    AND ( p.english IS NOT NULL ) 
+                    AND ( p.is_elearning IS NOT NULL ) 
+                GROUP BY
+                    p.kode
+                ORDER BY p.english ASC
+                '
+                ;   
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql));
+        return $key;
+    }
+
 
 
 }
