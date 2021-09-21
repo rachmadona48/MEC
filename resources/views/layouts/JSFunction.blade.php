@@ -1441,6 +1441,7 @@
             success: (data) => {
                 if(data.respon == 'SUKSES'){
                     $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
                 }
             },
             error: function(data){
@@ -1459,6 +1460,7 @@
             success: (data) => {
                 if(data.respon == 'SUKSES'){
                     $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
                 }
             },
             error: function(data){
@@ -1477,6 +1479,7 @@
             success: (data) => {
                 if(data.respon == 'SUKSES'){
                     $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
                 }
             },
             error: function(data){
@@ -4455,6 +4458,28 @@
             success: (data) => {
                 if(data.respon == 'SUKSES'){
                     $("#div_discuss_parent").html(data.div);
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function show_bukom(){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/show_bukom') }}",
+            data: {_token:_token},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#wrapper_div").html(data.div);
+                    $('#button_div').remove();
+                    $('body>.tooltip').remove();
                 }else{
                     swal("Cancelled", data.msg, "error");
                 }

@@ -31,6 +31,11 @@
 
     <link href="{!! asset('inspinia/css/plugins/daterangepicker/daterangepicker-bs3.css') !!}" rel="stylesheet">
 
+    <!-- Data Tables -->
+    <link href="{!! asset('inspinia/css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet">
+    <link href="{!! asset('inspinia/css/plugins/dataTables/dataTables.responsive.css') !!}" rel="stylesheet">
+    <link href="{!! asset('inspinia/css/plugins/dataTables/dataTables.tableTools.min.css') !!}" rel="stylesheet">
+
     <!-- timeline -->
     <link href="{!! asset('other/css/timeline.css') !!}" rel="stylesheet">
 

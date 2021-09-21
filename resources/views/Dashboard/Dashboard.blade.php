@@ -11,17 +11,18 @@
             </li> -->
         </ol>
     </div>
-    <div class="col-lg-2">
-        <!-- jika user merupakan wali kelas -->
-        <?php if($walas>=1){ ?> 
+    <div class="col-lg-2" id="button_div">
+        
             <div class="tooltip-demo">
+                <?php if($walas>=1){ ?> <!-- jika user merupakan wali kelas -->
                 <button class="btn btn-success dim" style="margin: 18px !important;" data-toggle="tooltip" data-placement="top" title data-original-title="Add Information" onclick="add_info()"><i class="fa fa-plus"></i></button>
+                <?php } ?>
+                <button class="btn btn-warning dim" style="margin: 18px !important; left:-30px;" data-toggle="tooltip" data-placement="top" title data-original-title="Send message to parent (bukom)" onclick="show_bukom()"><i class="fa fa-envelope-o"></i></button>
             </div>
-        <?php } ?>
         
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content animated fadeInRight" id="wrapper_div">
     <div class="row" id="div_info">
     </div>
 

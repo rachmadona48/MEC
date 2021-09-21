@@ -34,6 +34,9 @@ Route::resource('/update_info', 'DashboardController@Update_info');
 Route::resource('/Profile', 'DashboardController@Profile');
 Route::resource('/ganti_smt', 'DashboardController@Ganti_smt');
 Route::resource('/ganti_smt2', 'DashboardController@Ganti_smt2');
+Route::resource('/show_bukom', 'BukomController@Show_bukom');
+Route::resource('/list_bukom', 'BukomController@List_bukom');
+
 Route::get('/matpel/{kode_grade}/{id_pelajaran}', 'MataPelajaranController@Matpel');
 Route::resource('/insert_week', 'MataPelajaranController@Insert_week');
 Route::resource('/matpel_week', 'MataPelajaranController@Matpel_week');
@@ -151,6 +154,8 @@ Route::resource('/response_interactive', 'InteractiveController@Response_interac
 Route::resource('/save_response', 'InteractiveController@Save_response');
 Route::resource('/show_response_interactive', 'InteractiveController@Show_response_interactive');
 Route::resource('/graph_subjek', 'MataPelajaranController@Graph_subjek');
+
+
 
 // Route::resource('/learning_designer', 'LDController');
 // Route::resource('/w_guide', 'WgController');

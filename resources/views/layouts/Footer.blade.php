@@ -49,6 +49,12 @@
 <!-- blueimp gallery -->
 <script src="{!! asset('inspinia/js/plugins/blueimp/jquery.blueimp-gallery.min.js') !!}"></script>
 
+<!-- Data Tables -->
+<script src="{!! asset('inspinia/js/plugins/dataTables/jquery.dataTables.js') !!}"></script>
+<script src="{!! asset('inspinia/js/plugins/dataTables/dataTables.bootstrap.js') !!}"></script>
+<script src="{!! asset('inspinia/js/plugins/dataTables/dataTables.responsive.js') !!}"></script>
+<script src="{!! asset('inspinia/js/plugins/dataTables/dataTables.tableTools.min.js') !!}"></script>
+
 
 <!-- ChartJS-->
 <!-- <script src="{!! asset('inspinia/js/plugins/chartJs/Chart.min.js') !!}"></script>
