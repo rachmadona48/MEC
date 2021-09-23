@@ -105,19 +105,43 @@ class BukomModel extends Model
 		echo json_encode($json_data); 
 	}
 
-    public static function getprofile_sdm($username){
-    	$sql = 'SELECT sdm.gelar_depan,sdm.gelar_belakang,sdm.nama,sdm.jenis_kelamin,ag.agama,darah.gol_darah,
-				sdm.tempat_lahir,sdm.tgl_lahir,nkh.status_pernikahan,sdm.alamat,sdm.no_induk_pegawai,sdm.kode_pos,
-				sdm.tgl_gabung,sdm.no_telp,sdm.email,sdm.profesi
-				from tbl_sdm sdm
-				LEFT JOIN ref_agama ag on sdm.agama = ag.id
-				LEFT JOIN ref_gol_darah darah on sdm.id_gol_darah = darah.id
-				LEFT JOIN ref_status_pernikahan nkh on sdm.status_pernikahan = nkh.id
-				WHERE sdm.finger = "'.$username.'"
-			';
-	    $query=collect(\DB::select($sql))->first();
-	    return $query;
+	public static function add_bukom($username,$subyek,$isi,$lampiran1,$size1,$nm_file1,$lampiran2,$size2,$nm_file2,$lampiran3,$size3,$nm_file3,$status,$date_send){
+        date_default_timezone_set('Asia/Jakarta');
+
+        $insert = DB::table(Session::get('kd_smt_active').".mec_bukom")->insertGetId(
+            [
+                'status' => $status, 
+                'user_pengirim' => $username,
+                'subyek' => $subyek,
+                'isi' => $isi,
+                'lampiran1' => $lampiran1,
+                'ukuran1' => $size1,
+                'nmfile1' => $nm_file1,
+                'lampiran2' => $lampiran2,
+                'ukuran2' => $size2,
+                'nmfile2' => $nm_file2,
+                'lampiran3' => $lampiran3,
+                'ukuran3' => $size3,
+                'nmfile3' => $nm_file3,
+                'date_create' => date('Y-m-d H:i:s'),
+                'date_send' => $date_send,
+            ]
+        );
+        return $insert;
     }
 
+    public static function add_penerima($id_bukom,$nim_siswa){
+        date_default_timezone_set('Asia/Jakarta');
+
+        $insert = DB::table(Session::get('kd_smt_active').".mec_bukom_penerima")->insertGetId(
+            [
+                // 'status' => $id_week, 
+                'id_bukom' => $id_bukom,
+                'user_penerima' => $nim_siswa,
+                
+            ]
+        );
+        return $insert;
+    }
     
 }

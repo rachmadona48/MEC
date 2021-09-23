@@ -36,6 +36,7 @@ Route::resource('/ganti_smt', 'DashboardController@Ganti_smt');
 Route::resource('/ganti_smt2', 'DashboardController@Ganti_smt2');
 Route::resource('/show_bukom', 'BukomController@Show_bukom');
 Route::resource('/list_bukom', 'BukomController@List_bukom');
+Route::resource('/save_bukom', 'BukomController@Save_bukom');
 
 Route::get('/matpel/{kode_grade}/{id_pelajaran}', 'MataPelajaranController@Matpel');
 Route::resource('/insert_week', 'MataPelajaranController@Insert_week');

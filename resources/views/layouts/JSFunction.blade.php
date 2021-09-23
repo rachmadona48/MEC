@@ -15,6 +15,7 @@
         $('.summernote').summernote();
 
         var config = {
+                '.chosen-select'           : {},
                 '.chosen-select-semester'  : {width:"400%"},
                 '.chosen-select'           : {width:"200%"}
                 /*'.chosen-select-deselect'  : {allow_single_deselect:true},
@@ -70,6 +71,66 @@
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
+        });
+
+        $('#save_bukom').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                type:'POST',
+                url: "{{ url('/save_bukom') }}",
+                data: formData,
+                dataType: 'json',
+                cache:false,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                
+                    $('#submit-modal_add_bukom').hide();
+                    $('#spinner-modal_add_bukom').show();
+                },
+                success: (data) => {
+                    if(data.respon == 'SUKSES'){
+
+                        $('#modal_add_bukom').modal('hide');
+                        $("#mdl_add_bukom_penerima").val('');
+                        $("#mdl_add_bukom_subyek").val('');
+                        $("#mdl_add_bukom_isi").val('');
+                        $("#mdl_add_bukom_lampiran1").val('');
+                        $("#mdl_add_bukom_lampiran2").val('');
+                        $("#mdl_add_bukom_lampiran3").val('');
+                        show_bukom() 
+                        setTimeout(function() {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.info('Succes add bukom', 'SUCCESS');
+                        }, 1000);
+                    }else{
+                        setTimeout(function() {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.error(data.msg, 'ERROR');
+                        }, 1000);
+                    }
+                },
+                complete: function() {
+                    $('#submit-modal_add_bukom').show();
+                    $('#spinner-modal_add_bukom').hide();
+
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
         });
 
         $('#save_tlm_lmp').submit(function(e) {
@@ -4489,6 +4550,39 @@
             }
         });
     }
+
+    function add_bukom(){
+        // $('#modal_add_discuss').modal('show');
+        $('#modal_add_bukom').modal('show');
+    }
+
+    // function save_bukom(status){
+    //     var _token  = $('meta[name="csrf-token"]').attr('content');
+    //     penerima = $('#mdl_add_bukom_penerima').val();
+    //     console.log(penerima)
+    //     // $.ajax({
+    //     //     type:'POST',
+    //     //     url: "{{ url('/get_parent_bukom') }}",
+    //     //     data: {_token:_token},
+    //     //     dataType: 'json',
+    //     //     success: (data) => {
+    //     //         if(data.respon == 'SUKSES'){
+    //     //             // alert(data.respon)
+    //     //             // alert(data.option)
+    //     //             // console.log(data.option)
+    //     //             // console.log(data.option)
+    //     //             // $('#list_parent_bukom_chosen').html(data.option);
+    //     //             $('#list_parent_bukom').html(data.option);
+    //     //             $('#modal_add_bukom').modal('show');
+    //     //         }
+                
+    //     //     },
+    //     //     error: function(data){
+    //     //         console.log(data);
+    //     //     }
+    //     // });
+        
+    // }
 </script>
 
 

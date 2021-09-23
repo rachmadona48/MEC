@@ -2,7 +2,7 @@
     <div class="ibox-title">
         <h5>Bukom</h5>
         <div class="ibox-tools">
-            <button class="btn btn-success btn-xs">Add Bukom</button>
+            <button class="btn btn-success btn-xs" onclick="add_bukom()">Add Bukom</button>
             <a href="{{url('/dashboard')}}">
                 <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title data-original-title="Back to home"><< Back</button>
             </a>

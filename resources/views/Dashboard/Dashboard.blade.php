@@ -17,7 +17,9 @@
                 <?php if($walas>=1){ ?> <!-- jika user merupakan wali kelas -->
                 <button class="btn btn-success dim" style="margin: 18px !important;" data-toggle="tooltip" data-placement="top" title data-original-title="Add Information" onclick="add_info()"><i class="fa fa-plus"></i></button>
                 <?php } ?>
+                <?php if(Session::get('tipe') == 'sdm') { ?> 
                 <button class="btn btn-warning dim" style="margin: 18px !important; left:-30px;" data-toggle="tooltip" data-placement="top" title data-original-title="Send message to parent (bukom)" onclick="show_bukom()"><i class="fa fa-envelope-o"></i></button>
+                <?php } ?>
             </div>
         
     </div>

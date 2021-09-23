@@ -56,6 +56,10 @@
         .inmodal .modal-icon {
             font-size: 52px !important;
         }
+
+        .chosen-container.chosen-container-multi {
+            width: 850px !important;
+        }
     </style>
 
 

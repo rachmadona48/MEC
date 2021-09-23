@@ -1678,6 +1678,108 @@
     </div>
 </div>
 
+<!-- <div class="modal inmodal fade" id="modal_add_bukom" tabindex="-1" role="dialog" aria-hidden="true" > -->
+<div class="modal inmodal fade" id="modal_add_bukom" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" style="width: 70%;">
+    <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-envelope-o modal-icon"></i>
+                <center><h4>Bukom</h4></center>
+            </div>
+            <form method="POST" enctype="multipart/form-data" id="save_bukom" action="javascript:void(0)" >
+                <div class="modal-body" style="padding: 20px 40px 15px 30px;">
+                    <div class="form-group">
+                        <label class="control-label">Recipients</label>
+                        <div class="input-group">
+                            <select data-placeholder="Choose parent of student..." class="chosen-select " multiple style="width:350px;" id="mdl_add_bukom_penerima" name="mdl_add_bukom_penerima[]">
+                                <?php
+                                    $sql = '
+                                            SELECT n.nim,n.pelajaran,sdm.nama,ks.kelas
+                                            FROM '.Session::get('kd_smt_active').'.nilai_diknas n
+                                            LEFT JOIN tbl_siswa sdm on n.nim = sdm.nim
+                                            LEFT JOIN '.Session::get('kd_smt_active').'.kelas_siswa ks on n.nim = ks.nim
+                                            WHERE n.pelajaran in (
+                                                SELECT
+                                                    p.kode 
+                                                FROM
+                                                    '.Session::get('kd_smt_active').'.priv_grade g,
+                                                    '.Session::get('kd_smt_active').'.pelajaran p 
+                                                WHERE
+                                                    g.pelajaran = p.kode 
+                                                    AND g.guru = "'.Session::get('username').'"
+                                            )
+                                            ORDER BY n.pelajaran ASC
+
+                                            '
+                                    ;   
+                                    // echo $sql;
+                                    $query=collect(\DB::select($sql));
+                                    foreach ($query as $dt) { 
+                                ?>
+                                    <option value="<?php echo $dt->nim; ?>"><?php echo $dt->nama; ?> (<?php echo $dt->kelas; ?>)</option>
+                                <?php } ?>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Subject</label>
+                        <input type="text" id="mdl_add_bukom_subyek" name="mdl_add_bukom_subyek" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Message</label>
+                        <textarea id="mdl_add_bukom_isi" name="mdl_add_bukom_isi" class="summernote"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">attachment 1</label>
+                        <input type="file" class="form-control m-b" id="mdl_add_bukom_lampiran1" name="mdl_add_bukom_lampiran1" placeholder="File"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">attachment 2</label>
+                        <input type="file" class="form-control m-b" id="mdl_add_bukom_lampiran2" name="mdl_add_bukom_lampiran2" placeholder="File"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">attachment 3</label>
+                        <input type="file" class="form-control m-b" id="mdl_add_bukom_lampiran3" name="mdl_add_bukom_lampiran3" placeholder="File"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" checked name="mdl_add_status" > <label class="control-label">Is Send ?</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer" id="submit-modal_add_bukom">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" >Save</button>
+                    <!-- <input type="button" class="btn btn-success" value="Send2" id="save_bukom_send"> -->
+                </div>
+                <div class="modal-footer" id="spinner-modal_add_bukom" style="margin-top: 0px !important;display: none;">
+                    <div class="sk-spinner sk-spinner-circle">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 
