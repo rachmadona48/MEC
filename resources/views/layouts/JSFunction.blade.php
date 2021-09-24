@@ -4552,37 +4552,30 @@
     }
 
     function add_bukom(){
-        // $('#modal_add_discuss').modal('show');
         $('#modal_add_bukom').modal('show');
     }
 
-    // function save_bukom(status){
-    //     var _token  = $('meta[name="csrf-token"]').attr('content');
-    //     penerima = $('#mdl_add_bukom_penerima').val();
-    //     console.log(penerima)
-    //     // $.ajax({
-    //     //     type:'POST',
-    //     //     url: "{{ url('/get_parent_bukom') }}",
-    //     //     data: {_token:_token},
-    //     //     dataType: 'json',
-    //     //     success: (data) => {
-    //     //         if(data.respon == 'SUKSES'){
-    //     //             // alert(data.respon)
-    //     //             // alert(data.option)
-    //     //             // console.log(data.option)
-    //     //             // console.log(data.option)
-    //     //             // $('#list_parent_bukom_chosen').html(data.option);
-    //     //             $('#list_parent_bukom').html(data.option);
-    //     //             $('#modal_add_bukom').modal('show');
-    //     //         }
-                
-    //     //     },
-    //     //     error: function(data){
-    //     //         console.log(data);
-    //     //     }
-    //     // });
-        
-    // }
+    function detail_bukom(id_bukom){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/show_detail_bukom') }}",
+            data: {_token:_token,id_bukom:id_bukom},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#wrapper_div").html(data.div);
+                    $('#button_div').remove();
+                    $('body>.tooltip').remove();
+                }else{
+                    swal("Cancelled", data.msg, "error");
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
 </script>
 
 

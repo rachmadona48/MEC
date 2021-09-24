@@ -143,5 +143,17 @@ class BukomModel extends Model
         );
         return $insert;
     }
+
+    public static function Get_bukom($id_bukom){
+    	$sql = 'SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
+				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, "%a %D %b %Y") as date_create,bk.date_send
+				FROM '.Session::get('kd_smt_active').'.mec_bukom bk
+				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
+				WHERE bk.id = '.$id_bukom.'
+			';
+		// echo $sql;exit();
+	    $query=collect(\DB::select($sql))->first();
+	    return $query;
+    }
     
 }

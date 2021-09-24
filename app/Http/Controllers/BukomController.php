@@ -162,4 +162,17 @@ class BukomController extends Controller
         echo json_encode($return);
     }
 
+    public function Show_detail_bukom(Request $request)
+    {
+        $data['id_bukom'] = $id_bukom = $request->id_bukom;
+        $data['bukom'] = BukomModel::Get_bukom($id_bukom);
+        $div = view('_Bukom.Detail_bukom',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
 }

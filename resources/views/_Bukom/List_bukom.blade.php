@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content animated fadeInRight" id="wrapper_div">
     <div class="ibox-title">
         <h5>Bukom</h5>
         <div class="ibox-tools">
