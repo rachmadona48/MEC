@@ -166,6 +166,7 @@ class BukomController extends Controller
     {
         $data['id_bukom'] = $id_bukom = $request->id_bukom;
         $data['bukom'] = BukomModel::Get_bukom($id_bukom);
+        $data['penerima'] = BukomModel::Get_bukom_penerima($id_bukom);
         $div = view('_Bukom.Detail_bukom',$data);
         $div=$div->render();
         $respon='SUKSES';

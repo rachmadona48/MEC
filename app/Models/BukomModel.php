@@ -17,7 +17,7 @@ class BukomModel extends Model
         $columns = array( 
 		// datatable column index  => database column name
 			// 0 => 'no',
-			0 => 'status',
+			0 => 'date_send',
 			1 => 'nama',
 			2 => 'subyek',
 			3 => 'date_create'
@@ -62,6 +62,7 @@ class BukomModel extends Model
 		// var_dump($requestData) ;exit();
 
 		// $sql.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."   LIMIT ".$requestData['length']." OFFSET ".$requestData['start']." ";  // adding length
+		$sql.=" ORDER BY date_send DESC";  // adding length
 		// echo $sql;exit();
 
 		$query= collect(\DB::select($sql));
@@ -153,6 +154,19 @@ class BukomModel extends Model
 			';
 		// echo $sql;exit();
 	    $query=collect(\DB::select($sql))->first();
+	    return $query;
+    }
+
+    public static function Get_bukom_penerima($id_bukom){
+    	$sql = 'SELECT sdm.nama,ks.kelas
+				FROM '.Session::get('kd_smt_active').'.mec_bukom_penerima pn
+				LEFT JOIN '.Session::get('kd_smt_active').'.kelas_siswa ks on pn.user_penerima = ks.nim
+				LEFT JOIN tbl_siswa sdm on pn.user_penerima = sdm.nim
+				WHERE pn.id_bukom = '.$id_bukom.'
+				ORDER BY ks.kelas ASC
+			';
+		// echo $sql;exit();
+	    $query=collect(\DB::select($sql));
 	    return $query;
     }
     

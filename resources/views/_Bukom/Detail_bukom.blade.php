@@ -22,7 +22,10 @@
             <span class="font-noraml">From: </span><?php echo $bukom->nama; ?>
         </h5>
         <h5>
-            <span class="font-noraml">To: </span><?php echo $bukom->nama; ?>
+            <span class="font-noraml">To: </span>
+            <?php foreach ($penerima as $key) {
+                echo $key->nama.' ('.$key->kelas.'), ';
+            } ?>
         </h5>
     </div>
 </div>
@@ -35,27 +38,65 @@
             <span><i class="fa fa-paperclip"></i> Attachments - </span>
         </p>
 
-        <div class="attachment">
-            <div class="file-box">
-                <div class="file">
-                    <a href="#">
-                        <span class="corner"></span>
+        
+            <div class="attachment">
+                <?php if(!empty($bukom->lampiran1)){ ?>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/bukom') !!}/<?php echo $bukom->lampiran1; ?>" target="_blank">
+                                <span class="corner"></span>
 
-                        <div class="icon">
-                            <i class="fa fa-file"></i>
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    <?php echo $bukom->nmfile1; ?>
+                                </div>
+                            </a>
                         </div>
-                        <div class="file-name">
-                            Document_2014.doc
-                            <br/>
-                            <small>Added: Jan 11, 2014</small>
-                        </div>
-                    </a>
-                </div>
 
+                    </div>
+                <?php } ?>
+
+                <?php if(!empty($bukom->lampiran2)){ ?>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/bukom') !!}/<?php echo $bukom->lampiran2; ?>" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    <?php echo $bukom->nmfile2; ?>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                <?php } ?>
+
+                <?php if(!empty($bukom->lampiran3)){ ?>
+                    <div class="file-box">
+                        <div class="file">
+                            <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/bukom') !!}/<?php echo $bukom->lampiran3; ?>" target="_blank">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="file-name">
+                                    <?php echo $bukom->nmfile3; ?>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                <?php } ?>
+
+                <div class="clearfix"></div>
             </div>
-            
-            <div class="clearfix"></div>
-        </div>
+
     </div>
     <div class="mail-body text-right tooltip-demo">
         <a class="btn btn-sm btn-white" href="mail_compose.html"><i class="fa fa-reply"></i> Reply</a>
