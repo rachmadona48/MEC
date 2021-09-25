@@ -167,12 +167,49 @@ class BukomController extends Controller
         $data['id_bukom'] = $id_bukom = $request->id_bukom;
         $data['bukom'] = BukomModel::Get_bukom($id_bukom);
         $data['penerima'] = BukomModel::Get_bukom_penerima($id_bukom);
+        $data['reply'] = BukomModel::Get_bukom_reply($id_bukom);
         $div = view('_Bukom.Detail_bukom',$data);
         $div=$div->render();
         $respon='SUKSES';
         $msg='';
 
         $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
+    public function Send_bukom(Request $request)
+    {
+        $id_bukom = $request->id_bukom;
+        $status = $request->status;
+
+        $update = BukomModel::Update_send_bukom($id_bukom,$status);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Reply_bukom(Request $request)
+    {
+        $id_bukom = $request->mdl_reply_bukom_id_bukom;
+        $isi_reply = $request->mdl_reply_bukom_reply;
+
+        $insert = BukomModel::reply_bukom($request->session()->get('username'),$id_bukom,$isi_reply);
+
+        if($insert){
+            $respon='SUKSES';
+            $msg='';
+        }else{
+            $respon='GAGAL';
+            $msg='Something is wrong!';
+        }
+        
+
+        $return = array('respon' => $respon,'msg' => $msg);
         echo json_encode($return);
     }
 

@@ -147,7 +147,8 @@ class BukomModel extends Model
 
     public static function Get_bukom($id_bukom){
     	$sql = 'SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
-				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, "%a %D %b %Y") as date_create,bk.date_send
+				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, "%a %D %b %Y") as date_create,
+				DATE_FORMAT(bk.date_send, "%a %D %b %Y") as date_send
 				FROM '.Session::get('kd_smt_active').'.mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.id = '.$id_bukom.'
@@ -168,6 +169,67 @@ class BukomModel extends Model
 		// echo $sql;exit();
 	    $query=collect(\DB::select($sql));
 	    return $query;
+    }
+
+    public static function Get_bukom_reply($id_bukom){
+    	$sql = '
+				SELECT
+				CASE
+						
+					WHEN
+						( sdm.nama IS NULL ) THEN
+							sw.nama ELSE sdm.nama 
+							END AS nama,
+					CASE
+							
+							WHEN ( ks.kelas IS NULL ) THEN
+							"" ELSE concat( "(", ks.kelas, ")" ) 
+						END AS kelas,
+						rp.isi_reply,
+						DATE_FORMAT( rp.date_reply, "%a %D %b %Y" ) AS date_reply 
+					FROM
+						'.Session::get('kd_smt_active').'.mec_bukom_reply rp
+						LEFT JOIN '.Session::get('kd_smt_active').'.kelas_siswa ks ON rp.user_reply = ks.nim
+						LEFT JOIN tbl_sdm sdm ON rp.user_reply = sdm.finger
+						LEFT JOIN tbl_siswa sw ON rp.user_reply = sw.nim 
+					WHERE
+						rp.id_bukom = '.$id_bukom.' 
+				ORDER BY
+					rp.date_reply ASC
+			';
+		// echo $sql;exit();
+	    $query=collect(\DB::select($sql));
+	    return $query;
+    }
+
+    public static function Update_send_bukom($id_bukom,$status){
+        date_default_timezone_set('Asia/Jakarta');
+
+        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_bukom
+                SET status = '".$status."',
+                date_send = '".date('Y-m-d H:i:s')."'
+                where id = ".$id_bukom."
+                
+        ";
+
+        // echo $sql;exit();
+        $query=collect(\DB::update($sql));
+
+        return $query;
+    }
+
+    public static function reply_bukom($username,$id_bukom,$isi_reply){
+        date_default_timezone_set('Asia/Jakarta');
+
+        $insert = DB::table(Session::get('kd_smt_active').".mec_bukom_reply")->insertGetId(
+            [
+            	'id_bukom' => $id_bukom,
+                'user_reply' => $username,
+                'isi_reply' => $isi_reply,
+                'date_reply' => date('Y-m-d H:i:s'),
+            ]
+        );
+        return $insert;
     }
     
 }

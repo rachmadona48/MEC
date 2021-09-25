@@ -38,6 +38,8 @@ Route::resource('/show_bukom', 'BukomController@Show_bukom');
 Route::resource('/list_bukom', 'BukomController@List_bukom');
 Route::resource('/save_bukom', 'BukomController@Save_bukom');
 Route::resource('/show_detail_bukom', 'BukomController@Show_detail_bukom');
+Route::resource('/send_bukom', 'BukomController@Send_bukom');
+Route::resource('/reply_bukom', 'BukomController@Reply_bukom');
 
 Route::get('/matpel/{kode_grade}/{id_pelajaran}', 'MataPelajaranController@Matpel');
 Route::resource('/insert_week', 'MataPelajaranController@Insert_week');

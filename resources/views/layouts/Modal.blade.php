@@ -1780,6 +1780,55 @@
     </div>
 </div>
 
+<div class="modal inmodal fade" id="modal_reply_bukom" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog" style="width: 70%;">
+    <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-envelope-o modal-icon"></i>
+                <center><h4>Reply Bukom</h4></center>
+            </div>
+            <form method="POST" enctype="multipart/form-data" id="reply_bukom" action="javascript:void(0)" >
+                <div class="modal-body" style="padding: 20px 40px 15px 30px;">
+                    
+
+                    <div class="form-group">
+                        <label class="control-label" id="mdl_reply_bukom_subyek"></label>
+                        <input type="hidden" class="input-sm form-control" id="mdl_reply_bukom_id_bukom" name="mdl_reply_bukom_id_bukom" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Reply</label>
+                        <textarea id="mdl_reply_bukom_reply" name="mdl_reply_bukom_reply" class="summernote"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer" id="submit-modal_reply_bukom">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" >Save</button>
+                    <!-- <input type="button" class="btn btn-success" value="Send2" id="save_bukom_send"> -->
+                </div>
+                <div class="modal-footer" id="spinner-modal_reply_bukom" style="margin-top: 0px !important;display: none;">
+                    <div class="sk-spinner sk-spinner-circle">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 

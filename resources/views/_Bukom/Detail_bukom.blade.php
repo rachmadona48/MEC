@@ -1,10 +1,12 @@
 <div class="mail-box-header">
     <div class="pull-right tooltip-demo">
         <a href="#" class="btn btn-danger btn-sm" onclick="show_bukom()" data-toggle="tooltip" data-placement="top" title="Back to bukom"><i class="fa fa-backward"> Back</i> </a>
-        <a href="mail_compose.html" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Reply"><i class="fa fa-reply"></i> Reply</a>
+        
         <?php if($bukom->status=='Draft'){ ?>
-            <a href="mail_compose.html" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Send Bukom (State is Draft)"><?php echo $bukom->status; ?></a>
+            <a href="#" onclick="send_bukom('<?php echo $id_bukom; ?>')" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Send Bukom (State is Draft)"><?php echo $bukom->status; ?></a>
         <?php }else{ ?>
+            <a onclick="reply_bukom('<?php echo $id_bukom; ?>','<?php echo $bukom->subyek; ?>')" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Reply"><i class="fa fa-reply"></i> Reply</a>
+
             <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Bukom is Send"><i class="fa fa-send-o"></i> <?php echo $bukom->status; ?></a>
         <?php } ?>
     </div>
@@ -18,7 +20,7 @@
             <span class="font-noraml">Subject: </span><?php echo $bukom->subyek; ?>
         </h3>
         <h5>
-            <span class="pull-right font-noraml"><?php echo $bukom->date_create; ?></span>
+            <span class="pull-right font-noraml">Create: <?php echo $bukom->date_create; ?>, Send: <?php echo $bukom->date_send; ?></span>
             <span class="font-noraml">From: </span><?php echo $bukom->nama; ?>
         </h5>
         <h5>
@@ -98,8 +100,20 @@
             </div>
 
     </div>
+
+    <?php foreach ($reply as $reply) { ?>
+        <div class="mail-body" id="div_reply">
+            <h5>
+                <span class="font-noraml"><b>Reply by : <?php echo $reply->nama; ?> <?php echo $reply->kelas; ?></b>, on <?php echo $reply->date_reply; ?>
+            </h5>
+            <?php echo $reply->isi_reply; ?>
+        </div>
+    <?php } ?>
+
     <div class="mail-body text-right tooltip-demo">
-        <a class="btn btn-sm btn-white" href="mail_compose.html"><i class="fa fa-reply"></i> Reply</a>
+        <?php if($bukom->status=='Send'){ ?>
+            <a onclick="reply_bukom('<?php echo $id_bukom; ?>','<?php echo $bukom->subyek; ?>')" class="btn btn-white btn-sm" data-toggle="tooltip" data-placement="top" title="Reply"><i class="fa fa-reply"></i> Reply</a>
+        <?php } ?>
     </div>
     <div class="clearfix"></div>
 </div>

@@ -133,6 +133,63 @@
             });
         });
 
+        $('#reply_bukom').submit(function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                type:'POST',
+                url: "{{ url('/reply_bukom') }}",
+                data: formData,
+                dataType: 'json',
+                cache:false,
+                contentType: false,
+                processData: false,
+                beforeSend: function(){
+                
+                    $('#submit-modal_reply_bukom').hide();
+                    $('#spinner-modal_reply_bukom').show();
+                },
+                success: (data) => {
+                    if(data.respon == 'SUKSES'){
+
+                        $('#modal_reply_bukom').modal('hide');
+                        $("#mdl_reply_bukom_reply").val('');
+                        id_bukom = $("#mdl_reply_bukom_id_bukom").val();
+                        // alert(id_bukom)
+                        detail_bukom(id_bukom)
+                        setTimeout(function() {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.info('Succes reply', 'SUCCESS');
+                        }, 1000);
+                    }else{
+                        setTimeout(function() {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.error(data.msg, 'ERROR');
+                        }, 1000);
+                    }
+                },
+                complete: function() {
+                    $('#submit-modal_reply_bukom').show();
+                    $('#spinner-modal_reply_bukom').hide();
+
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
+
         $('#save_tlm_lmp').submit(function(e) {
             e.preventDefault();
             var formData = new FormData(this);
@@ -4575,6 +4632,56 @@
                 console.log(data);
             }
         });
+    }
+
+    function send_bukom(id_bukom){
+        swal({
+            title: "Are want to send?",
+            // text: "Your will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Send!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: true,
+            closeOnCancel: false },
+        function (isConfirm) {
+            if (isConfirm) {
+                var _token  = $('meta[name="csrf-token"]').attr('content');
+                var status = 'Send';
+                $.ajax({
+                    type:'POST',
+                    url: "{{ url('/send_bukom') }}",
+                    data: {_token:_token,id_bukom:id_bukom,status:status},
+                    dataType: 'json',
+                    success: (data) => {
+                        if(data.respon == 'SUKSES'){
+                            detail_bukom(id_bukom)
+                            setTimeout(function() {
+                                toastr.options = {
+                                    closeButton: true,
+                                    progressBar: true,
+                                    showMethod: 'slideDown',
+                                    timeOut: 4000
+                                };
+                                toastr.info('Succes Send Bukom', 'SUCCESS');
+                            }, 1000);
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your Bukom is safe :)", "error");
+            }
+        });
+    }
+
+    function reply_bukom($id_bukom,$subyek){
+        $('#mdl_reply_bukom_id_bukom').val($id_bukom);
+        $('#mdl_reply_bukom_subyek').html('Subject : '+$subyek);
+        $('#modal_reply_bukom').modal('show');
     }
 </script>
 
