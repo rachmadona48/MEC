@@ -15,7 +15,7 @@
         
             <div class="tooltip-demo">
                 <?php if(Session::get('tipe') == 'ortu') { ?> 
-                <button class="btn btn-warning dim" style="margin: 18px !important; left:-30px;" data-toggle="tooltip" data-placement="top" title data-original-title="Send message to parent (bukom)" onclick="show_bukom()"><i class="fa fa-envelope-o"></i></button>
+                <button class="btn btn-warning dim" style="margin: 18px !important; left:-30px;" data-toggle="tooltip" data-placement="top" title data-original-title="Message from teacher (bukom)" onclick="show_bukom()"><i class="fa fa-envelope-o"></i></button>
                 <?php } ?>
             </div>
         
