@@ -8,7 +8,7 @@ use Session;
 
 class BukomModel extends Model
 {
-	public static function Get_list($req,$user){
+	public static function Get_list($type_user,$req,$user){
 		// $requestData = $this->input->post();
 		$requestData = $req; 
 
@@ -23,13 +23,26 @@ class BukomModel extends Model
 			3 => 'date_create'
 		);
 
-		$sql = "
+        if($type_user=='sdm'){
+        	$sql = "
 				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
 				FROM ".Session::get('kd_smt_active').".mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.user_pengirim = '".$user."'
 				";
+		}else{
+			$sql = "
+				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
+				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
+				FROM ".Session::get('kd_smt_active').".mec_bukom_penerima pn
+				LEFT JOIN ".Session::get('kd_smt_active').".mec_bukom bk on pn.id_bukom = bk.id
+				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
+				WHERE pn.user_penerima = '".$user."'
+				AND bk.status = 'Send'
+				";
+		}
+		
 		// echo $sql;exit();
 		$query = collect(\DB::select($sql));
 
@@ -38,14 +51,25 @@ class BukomModel extends Model
 
 		$totalFiltered = $totalData; 
 
-		$sql = "SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
+		if($type_user=='sdm'){
+			$sql = "SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
 				FROM ".Session::get('kd_smt_active').".mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.user_pengirim = '".$user."'
 				and 1 = 1";
-
-
+		}else{
+			$sql = "
+				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
+				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
+				FROM ".Session::get('kd_smt_active').".mec_bukom_penerima pn
+				LEFT JOIN ".Session::get('kd_smt_active').".mec_bukom bk on pn.id_bukom = bk.id
+				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
+				WHERE pn.user_penerima = '".$user."'
+				AND bk.status = 'Send'
+				and 1 = 1
+				";
+		}
 
 
 		// getting records as per search parameters

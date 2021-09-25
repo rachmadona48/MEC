@@ -11,11 +11,17 @@
             </li> -->
         </ol>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-2" id="button_div">
+        
+            <div class="tooltip-demo">
+                <?php if(Session::get('tipe') == 'ortu') { ?> 
+                <button class="btn btn-warning dim" style="margin: 18px !important; left:-30px;" data-toggle="tooltip" data-placement="top" title data-original-title="Send message to parent (bukom)" onclick="show_bukom()"><i class="fa fa-envelope-o"></i></button>
+                <?php } ?>
+            </div>
         
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content animated fadeInRight" id="wrapper_div">
     <div class="row" id="div_tlm">
     
     <?php if(Session::get('tipe') == 'ortu') { ?> 
