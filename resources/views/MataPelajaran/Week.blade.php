@@ -40,7 +40,8 @@
                             <?php }else{ ?>
                                 <span class="label label-warning">Draft</span>
                         <?php  } ?>
-                            <a class="btn btn-xs btn-danger btn-outline pull-right" href="{{url('/LD_pdf')}}/<?php echo $kode_grade; ?>/<?php echo $id_pelajaran?>/<?php echo $id_week?>/<?php echo $minggu; ?>"><i class="fa fa-file-pdf-o"></i> Pdf</a>
+                            <!-- <a class="btn btn-xs btn-danger btn-outline pull-right" href="{{url('/LD_pdf')}}/<?php echo $kode_grade; ?>/<?php echo $id_pelajaran?>/<?php echo $id_week?>/<?php echo $minggu; ?>"><i class="fa fa-file-pdf-o"></i> Pdf</a> -->
+                            <a class="btn btn-xs btn-danger btn-outline pull-right" href="{{url('/LD_pdf')}}/<?php echo $kode_grade; ?>"><i class="fa fa-file-pdf-o"></i> Pdf</a>
                         <?php } ?>
                         
                     </div>

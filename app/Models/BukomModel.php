@@ -121,7 +121,8 @@ class BukomModel extends Model
 		}	
 
 		$json_data = array(
-					"draw"            => intval( $requestData['draw'] ),   
+					// "draw"            => intval( $requestData['draw'] ),  
+					"draw"            => 0,  
 					"recordsTotal"    => intval( $totalData ),  
 					"recordsFiltered" => intval( $totalFiltered ), 
 					"data"            => $data   

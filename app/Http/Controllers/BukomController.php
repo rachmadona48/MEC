@@ -38,6 +38,7 @@ class BukomController extends Controller
     {
         $user = $request->session()->get('username');
         $req = $request->input('search.value');
+        // var_dump($req);exit();
         BukomModel::Get_list($request->session()->get('tipe'),$req,$user);
     }
 

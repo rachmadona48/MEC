@@ -231,8 +231,9 @@
                         <?php } ?>
 
                         </div>
-                        
-                        <button type="submit" class="btn btn-success pull-right" id="submit-saveResponse">Save</button>
+                        <?php if(Session::get('tipe') != 'sdm') { ?>
+                            <button type="submit" class="btn btn-success pull-right" id="submit-saveResponse">Save</button>
+                        <?php } ?>
                         <div class="pull-right" style="display: none;" id="spinner-saveResponse">
                             <div class="sk-spinner sk-spinner-circle">
                                 <div class="sk-circle1 sk-circle"></div>

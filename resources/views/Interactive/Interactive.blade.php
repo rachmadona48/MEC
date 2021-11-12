@@ -77,6 +77,13 @@
 
                                         <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Show Appraisal Student" onclick="show_appraisal('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->type; ?>')"><i class="fa fa-comments-o"></i></button>
 
+                                        <!-- start preview interactive -->
+                                        <?php if ($key->type=='General'){ ?>
+                                            <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Preview questions" onclick="response_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>','<?php echo $key->dateFrom2;?>','<?php echo $key->dateTo2;?>')"><i class="fa fa-indent"></i></button>
+                                        
+                                        <?php } ?>
+                                        <!-- end preview interactive -->
+
                                         <button class="btn btn-outline btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Delete" onclick="delete_interactive('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $key->id; ?>','<?php echo $key->name;?>','<?php echo $key->state; ?>')"><i class="fa fa-trash"></i></button>
 
 

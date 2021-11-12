@@ -104,7 +104,8 @@ Route::resource('/delete_rubrik', 'MataPelajaranController@Delete_rubrik');
 Route::resource('/get_upd_rubrik', 'MataPelajaranController@Get_upd_rubrik');
 Route::resource('/simpan_upd_rubrik', 'MataPelajaranController@Simpan_upd_rubrik');
 
-Route::get('/LD_pdf/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@LD_pdf');
+// Route::get('/LD_pdf/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@LD_pdf');
+Route::get('/LD_pdf/{kg}', 'MataPelajaranController@LD_pdf');
 Route::get('/Scan_Ld/{kd_smt_active}/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@Scan_Ld');
 
 Route::resource('/get_list_discuss', 'MataPelajaranController@Get_list_discuss');

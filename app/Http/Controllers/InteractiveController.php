@@ -772,24 +772,37 @@ class InteractiveController extends Controller
         $date_to = date('Y-m-d',strtotime($date_to));
         $data['date_now'] = $date_now = date('Y-m-d');
 
-        $cek = InteractiveModel::cek_responses($request->session()->get('username'),$id_interactive);  
-        if($cek<=0){
-            if($date_now >= $date_from && $date_now <= $date_to){
-                $data['question'] = InteractiveModel::get_question_interactive_from_student($request->session()->get('tipe'),$id_pelajaran,$id_week,$id_interactive);
-                $div = view('Interactive.Interactive_response',$data);
-                $div=$div->render();
-                $respon='SUKSES';
-                $msg='';
+
+        if ($request->session()->get('tipe') == 'sdm'){
+            /*sdm*/
+            $data['question'] = InteractiveModel::get_question_interactive_from_student($request->session()->get('tipe'),$id_pelajaran,$id_week,$id_interactive);
+            $div = view('Interactive.Interactive_response',$data);
+            $div=$div->render();
+            $respon='SUKSES';
+            $msg='';  
+        }else{
+            /*student*/
+            $cek = InteractiveModel::cek_responses($request->session()->get('username'),$id_interactive);  
+            if($cek<=0){
+                if($date_now >= $date_from && $date_now <= $date_to){
+                    $data['question'] = InteractiveModel::get_question_interactive_from_student($request->session()->get('tipe'),$id_pelajaran,$id_week,$id_interactive);
+                    $div = view('Interactive.Interactive_response',$data);
+                    $div=$div->render();
+                    $respon='SUKSES';
+                    $msg='';
+                }else{
+                    $div='';
+                    $respon='GAGAL';
+                    $msg='Off schedulle !!!';
+                }
             }else{
                 $div='';
                 $respon='GAGAL';
-                $msg='Off schedulle !!!';
-            }
-        }else{
-            $div='';
-            $respon='GAGAL';
-            $msg='You have finished !!!';
-        } 
+                $msg='You have finished !!!';
+            }  
+        }
+
+        
 
         $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
         echo json_encode($return);

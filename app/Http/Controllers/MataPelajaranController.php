@@ -1161,9 +1161,11 @@ class MataPelajaranController extends Controller
         echo json_encode($return);
     }
 
-    public function LD_pdf(Request $request,$kode_grade,$id_pelajaran,$id_week,$minggu)
+    // public function LD_pdf(Request $request,$kode_grade,$id_pelajaran,$id_week,$minggu)
+    public function LD_pdf(Request $request,$kg)
     {
         if ($request->session()->has('id')) {
+            echo 'tes';exit();
             // $kode_grade = $request->kode_grade;
             // $id_pelajaran = $request->id_pelajaran;
             // $id_week = $request->id_week;
