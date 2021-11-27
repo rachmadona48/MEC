@@ -34,6 +34,7 @@
             </div>
             <div class="modal-body" style="padding: 20px 30px 100px 30px;">
                 <input type="hidden" class="input-sm form-control" id="pelajaran_week" readonly />
+                <input type="hidden" class="input-sm form-control" id="kode_grade_week" readonly />
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Week</label>
                     <div class="col-sm-10">
@@ -60,6 +61,37 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" onclick="insert_week()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="modal_edit_week" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Edit Date Week</h4>
+            </div>
+            <div class="modal-body" style="padding: 20px 30px 100px 30px;">
+                <input type="hidden" class="input-sm form-control" id="pelajaran_edit_week" readonly />
+                <input type="hidden" class="input-sm form-control" id="kode_grade_edit_week" readonly />
+                <input type="hidden" class="input-sm form-control" id="id_week_edit_week" readonly />
+
+                <div class="form-group" id="data_5">
+                    <label class="col-sm-2 control-label">Date</label>
+                    <div class="col-sm-10">
+                        <div class="input-daterange input-group" id="datepicker">
+                            <input type="text" class="input-sm form-control" id="tgl_awal_edit_week" />
+                            <span class="input-group-addon">to</span>
+                            <input type="text" class="input-sm form-control" id="tgl_akhir_edit_week" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="save_edit_week()">Save</button>
             </div>
         </div>
     </div>

@@ -36,6 +36,30 @@ class MataPelajaranController extends Controller
         }
     }
 
+    public function Show_week(Request $request)
+    {
+        
+        $kode_grade = $request->kode_grade;
+        $id_pelajaran = $request->id_pelajaran;
+        $data['data'] = MataPelajaranModel::list_week($kode_grade,$id_pelajaran);
+        // $data['privilege'] = MataPelajaranModel::PrivilegeElearning($request->session()->get('username'),$kode_grade,$id_pelajaran);
+        // $data['id_menu_tlm'] = 'menu_tlm_'.$kode_grade.'_'.$id_pelajaran.'_'.$id_week;
+        // // $data['id_menu_deactive'] = 'menu_'.$kode_grade.'_'.$id_pelajaran;
+        $data['kode_grade'] = $kode_grade;
+        $data['id_pelajaran'] = $id_pelajaran;
+        // $data['id_week'] = $id_week;
+        // $data['minggu'] = $minggu;
+
+        // $div = view('MataPelajaran.Week',$data);
+        $div = view('MataPelajaran.List_week',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
     public function Insert_week(Request $request){
         date_default_timezone_set('Asia/Jakarta');
         $pelajaran = $request->pelajaran;
@@ -65,6 +89,41 @@ class MataPelajaranController extends Controller
         
 
         $return = array('respon' => $respon,'msg' => $msg);
+        echo json_encode($return);
+    }
+
+    public function Save_edit_week(Request $request)
+    {
+        $id_week = $request->id_week;
+        $tgl_awal = $request->tgl_awal;
+        $tgl_akhir = $request->tgl_akhir;
+        $tgl_awal = date('Y-m-d',strtotime($tgl_awal));
+        $tgl_akhir = date('Y-m-d',strtotime($tgl_akhir));
+
+        $update = MataPelajaranModel::Save_edit_week($id_week,$tgl_awal,$tgl_akhir);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+        $return = array('respon' => $respon);
+        echo json_encode($return);
+    }
+
+    public function Change_state_week(Request $request)
+    {
+        $id_week = $request->id_week;
+        $state = $request->state;
+
+        $update = MataPelajaranModel::Change_state_week($id_week,$state);
+        if($update){
+            $respon='SUKSES';
+        }else{
+            $respon='GAGAL';
+        }
+
+        $return = array('respon' => $respon);
         echo json_encode($return);
     }
 
@@ -1162,10 +1221,11 @@ class MataPelajaranController extends Controller
     }
 
     // public function LD_pdf(Request $request,$kode_grade,$id_pelajaran,$id_week,$minggu)
-    public function LD_pdf(Request $request,$kg)
+    public function LD_pdf(Request $request)
     {
+        echo 'tes';exit();
         if ($request->session()->has('id')) {
-            echo 'tes';exit();
+            
             // $kode_grade = $request->kode_grade;
             // $id_pelajaran = $request->id_pelajaran;
             // $id_week = $request->id_week;

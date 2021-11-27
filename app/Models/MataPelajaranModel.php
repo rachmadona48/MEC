@@ -11,7 +11,7 @@ class MataPelajaranModel extends Model
 {
     public static function pelajaran_week($id_pelajaran){
         $sql = "SELECT * from ".Session::get('kd_smt_active').".weeklyguide 
-                where pelajaran='".$id_pelajaran."'
+                where pelajaran='".$id_pelajaran."' and state = 'Publish'
                 order by minggu asc
             ";
 
@@ -42,6 +42,21 @@ class MataPelajaranModel extends Model
     	return $key;
     }
 
+    public static function list_week($kode_grade,$id_pelajaran){
+        $sql = '
+                SELECT id,minggu,pelajaran,tgl_awal,tgl_akhir,state,
+                    DATE_FORMAT(tgl_awal, "%d %M %Y") as tglawal,DATE_FORMAT(tgl_akhir, "%d %M %Y") as tglakhir,
+                    DATE_FORMAT(tgl_awal, "%d-%m-%Y") as tglawal2,DATE_FORMAT(tgl_akhir, "%d-%m-%Y") as tglakhir2
+                from '.Session::get('kd_smt_active').'.weeklyguide
+                WHERE pelajaran = "'.$id_pelajaran.'"
+                ORDER BY minggu DESC
+                '
+                ;   
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql));
+        return $key;
+    }
+
     public static function add_week($user_id,$pelajaran,$minggu,$tgl_awal,$tgl_akhir){
     	date_default_timezone_set('Asia/Jakarta');
     	/*$sql = "INSERT into mec_info(id_user,id_kelas,kode_grade,title,description,file,datetime,smt_active)
@@ -52,6 +67,29 @@ class MataPelajaranModel extends Model
 		// echo $sql;exit(); 
 	    $query=collect(\DB::insert($sql));
 	    return $query;
+    }
+
+    public static function Change_state_week($id_week,$state){
+        date_default_timezone_set('Asia/Jakarta');
+        $sql = "UPDATE ".Session::get('kd_smt_active').".weeklyguide
+                SET state='".$state."'
+                where id = ".$id_week."
+        ";
+        // echo $sql;exit();
+        $query=collect(\DB::update($sql));
+        return $query;
+    }
+
+    public static function Save_edit_week($id_week,$tgl_awal,$tgl_akhir){
+        date_default_timezone_set('Asia/Jakarta');
+        $sql = "UPDATE ".Session::get('kd_smt_active').".weeklyguide
+                SET tgl_awal='".$tgl_awal."',
+                tgl_akhir='".$tgl_akhir."'
+                where id = ".$id_week."
+        ";
+        // echo $sql;exit();
+        $query=collect(\DB::update($sql));
+        return $query;
     }
 
     public static function get_student_matpel($username){

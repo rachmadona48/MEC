@@ -14,6 +14,7 @@
 // Route::get('/', function () {
 //     return view('frontend/index');
 // });
+use Illuminate\Support\Facades\Route;
 Route::resource('/', 'Awal');
 Route::resource('/awal', 'Awal');
 Route::resource('/login_sdm', 'Awal@login_sdm');
@@ -41,8 +42,15 @@ Route::resource('/show_detail_bukom', 'BukomController@Show_detail_bukom');
 Route::resource('/send_bukom', 'BukomController@Send_bukom');
 Route::resource('/reply_bukom', 'BukomController@Reply_bukom');
 
+// Route::get('/LD_pdf/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@LD_pdf');
+Route::get('LD_pdf', 'MataPelajaranController@LD_pdf');
+Route::get('/Scan_Ld/{kd_smt_active}/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@Scan_Ld');
+
 Route::get('/matpel/{kode_grade}/{id_pelajaran}', 'MataPelajaranController@Matpel');
+Route::resource('/show_week', 'MataPelajaranController@Show_week');
 Route::resource('/insert_week', 'MataPelajaranController@Insert_week');
+Route::resource('/save_edit_week', 'MataPelajaranController@Save_edit_week');
+Route::resource('/change_state_week', 'MataPelajaranController@Change_state_week');
 Route::resource('/matpel_week', 'MataPelajaranController@Matpel_week');
 Route::resource('/update_topic', 'MataPelajaranController@Update_topic');
 Route::resource('/update_topic_date', 'MataPelajaranController@Update_topic_date');
@@ -103,10 +111,6 @@ Route::resource('/simpan_rubrik', 'MataPelajaranController@Simpan_rubrik');
 Route::resource('/delete_rubrik', 'MataPelajaranController@Delete_rubrik');
 Route::resource('/get_upd_rubrik', 'MataPelajaranController@Get_upd_rubrik');
 Route::resource('/simpan_upd_rubrik', 'MataPelajaranController@Simpan_upd_rubrik');
-
-// Route::get('/LD_pdf/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@LD_pdf');
-Route::get('/LD_pdf/{kg}', 'MataPelajaranController@LD_pdf');
-Route::get('/Scan_Ld/{kd_smt_active}/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@Scan_Ld');
 
 Route::resource('/get_list_discuss', 'MataPelajaranController@Get_list_discuss');
 Route::resource('/save_discuss', 'MataPelajaranController@Save_discuss');

@@ -216,11 +216,16 @@ class MenuModel extends Model
 				            </li>
 				                '; 
 
-				    $menu .= '
+				    // $menu .= '
+			    	// 		<li>
+			     //                <a href="#" onclick="add_week(\''.$id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Add New Week</span></a>
+			     //            </li>'; 
+			     	$menu .= '
 			    			<li>
-			                    <a href="#" onclick="add_week(\''.$id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Add New Week</span></a>
-			                </li>';   
-	                $sql_w = 'select id,minggu from '.Session::get('kd_smt_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" order by minggu desc
+			                    <a onclick="show_week(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Week</span></a>
+			                </li>'; 
+
+	                $sql_w = 'select id,minggu from '.Session::get('kd_smt_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
 	                ';
 	                // echo $sql_w;exit();
 	                $key_w=collect(\DB::select($sql_w));
@@ -284,7 +289,7 @@ class MenuModel extends Model
 			    			<li>
 			                    <a href="'.url('/matpel/'.$key_mp->kode_grade.'/'.$id_pelajaran).'"><i class="fa fa-spinner"></i> <span class="nav-label">Refresh This List</span></a>
 			                </li>';   
-	                $sql_w = 'select id,minggu from '.Session::get('kd_smt_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" order by minggu desc
+	                $sql_w = 'select id,minggu from '.Session::get('kd_smt_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
 	                ';
 	                $key_w=collect(\DB::select($sql_w));
 	                foreach ($key_w as $w) {

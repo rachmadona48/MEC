@@ -32,7 +32,15 @@
             format:'dd-mm-yyyy',
         }).datepicker("setDate",'now');
 
+        $('#tgl_awal_edit_week').datepicker({
+            format:'dd-mm-yyyy',
+        }).datepicker("setDate",'now');
+
         $('#tgl_akhir').datepicker({
+            format:'dd-mm-yyyy',
+        }).datepicker("setDate",'now');
+
+        $('#tgl_akhir_edit_week').datepicker({
             format:'dd-mm-yyyy',
         }).datepicker("setDate",'now');
 
@@ -1510,14 +1518,16 @@
         
     }
 
-    function add_week($pelajaran){
-        $('#pelajaran_week').val($pelajaran);
+    function add_week(kode_grade,pelajaran){
+        $('#pelajaran_week').val(pelajaran);
+        $('#kode_grade_week').val(kode_grade);
         $('#modal_add_week').modal('show');
     }
 
     function insert_week(){
         var _token  = $('meta[name="csrf-token"]').attr('content');
         var pelajaran = $('#pelajaran_week').val();
+        var kode_grade = $('#kode_grade_week').val();
         var minggu = $('#id_minggu').val();
         var tgl_awal = $('#tgl_awal').val();
         var tgl_akhir = $('#tgl_akhir').val();
@@ -1528,7 +1538,18 @@
             dataType: 'json',
             success: (data) => {
                 if(data.respon == 'SUKSES'){
-                    location.reload();
+                    show_week(kode_grade,pelajaran)
+                    $('#modal_add_week').modal('hide');
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.info('Succes add week', 'SUCCESS');
+                    }, 1000);
+                    // location.reload();
                     // window.location = "{{ url('/dashboard') }}";
                 }else{
                     setTimeout(function() {
@@ -1547,6 +1568,123 @@
                 console.log(data);
             }
         });
+    }
+
+    function save_edit_week(){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        var pelajaran = $('#pelajaran_edit_week').val();
+        var kode_grade = $('#kode_grade_edit_week').val();
+        var id_week = $('#id_week_edit_week').val();
+        var tgl_awal = $('#tgl_awal_edit_week').val();
+        var tgl_akhir = $('#tgl_akhir_edit_week').val();
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/save_edit_week') }}",
+            data: {_token:_token,id_week:id_week,tgl_awal:tgl_awal,tgl_akhir:tgl_akhir},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    show_week(kode_grade,pelajaran)
+                    $('#modal_edit_week').modal('hide');
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.info('Succes edit date', 'SUCCESS');
+                    }, 1000);
+                    // location.reload();
+                    // window.location = "{{ url('/dashboard') }}";
+                }else{
+                    setTimeout(function() {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.error(data.msg, 'ERROR');
+                    }, 1000);
+                }
+                
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function show_week(kode_grade,id_pelajaran){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/show_week') }}",
+            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function change_state_week(kode_grade,id_pelajaran,id_week,state){
+        swal({
+            title: "Are want to "+state+"?",
+            // text: "Your will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, "+state+"!",
+            cancelButtonText: "No, cancel!",
+            closeOnConfirm: true,
+            closeOnCancel: false },
+        function (isConfirm) {
+            if (isConfirm) {
+                var _token  = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type:'POST',
+                    url: "{{ url('/change_state_week') }}",
+                    data: {_token:_token,id_week:id_week,state:state},
+                    dataType: 'json',
+                    success: (data) => {
+                        if(data.respon == 'SUKSES'){
+                            show_week(kode_grade,id_pelajaran)
+                            setTimeout(function() {
+                                toastr.options = {
+                                    closeButton: true,
+                                    progressBar: true,
+                                    showMethod: 'slideDown',
+                                    timeOut: 4000
+                                };
+                                toastr.info('Succes change state', 'SUCCESS');
+                            }, 1000);
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            } else {
+                swal("Cancelled", "Your Interactive is safe :)", "error");
+            }
+        });
+    }
+
+    function edit_date_week(kode_grade,pelajaran,id_week,tgl_awal,tgl_akhir){
+        $('#pelajaran_edit_week').val(pelajaran);
+        $('#kode_grade_edit_week').val(kode_grade);
+        $('#id_week_edit_week').val(id_week);
+        $('#tgl_awal_edit_week').val(tgl_awal);
+        $('#tgl_akhir_edit_week').val(tgl_akhir);
+        $('#modal_edit_week').modal('show');
     }
 
     function matpel_week(kode_grade,id_pelajaran,id_week,minggu){
