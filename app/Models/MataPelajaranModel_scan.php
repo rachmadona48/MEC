@@ -79,13 +79,13 @@ class MataPelajaranModel_scan extends Model
         $key=collect(\DB::select($sql));
         return $key;
     }
-    public static function get_week_outcomes($kode_grade,$id_pelajaran,$id_week,$week){
+    public static function get_week_outcomes($kd_smt_active,$kode_grade,$id_pelajaran,$id_week,$week){
         $html = "";
 
         $sql = "SELECT mwo.id as id_mwo,mst.id,mst.id_parent,mst.deskripsi as deskripsi_child,prt.deskripsi as dekripsi_parent
-                from ".Session::get('kd_smt_active').".mec_week_outcomes mwo
-                LEFT JOIN ".Session::get('kd_smt_active').".mec_outcomes mst on mwo.outcomes = mst.id
-                LEFT JOIN ".Session::get('kd_smt_active').".mec_outcomes prt on mst.id_parent = prt.id
+                from ".$kd_smt_active.".mec_week_outcomes mwo
+                LEFT JOIN ".$kd_smt_active.".mec_outcomes mst on mwo.outcomes = mst.id
+                LEFT JOIN ".$kd_smt_active.".mec_outcomes prt on mst.id_parent = prt.id
                 WHERE mwo.id_week = ".$id_week." and mwo.pelajaran = ".$id_pelajaran."
                 order by mst.id asc "
                 ;  

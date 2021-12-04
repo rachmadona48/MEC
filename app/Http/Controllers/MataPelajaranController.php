@@ -1220,16 +1220,10 @@ class MataPelajaranController extends Controller
         echo json_encode($return);
     }
 
-    // public function LD_pdf(Request $request,$kode_grade,$id_pelajaran,$id_week,$minggu)
-    public function LD_pdf(Request $request)
+    public function LD_pdf(Request $request,$kode_grade,$id_pelajaran,$id_week,$minggu)
     {
-        echo 'tes';exit();
         if ($request->session()->has('id')) {
-            
-            // $kode_grade = $request->kode_grade;
-            // $id_pelajaran = $request->id_pelajaran;
-            // $id_week = $request->id_week;
-            // $minggu = $request->minggu;
+
             $get_data = MataPelajaranModel::get_data_weekly($id_week);
             $data['data'] = $get_data;
             $data['privilege'] = MataPelajaranModel::PrivilegeElearning($request->session()->get('username'),$kode_grade,$id_pelajaran);
@@ -1303,10 +1297,10 @@ class MataPelajaranController extends Controller
     public function Scan_Ld(Request $request,$kd_smt_active,$kode_grade,$id_pelajaran,$id_week,$minggu)
     {
 
-        $kode_grade = $request->kode_grade;
-        $id_pelajaran = $request->id_pelajaran;
-        $id_week = $request->id_week;
-        $minggu = $request->minggu;
+        // $kode_grade = $request->kode_grade;
+        // $id_pelajaran = $request->id_pelajaran;
+        // $id_week = $request->id_week;
+        // $minggu = $request->minggu;
         $get_data = MataPelajaranModel_scan::get_data_weekly($id_week,$kd_smt_active);
         // echo 'dddd';exit();
         $data['data'] = $get_data;
@@ -1342,7 +1336,7 @@ class MataPelajaranController extends Controller
         $data['langkah_pembelajaran'] = MataPelajaranModel_scan::get_langkah_pembelajaran($id_week,$id_pelajaran,$kd_smt_active);
         $data['hasil_pembelajaran'] = MataPelajaranModel_scan::get_hasil_pembelajaran($id_week,$id_pelajaran,$kd_smt_active);
         $data['rubrik'] = MataPelajaranModel_scan::get_week_rubrik($kode_grade,$id_pelajaran,$id_week,$minggu,$kd_smt_active);
-        $data['outcomes'] = MataPelajaranModel_scan::get_week_outcomes($kode_grade,$id_pelajaran,$id_week,$minggu);
+        $data['outcomes'] = MataPelajaranModel_scan::get_week_outcomes($kd_smt_active,$kode_grade,$id_pelajaran,$id_week,$minggu);
         
 
         $data['cek_approve'] = "";

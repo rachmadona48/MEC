@@ -43,8 +43,9 @@ Route::resource('/send_bukom', 'BukomController@Send_bukom');
 Route::resource('/reply_bukom', 'BukomController@Reply_bukom');
 
 // Route::get('/LD_pdf/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@LD_pdf');
-Route::get('LD_pdf', 'MataPelajaranController@LD_pdf');
-Route::get('/Scan_Ld/{kd_smt_active}/{kode_grade}/{id_pelajaran}/{id_week}/{minggu}', 'MataPelajaranController@Scan_Ld');
+// Route::get('tes_print', 'MataPelajaranController@LD_pdf');
+Route::get('LD_pdf/{kg}/{ip}/{iw}/{mgu}', 'MataPelajaranController@LD_pdf');
+Route::get('/Scan_Ld/{ksa}/{kg}/{ip}/{iw}/{mgu}', 'MataPelajaranController@Scan_Ld');
 
 Route::get('/matpel/{kode_grade}/{id_pelajaran}', 'MataPelajaranController@Matpel');
 Route::resource('/show_week', 'MataPelajaranController@Show_week');
