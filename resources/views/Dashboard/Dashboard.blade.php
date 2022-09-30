@@ -97,23 +97,45 @@
                         <div class="panel-body">
                             <?php
                             if(Session::get('username') == 'admin'){
-                                $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )';
+                                // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )';
+                                $and_mp = 'AND guru_kelas.finger = "'.Session::get('username').'"';
                             }else{
-                                $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )';  
+                                // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )'; 
+                                $and_mp = 'AND guru_kelas.finger = "'.Session::get('username').'"'; 
                             }
-                            $sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english 
+                            // $sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english 
+                            //     FROM
+                            //         '.Session::get('kd_smt_active').'.priv_grade g,
+                            //         '.Session::get('kd_smt_active').'.pelajaran p 
+                            //     WHERE
+                            //         ( g.pelajaran = p.kode ) 
+                            //         '.$and_mp.'
+                            //         AND ( p.english IS NOT NULL ) 
+                            //         AND ( p.grade = "'.$key_sdm->kode.'"  ) 
+                            //         AND p.is_elearning = "Y"
+                            //         AND (p.kode is not null AND p.kode <> "")
+                            //     ORDER BY
+                            //         p.english
+                            // ';
+
+                            $sql_mp = 'SELECT
+                                    mpg.kode AS id_pelajaran,
+                                    pel.pelajaran_ktsp AS nama,
+                                    pel.pelajaran_eng AS english 
                                 FROM
-                                    '.Session::get('kd_smt_active').'.priv_grade g,
-                                    '.Session::get('kd_smt_active').'.pelajaran p 
+                                    db_madania_bogor.tbl_pelajaran AS pel
+                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+                                    INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
                                 WHERE
-                                    ( g.pelajaran = p.kode ) 
+                                    guru_kelas.kode_grade = "'.$key_sdm->kode.'"
                                     '.$and_mp.'
-                                    AND ( p.english IS NOT NULL ) 
-                                    AND ( p.grade = "'.$key_sdm->kode.'"  ) 
-                                    AND p.is_elearning = "Y"
-                                    AND (p.kode is not null AND p.kode <> "")
+                                    AND mpg.is_elearning = "Y" 
+                                    AND guru_kelas.kode_pelajaran <> "" 
+                                     
+                                GROUP BY
+                                    guru_kelas.kode_pelajaran 
                                 ORDER BY
-                                    p.english
+                                    english
                             ';
                             // echo $sql_mp;exit();
                             $query_mp=DB::select($sql_mp);

@@ -9,34 +9,45 @@ use Session;
 class DashboardModel extends Model
 {
 	public static function grade_sdm($username,$tipe){
-    	if($username == 'admin'){
-	    		$where = '';
-	    	}else{	
-
-				$where = '
-	    				WHERE p.grade in (
-							SELECT
-								p.grade 
-							FROM
-								'.Session::get('kd_smt_active').'.priv_grade g,
-								'.Session::get('kd_smt_active').'.pelajaran p 
-							WHERE
-								( g.pelajaran = p.kode ) 
-								AND ( g.guru = "'.$username.'" )
-						)';	
-	    	}
-
-	    	$sql = 'SELECT
-						p.grade as kode
+		if($username == 'admin'){
+				$where = '';
+			}else{	
+	
+				// $where = '
+				// 		WHERE p.grade in (
+				// 			SELECT
+				// 				p.grade 
+				// 			FROM
+				// 				'.Session::get('kd_smt_active').'.priv_grade g,
+				// 				'.Session::get('kd_smt_active').'.pelajaran p 
+				// 			WHERE
+				// 				( g.pelajaran = p.kode ) 
+				// 				AND ( g.guru = "'.$username.'" )
+				// 		)';	
+	
+				$where = 'WHERE g.finger="'.$username.'"';	
+			}
+	
+			// $sql = 'SELECT
+			// 			p.grade as kode
+			// 		FROM
+			// 			'.Session::get('kd_smt_active').'.pelajaran p 
+			// 		'.$where.'
+			// 		GROUP BY p.grade
+			// 		ORDER BY p.grade';	
+	
+			$sql = 'SELECT
+						g.kode_grade as kode
 					FROM
-						'.Session::get('kd_smt_active').'.pelajaran p 
+						'.db_active().'.priv_guru_kelas as g
 					'.$where.'
-					GROUP BY p.grade
-					ORDER BY p.grade';	
-
-	    	$query=DB::select($sql);
-	    return $query;
-    }
+					group by g.kode_grade 
+					order by kode';	
+	
+			// echo $sql;exit();
+			$query=DB::select($sql);
+		return $query;
+	}
 
     public static function getprofile_sdm($username){
     	$sql = 'SELECT sdm.gelar_depan,sdm.gelar_belakang,sdm.nama,sdm.jenis_kelamin,ag.agama,darah.gol_darah,
@@ -48,6 +59,7 @@ class DashboardModel extends Model
 				LEFT JOIN ref_status_pernikahan nkh on sdm.status_pernikahan = nkh.id
 				WHERE sdm.finger = "'.$username.'"
 			';
+		// echo $sql;
 	    $query=collect(\DB::select($sql))->first();
 	    return $query;
     }
@@ -80,9 +92,10 @@ class DashboardModel extends Model
     }
 
     public static function getgrade_kelas($username){
+		// echo db_active(); exit();
     	$sql = 'SELECT wl.id_kelas,kl.kode_grade,kl.kode as kode_kelas 
-				FROM db_mdn_bogor120202021.ref_kelas_wali wl 
-				LEFT JOIN db_mdn_bogor120202021.ref_kelas kl on wl.id_kelas = kl.id
+				FROM '.db_active().'.ref_kelas_wali wl 
+				LEFT JOIN '.db_active().'.ref_kelas kl on wl.id_kelas = kl.id
 				WHERE finger = "'.$username.'"
 				AND ketua = "1"
 				AND kl.kode is not NULL

@@ -10,7 +10,7 @@ use Session;
 class MataPelajaranModel extends Model
 {
     public static function pelajaran_week($id_pelajaran){
-        $sql = "SELECT * from ".Session::get('kd_smt_active').".weeklyguide 
+        $sql = "SELECT * from ".db_active().".weeklyguide 
                 where pelajaran='".$id_pelajaran."' and state = 'Publish'
                 order by minggu asc
             ";
@@ -21,7 +21,7 @@ class MataPelajaranModel extends Model
     }
 
     public static function pelajaran_count_week($id_pelajaran){
-        $sql = "SELECT count(*) as jml_d from ".Session::get('kd_smt_active').".weeklyguide 
+        $sql = "SELECT count(*) as jml_d from ".db_active().".weeklyguide 
                 where pelajaran='".$id_pelajaran."'
                 order by minggu asc
             ";
@@ -33,7 +33,7 @@ class MataPelajaranModel extends Model
     
     public static function cek_week($pelajaran,$minggu,$user_id){
     	$sql = 'SELECT count(*) as jml_d
-					FROM '.Session::get('kd_smt_active').'.weeklyguide
+					FROM '.db_active().'.weeklyguide
 					WHERE pelajaran='.$pelajaran.' and minggu="'.$minggu.'"  
 					and finger = "'.$user_id.'" '
 				;	
@@ -47,7 +47,7 @@ class MataPelajaranModel extends Model
                 SELECT id,minggu,pelajaran,tgl_awal,tgl_akhir,state,
                     DATE_FORMAT(tgl_awal, "%d %M %Y") as tglawal,DATE_FORMAT(tgl_akhir, "%d %M %Y") as tglakhir,
                     DATE_FORMAT(tgl_awal, "%d-%m-%Y") as tglawal2,DATE_FORMAT(tgl_akhir, "%d-%m-%Y") as tglakhir2
-                from '.Session::get('kd_smt_active').'.weeklyguide
+                from '.db_active().'.weeklyguide
                 WHERE pelajaran = "'.$id_pelajaran.'"
                 ORDER BY minggu DESC
                 '
@@ -62,7 +62,7 @@ class MataPelajaranModel extends Model
     	/*$sql = "INSERT into mec_info(id_user,id_kelas,kode_grade,title,description,file,datetime,smt_active)
 				value(".$user_id.",".$id_kelas.",'".$grade."','".$title."','".$description."','".$file_name."','".date('Y-m-d H:i:s')."','".smt_active()['kd_smt_active']."')
 			";*/
-		$sql = "insert into ".Session::get('kd_smt_active').".weeklyguide (minggu,pelajaran,tanggal,finger,tgl_awal,tgl_akhir) 
+		$sql = "insert into ".db_active().".weeklyguide (minggu,pelajaran,tanggal,finger,tgl_awal,tgl_akhir) 
 			values ('".$minggu."','".$pelajaran."','".date('Y-m-d H:i:s')."','".$user_id."','".$tgl_awal."','".$tgl_akhir."')";
 		// echo $sql;exit(); 
 	    $query=collect(\DB::insert($sql));
@@ -71,7 +71,7 @@ class MataPelajaranModel extends Model
 
     public static function Change_state_week($id_week,$state){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".Session::get('kd_smt_active').".weeklyguide
+        $sql = "UPDATE ".db_active().".weeklyguide
                 SET state='".$state."'
                 where id = ".$id_week."
         ";
@@ -82,7 +82,7 @@ class MataPelajaranModel extends Model
 
     public static function Save_edit_week($id_week,$tgl_awal,$tgl_akhir){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".Session::get('kd_smt_active').".weeklyguide
+        $sql = "UPDATE ".db_active().".weeklyguide
                 SET tgl_awal='".$tgl_awal."',
                 tgl_akhir='".$tgl_akhir."'
                 where id = ".$id_week."
@@ -105,7 +105,7 @@ class MataPelajaranModel extends Model
 					ORDER BY
 						p.english'
 					;	
-
+        // echo $sql_mp;exit();
 	    $query_mp=DB::select($sql_mp);
     	return $query_mp;
     }
@@ -770,7 +770,7 @@ class MataPelajaranModel extends Model
     			$return = 2;
     		}else{
     			$sql2 = 'select id,supervisor from '.Session::get('kd_smt_active').'.priv_grade where pelajaran="'. $pelajaran .'" and guru="'.$username.'"';
-                // echo $sql2;
+                // echo $sql2;exit();
     			$hasil=collect(\DB::select($sql2))->first();
     			if(count((array)$hasil) > 0){
     				if($hasil->supervisor){

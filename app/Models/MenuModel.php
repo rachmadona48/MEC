@@ -42,41 +42,15 @@ class MenuModel extends Model
 		    	if($username == 'admin'){
 		    		$where = '';
 		    	}else{
-		    	// 	$where = '
-		    	// 			WHERE kode in
-			    // 				(SELECT kode_grade 
-							// 	from '.Session::get('db_active').'.priv_guru_kelas
-							// 	WHERE finger = '.$username.'
-							// 	GROUP BY kode_grade)
-							// ';	
-
-					$where = '
-		    				WHERE p.grade in (
-								SELECT
-									p.grade 
-								FROM
-									'.Session::get('kd_smt_active').'.priv_grade g,
-									'.Session::get('kd_smt_active').'.pelajaran p 
-								WHERE
-									( g.pelajaran = p.kode ) 
-									AND ( g.guru = "'.$username.'" )
-							)
-							';	
-
-
-
+					$where = 'WHERE g.finger="'.$username.'"';	
 		    	}
-		    	/*$sql = 'SELECT kode 
-		    			FROM '.Session::get('db_active').'.ref_grade
-		    			'.$where.' 
-		    			order by kode ASC';	*/
 		    	$sql = 'SELECT
-							p.grade as kode
-						FROM
-							'.Session::get('kd_smt_active').'.pelajaran p 
-						'.$where.'
-						GROUP BY p.grade
-						ORDER BY p.grade';	
+						g.kode_grade as kode
+					FROM
+						'.db_active().'.priv_guru_kelas as g
+					'.$where.'
+					group by g.kode_grade 
+					order by kode';	
 
 		    	$query=DB::select($sql);
 		    
@@ -89,26 +63,30 @@ class MenuModel extends Model
 
 				                if($username == 'admin'){
 						    		// $and_mp = '';
-						    		$and_mp = 'AND ( g.guru = "'.$username.'" ) ';
+						    		$and_mp = 'AND guru_kelas.finger = "'.$username.'"';
 						    	}else{
-									$and_mp = 'AND ( g.guru = "'.$username.'" ) ';	
+									$and_mp = 'AND guru_kelas.finger = "'.$username.'"';	
 						    	}
 
-
-						$sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english 
-								FROM
-									'.Session::get('kd_smt_active').'.priv_grade g,
-									'.Session::get('kd_smt_active').'.pelajaran p 
-								WHERE
-									( g.pelajaran = p.kode ) 
-									'.$and_mp.'
-									AND ( p.english IS NOT NULL ) 
-									AND ( p.grade = "'.$key->kode.'"  ) 
-									AND p.is_elearning = "Y"
-									AND (p.kode is not null AND p.kode <> "")
-								ORDER BY
-									p.english
-							';
+						$sql_mp = 'SELECT
+							mpg.kode AS id_pelajaran,
+							pel.pelajaran_ktsp AS nama,
+							pel.pelajaran_eng AS english 
+						FROM
+							db_madania_bogor.tbl_pelajaran AS pel
+							INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+							INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+						WHERE
+							guru_kelas.kode_grade = "'.$key->kode.'"
+							'.$and_mp.'
+							AND mpg.is_elearning = "Y" 
+							AND guru_kelas.kode_pelajaran <> "" 
+							 
+						GROUP BY
+							guru_kelas.kode_pelajaran 
+						ORDER BY
+							english
+					';
 						// echo $sql_mp;exit();
 						$query_mp=DB::select($sql_mp);
 						foreach ($query_mp as $key_mp) {
@@ -185,29 +163,34 @@ class MenuModel extends Model
 
 	    			if($username == 'admin'){
 						// $and_mp = '';
-						$and_mp = ' AND ( g.guru = "'.$username.'" ) ';
+						// $and_mp = ' AND ( g.guru = "'.$username.'" ) ';
+						$and_mp = 'AND guru_kelas.finger = "'.$username.'"'; 
 			    	}else{
 			    		/*$and_mp = '
 			    				AND pgk.finger = '.$username.'
 								';*/	
-						$and_mp = 'AND ( g.guru = "'.$username.'" ) ';
+						// $and_mp = 'AND ( g.guru = "'.$username.'" ) ';
+						$and_mp = 'AND guru_kelas.finger = "'.$username.'"'; 
 			    	}
 		    
-					
-					$sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english 
-								FROM
-									'.Session::get('kd_smt_active').'.priv_grade g,
-									'.Session::get('kd_smt_active').'.pelajaran p 
-								WHERE
-									( g.pelajaran = p.kode ) 
-									'.$and_mp.'
-									AND ( p.english IS NOT NULL ) 
-									AND ( p.grade = "'.$kode_grade.'"  ) 
-									and p.kode="'.$id_pelajaran.'"
-									AND p.is_elearning = "Y"
-								ORDER BY
-									p.english
-							';	
+					$sql_mp = 'SELECT
+							mpg.kode AS id_pelajaran,
+							pel.pelajaran_ktsp AS nama,
+							pel.pelajaran_eng AS english 
+						FROM
+							db_madania_bogor.tbl_pelajaran AS pel
+							INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+							INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+						WHERE
+							guru_kelas.kode_grade = "'.$kode_grade.'"
+							'.$and_mp.'
+							AND mpg.is_elearning = "Y" 
+							AND mpg.kode = "'.$id_pelajaran.'"
+						GROUP BY
+							guru_kelas.kode_pelajaran 
+						ORDER BY
+							english
+					';
 					// echo $sql_mp;exit();
 					$key_mp=collect(\DB::select($sql_mp))->first();
 				    $menu .= '
@@ -225,7 +208,7 @@ class MenuModel extends Model
 			                    <a onclick="show_week(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Week</span></a>
 			                </li>'; 
 
-	                $sql_w = 'select id,minggu from '.Session::get('kd_smt_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
+	                $sql_w = 'select id,minggu from '.db_active().'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
 	                ';
 	                // echo $sql_w;exit();
 	                $key_w=collect(\DB::select($sql_w));
@@ -278,7 +261,7 @@ class MenuModel extends Model
 							ORDER BY
 								p.english'
 							;
-
+					// echo $sql_mp;exit();
 			    	$key_mp=collect(\DB::select($sql_mp))->first();
 			    	$menu .= '
 			    			<li id="menu_'.$kode_grade.'_'.$id_pelajaran.'">
@@ -329,11 +312,28 @@ class MenuModel extends Model
     }
 
     public static function matpel($id_pelajaran){
-    	$sql_mp = 'SELECT *
-					FROM '.Session::get('kd_smt_active').'.pelajaran
-					WHERE kode = "'.$id_pelajaran.'"'
-				;	
+    	// $sql_mp = 'SELECT *
+		// 			FROM '.Session::get('kd_smt_active').'.pelajaran
+		// 			WHERE kode = "'.$id_pelajaran.'"'
+		// 		;	
 
+		$sql_mp = 'SELECT
+				mpg.kode AS id_pelajaran,
+				pel.pelajaran_ktsp AS nama,
+				pel.pelajaran_eng AS english 
+			FROM
+				db_madania_bogor.tbl_pelajaran AS pel
+				INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+				INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+			WHERE
+				mpg.kode = "'.$id_pelajaran.'"
+			GROUP BY
+				guru_kelas.kode_pelajaran 
+			ORDER BY
+				english
+				'
+			;	
+		// echo $sql_mp;exit();
     	$key_mp=collect(\DB::select($sql_mp))->first();
     	return $key_mp;
     }
