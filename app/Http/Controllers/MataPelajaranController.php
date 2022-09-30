@@ -363,6 +363,7 @@ class MataPelajaranController extends Controller
     {
         $id_week = $request->id_week;
         $id_pelajaran = $request->id_pelajaran;
+        // echo $id_pelajaran;exit();
         $act = $request->act;
         $id = $request->id;
         $materi = $request->materi;

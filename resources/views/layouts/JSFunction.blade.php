@@ -2151,6 +2151,7 @@
     function simpan_materi_pelajaran(){
         kode_grade = $("#mdl_tpc_kode_grade_mapel").val();
         id_pelajaran = $("#mdl_tpc_id_pelajaran_mapel").val();
+        console.log(id_pelajaran)
         id_week = $("#mdl_tpc_id_week_mapel").val();
         week = $("#mdl_tpc_week_mapel").val();
         kolom = $("#mdl_tpc_kolom_mapel").val();

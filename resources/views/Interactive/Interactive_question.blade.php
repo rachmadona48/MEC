@@ -74,7 +74,7 @@
                                     <?php if($key->type=='Option') { ?>
                                         <?php
                                             $sql = 'SELECT ans.*
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                    FROM '.db_active().'.mec_interactive_answers ans
                                                     WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                     AND ans.id_week = "'.$id_week.'" 
                                                     AND ans.id_interactive = "'.$id_interactive.'" 
@@ -106,7 +106,7 @@
                                     <?php }elseif($key->type=='Text'){ ?> 
                                         <?php
                                             $sql_count_text = 'SELECT count(*) as jml_d
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                    FROM '.db_active().'.mec_interactive_answers ans
                                                     WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                     AND ans.id_week = "'.$id_week.'" 
                                                     AND ans.id_interactive = "'.$id_interactive.'" 
@@ -120,7 +120,7 @@
                                             <button class="btn btn-outline btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Add Answer" onclick="add_answers_text('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $id_week; ?>','<?php echo $minggu; ?>','<?php echo $id_interactive; ?>','<?php echo $name_interactive; ?>','<?php echo $state_interactive; ?>','<?php echo $key->id; ?>')"><i class="fa fa-plus"></i> Answer</button>
                                         <?php }else{ /*sudah ada answer text*/
                                             $sql_text = 'SELECT ans.*
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                    FROM '.db_active().'.mec_interactive_answers ans
                                                     WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                     AND ans.id_week = "'.$id_week.'" 
                                                     AND ans.id_interactive = "'.$id_interactive.'" 
@@ -138,7 +138,7 @@
                                         <?php
 
                                             $sql = 'SELECT ans.*
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                    FROM '.db_active().'.mec_interactive_answers ans
                                                     WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                     AND ans.id_week = "'.$id_week.'" 
                                                     AND ans.id_interactive = "'.$id_interactive.'" 

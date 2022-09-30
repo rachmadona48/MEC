@@ -15,14 +15,14 @@ class InteractiveModel extends Model
         if($tipe == 'sdm'){
             $sql = 'SELECT it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                     DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
-                    FROM '.Session::get('kd_smt_active').'.mec_interactive it
+                    FROM '.db_active().'.mec_interactive it
                     WHERE it.pelajaran = "'.$pelajaran.'"
                     AND it.id_week = "'.$id_week.'" '
                     ; 
         }else{  
             $sql = 'SELECT it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                     DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
-                    FROM '.Session::get('kd_smt_active').'.mec_interactive it
+                    FROM '.db_active().'.mec_interactive it
                     WHERE it.pelajaran = "'.$pelajaran.'"
                     AND it.id_week = "'.$id_week.'" 
                     AND it.state = "Publish"
@@ -37,7 +37,7 @@ class InteractiveModel extends Model
     public static function get_data_interactive_row($id_interactive){
         $sql = 'SELECT it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                 DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
-                FROM '.Session::get('kd_smt_active').'.mec_interactive it
+                FROM '.db_active().'.mec_interactive it
                 WHERE it.id = '.$id_interactive.' '
                 ; 
         // echo $sql;exit();
@@ -48,7 +48,9 @@ class InteractiveModel extends Model
     public static function add_interactive($username,$id_pelajaran,$id_week,$name,$type,$category,$date_from,$date_to,$file_name,$link_canvas){
         date_default_timezone_set('Asia/Jakarta');
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive")->insertGetId(
+        // echo $id_pelajaran;exit();
+
+        $insert = DB::table(db_active().".mec_interactive")->insertGetId(
             [
                 'id_week' => $id_week, 
                 'pelajaran' => $id_pelajaran,
@@ -70,7 +72,7 @@ class InteractiveModel extends Model
     public static function Update_state($id,$state,$username){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive
+        $sql = "UPDATE ".db_active().".mec_interactive
                 SET state = '".$state."',
                 update_date = '".date('Y-m-d H:i:s')."',
                 user_update=".$username."
@@ -94,7 +96,7 @@ class InteractiveModel extends Model
     public static function edit_interactive($username,$id,$name,$type,$category,$date_from,$date_to,$file_name,$link_canvas){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive
+        $sql = "UPDATE ".db_active().".mec_interactive
                 SET name = '".$name."',
                 type = '".$type."',
                 category = '".$category."',
@@ -122,7 +124,7 @@ class InteractiveModel extends Model
     }
 
     public static function delete_interactive($id){
-        $sql_del = "DELETE FROM ".Session::get('kd_smt_active').".mec_interactive where id = ".$id;
+        $sql_del = "DELETE FROM ".db_active().".mec_interactive where id = ".$id;
         // echo $sql_del;exit(); 
         $query_del=collect(\DB::delete($sql_del));
         return $query_del;
@@ -132,7 +134,7 @@ class InteractiveModel extends Model
     #question
     public static function get_question_interactive($pelajaran,$id_week,$id_interactive){
         $sql = 'SELECT q.*
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_question q
+                FROM '.db_active().'.mec_interactive_question q
                 WHERE q.pelajaran = "'.$pelajaran.'"
                 AND q.id_week = "'.$id_week.'" 
                 AND q.id_interactive = "'.$id_interactive.'" 
@@ -146,7 +148,7 @@ class InteractiveModel extends Model
     public static function get_question_interactive_from_student($tipe_user,$pelajaran,$id_week,$id_interactive){
         if($tipe_user == 'sdm'){
             $sql = 'SELECT q.*
-                    FROM '.Session::get('kd_smt_active').'.mec_interactive_question q
+                    FROM '.db_active().'.mec_interactive_question q
                     WHERE q.pelajaran = "'.$pelajaran.'"
                     AND q.id_week = "'.$id_week.'" 
                     AND q.id_interactive = "'.$id_interactive.'" 
@@ -154,7 +156,7 @@ class InteractiveModel extends Model
                     ;   
         }else{
             $sql = 'SELECT q.*
-                    FROM '.Session::get('kd_smt_active').'.mec_interactive_question q
+                    FROM '.db_active().'.mec_interactive_question q
                     WHERE q.pelajaran = "'.$pelajaran.'"
                     AND q.id_week = "'.$id_week.'" 
                     AND q.id_interactive = "'.$id_interactive.'" 
@@ -169,7 +171,7 @@ class InteractiveModel extends Model
 
     public static function show_get_question_interactive($pelajaran,$id_week,$id_interactive){
         $sql = 'SELECT q.id,q.id_week,q.pelajaran,q.id_interactive,q.name_question,q.type,q.sort,q.required,q.state,q.file
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_question q
+                FROM '.db_active().'.mec_interactive_question q
                 WHERE q.pelajaran = "'.$pelajaran.'"
                 AND q.id_week = "'.$id_week.'" 
                 AND q.id_interactive = "'.$id_interactive.'" 
@@ -184,7 +186,7 @@ class InteractiveModel extends Model
 
     public static function last_sort_question($pelajaran,$id_week,$id_interactive){
         $sql = 'SELECT count(*) as jml_d
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_question
+                FROM '.db_active().'.mec_interactive_question
                 WHERE pelajaran='.$pelajaran.' and id_week="'.$id_week.'"  
                 and id_interactive = "'.$id_interactive.'" '
             ;   
@@ -194,7 +196,7 @@ class InteractiveModel extends Model
             $return = 1;
         }else{
             $sql2 = 'SELECT sort+1 as new_sort
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_question
+                FROM '.db_active().'.mec_interactive_question
                 WHERE pelajaran='.$pelajaran.' and id_week='.$id_week.'  
                 and id_interactive = '.$id_interactive.' 
                 order by sort desc limit 1'
@@ -208,7 +210,7 @@ class InteractiveModel extends Model
 
     public static function add_question_interactive($id_pelajaran,$id_week,$id_interactive,$name_question,$type,$required,$state,$sort,$file_name){
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_question")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_question")->insertGetId(
             [
                 'id_week' => $id_week, 
                 'pelajaran' => $id_pelajaran,
@@ -227,7 +229,7 @@ class InteractiveModel extends Model
     public static function Update_question($id_question,$name_question,$type,$required,$file_name){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_question
+        $sql = "UPDATE ".db_active().".mec_interactive_question
                 SET name_question = '".$name_question."',
                 file = '".$file_name."',
                 type = '".$type."',
@@ -244,7 +246,7 @@ class InteractiveModel extends Model
     public static function Update_sort($id_question,$new_sort){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_question
+        $sql = "UPDATE ".db_active().".mec_interactive_question
                 SET sort = ".$new_sort."
                 where id = ".$id_question."
         ";
@@ -258,7 +260,7 @@ class InteractiveModel extends Model
     public static function Update_state_qt($id_question,$state){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_question
+        $sql = "UPDATE ".db_active().".mec_interactive_question
                 SET state = '".$state."'
                 where id = ".$id_question."
         ";
@@ -270,7 +272,7 @@ class InteractiveModel extends Model
     }
 
     public static function delete_question($id){
-        $sql_del = "DELETE FROM ".Session::get('kd_smt_active').".mec_interactive_question where id = ".$id;
+        $sql_del = "DELETE FROM ".db_active().".mec_interactive_question where id = ".$id;
         // echo $sql_del;exit(); 
         $query_del=collect(\DB::delete($sql_del));
         return $query_del;
@@ -278,7 +280,7 @@ class InteractiveModel extends Model
 
     public static function add_answer($id_pelajaran,$id_week,$id_interactive,$id_question,$name_answer,$true,$skor){
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_answers")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_answers")->insertGetId(
             [
                 'id_week' => $id_week, 
                 'pelajaran' => $id_pelajaran,
@@ -294,7 +296,7 @@ class InteractiveModel extends Model
 
     public static function Edit_answer_question($id,$name_answer,$true,$skor){
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_answers
+        $sql = "UPDATE ".db_active().".mec_interactive_answers
                 SET name_answer = '".$name_answer."',
                 `true` = '".$true."',
                 skor = ".$skor."
@@ -310,7 +312,7 @@ class InteractiveModel extends Model
 
     public static function add_answer_matching($id_pelajaran,$id_week,$id_interactive,$id_question,$question_matching,$name_answer,$true,$skor){
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_answers")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_answers")->insertGetId(
             [
                 'id_week' => $id_week, 
                 'pelajaran' => $id_pelajaran,
@@ -327,7 +329,7 @@ class InteractiveModel extends Model
 
     public static function Edit_answer_matching($id,$question_matching,$name_answer,$true,$skor){
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_answers
+        $sql = "UPDATE ".db_active().".mec_interactive_answers
                 SET question_matching = '".$question_matching."',
                 name_answer = '".$name_answer."',
                 `true` = '".$true."',
@@ -343,7 +345,7 @@ class InteractiveModel extends Model
     }
 
     public static function delete_answer($id){
-        $sql_del = "DELETE FROM ".Session::get('kd_smt_active').".mec_interactive_answers where id = ".$id;
+        $sql_del = "DELETE FROM ".db_active().".mec_interactive_answers where id = ".$id;
         // echo $sql_del;exit(); 
         $query_del=collect(\DB::delete($sql_del));
         return $query_del;
@@ -352,7 +354,7 @@ class InteractiveModel extends Model
 
     public static function cek_responses($username,$id_interactive){
         $sql = 'SELECT count(*) as jml_d
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                FROM '.db_active().'.mec_interactive_appraisal
                 WHERE username="'.$username.'"  
                 and id_interactive = "'.$id_interactive.'" '
             ;   
@@ -365,7 +367,7 @@ class InteractiveModel extends Model
     public static function new_idResponse(){
         // echo $id_interactive;exit();
         $sql_count = 'SELECT count(*) as jml_d
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                FROM '.db_active().'.mec_interactive_appraisal
                 '
             ;   
         // echo $sql_count;exit();
@@ -374,7 +376,7 @@ class InteractiveModel extends Model
             $return = 1;
         }else{
             $sql = 'SELECT idResponse
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                FROM '.db_active().'.mec_interactive_appraisal
                 order by idResponse desc limit 1
                 '
             ;   
@@ -389,7 +391,7 @@ class InteractiveModel extends Model
     public static function add_upload_appraisal($username,$idResponse,$id_interactive,$file_name){
         date_default_timezone_set('Asia/Jakarta');
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_appraisal")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_appraisal")->insertGetId(
             [
                 'id_interactive' => $id_interactive, 
                 'idResponse' => $idResponse,
@@ -404,7 +406,7 @@ class InteractiveModel extends Model
     public static function add_canvas_appraisal($username,$idResponse,$id_interactive){
         date_default_timezone_set('Asia/Jakarta');
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_appraisal")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_appraisal")->insertGetId(
             [
                 'id_interactive' => $id_interactive, 
                 'idResponse' => $idResponse,
@@ -417,7 +419,7 @@ class InteractiveModel extends Model
 
     public static function show_responses_file_student($username,$id_interactive){
         $sql = 'SELECT *
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                FROM '.db_active().'.mec_interactive_appraisal
                 WHERE username="'.$username.'"  
                 and id_interactive = "'.$id_interactive.'" 
                 order by idResponse desc limit 1'
@@ -430,7 +432,7 @@ class InteractiveModel extends Model
 
     public static function get_answer($id_answer){
         $sql_ans = 'SELECT ans.*
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                FROM '.db_active().'.mec_interactive_answers ans
                 WHERE ans.id = "'.$id_answer.'"
                 order by ans.id DESC limit 1
                 '
@@ -444,7 +446,7 @@ class InteractiveModel extends Model
     public static function insert_response($username,$id_interactive,$id_question,$id_answer,$val,$skor,$new_idResponse,$true){
         date_default_timezone_set('Asia/Jakarta');
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_responses")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_responses")->insertGetId(
             [
                 'id_interactive' => $id_interactive, 
                 'id_question' => $id_question,
@@ -462,7 +464,7 @@ class InteractiveModel extends Model
 
     public static function get_response($new_idResponse){
         $sql_ans = 'SELECT id_interactive,SUM(skor) as total_skor
-                FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                FROM '.db_active().'.mec_interactive_responses
                 WHERE idResponse = '.$new_idResponse.'
                 AND `true` = "True"
                 GROUP BY id_interactive
@@ -477,7 +479,7 @@ class InteractiveModel extends Model
     public static function insert_appraisal($username,$id_interactive,$new_idResponse,$total_skor){
         date_default_timezone_set('Asia/Jakarta');
 
-        $insert = DB::table(Session::get('kd_smt_active').".mec_interactive_appraisal")->insertGetId(
+        $insert = DB::table(db_active().".mec_interactive_appraisal")->insertGetId(
             [
                 'id_interactive' => $id_interactive, 
                 'idResponse' => $new_idResponse,
@@ -511,7 +513,7 @@ class InteractiveModel extends Model
 
     public static function Edit_appraisal($username,$id_appraisal,$skor_final,$note){
 
-        $sql = "UPDATE ".Session::get('kd_smt_active').".mec_interactive_appraisal
+        $sql = "UPDATE ".db_active().".mec_interactive_appraisal
                 SET note = '".$note."',
                 skor_final = ".$skor_final.",
                 user_edit = ".$username.",
