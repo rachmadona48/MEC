@@ -52,7 +52,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                             AND ans.id_week = "'.$id_week.'" 
                                                             AND ans.id_interactive = "'.$id_interactive.'" 
@@ -80,7 +80,7 @@
                                                     <label>
                                                         <?php 
                                                             $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                    FROM '.db_active().'.mec_interactive_responses
                                                                     WHERE id_interactive = "'.$id_interactive.'" 
                                                                     AND id_question = "'.$key->id.'"
                                                                     '
@@ -137,7 +137,7 @@
                                                     <label>
                                                         <?php 
                                                             $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                    FROM '.db_active().'.mec_interactive_responses
                                                                     WHERE id_interactive = "'.$id_interactive.'" 
                                                                     AND id_question = "'.$key->id.'"
                                                                     '
@@ -190,8 +190,8 @@
                                             <?php 
                                                 $sql_qt = '
                                                         SELECT res.id as id_responses,res.response,res.skor,res.`true`,ans.question_matching
-                                                        from mdn120202021.mec_interactive_responses res
-                                                        LEFT JOIN mdn120202021.mec_interactive_answers ans on res.id_answer = ans.id
+                                                        from '.db_active().'.mec_interactive_responses res
+                                                        LEFT JOIN '.db_active().'.mec_interactive_answers ans on res.id_answer = ans.id
                                                         WHERE res.id_interactive =  "'.$id_interactive.'" 
                                                         AND res.id_question = "'.$key->id.'"
                                                         AND res.idResponse = "'.$idResponse.'"

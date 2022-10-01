@@ -1722,30 +1722,38 @@
             <form method="POST" enctype="multipart/form-data" id="save_bukom" action="javascript:void(0)" >
                 <div class="modal-body" style="padding: 20px 40px 15px 30px;">
                     <div class="form-group">
-                        <label class="control-label">Recipients</label>
+                        <label class="control-label">Recipients v</label>
                         <div class="input-group">
                             <select data-placeholder="Choose parent of student..." class="chosen-select " multiple style="width:350px;" id="mdl_add_bukom_penerima" name="mdl_add_bukom_penerima[]">
                                 <?php
                                     $sql = '
-                                            SELECT n.nim,n.pelajaran,sdm.nama,ks.kelas
-                                            FROM '.Session::get('kd_smt_active').'.nilai_diknas n
-                                            LEFT JOIN tbl_siswa sdm on n.nim = sdm.nim
-                                            LEFT JOIN '.Session::get('kd_smt_active').'.kelas_siswa ks on n.nim = ks.nim
-                                            WHERE n.pelajaran in (
+                                            SELECT
+                                            pn.nim,
+                                            pn.kode_pelajaran as pelajaran,
+                                            sdm.nama,
+                                            ks.kode as kelas
+                                            FROM '.db_active().'.pelajaran_nilai pn
+                                            LEFT JOIN tbl_siswa sdm ON pn.nim = sdm.nim
+                                            LEFT JOIN '.db_active().'.mapping_kelas_siswa mpk on pn.nim = mpk.nim
+                                            LEFT JOIN '.db_active().'.ref_kelas ks on mpk.id_kelas = ks.id
+                                            WHERE
+                                            pn.kode_pelajaran in (
                                                 SELECT
-                                                    p.kode 
+                                                    mpg.kode
                                                 FROM
-                                                    '.Session::get('kd_smt_active').'.priv_grade g,
-                                                    '.Session::get('kd_smt_active').'.pelajaran p 
+                                                    '.db_active().'.mapping_pelajaran_grade AS mpg
+                                                    INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
                                                 WHERE
-                                                    g.pelajaran = p.kode 
-                                                    AND g.guru = "'.Session::get('username').'"
+                                                    guru_kelas.finger = "'.Session::get('username').'" 
+                                                    AND mpg.is_elearning = "Y" 
+                                                    AND guru_kelas.kode_pelajaran <> "" 
+                                                GROUP BY
+                                                    guru_kelas.kode_pelajaran 
                                             )
-                                            ORDER BY n.pelajaran ASC
-
+                                            AND sdm.nama <> ""
                                             '
                                     ;   
-                                    // echo $sql;
+                                    // echo $sql;exit();
                                     $query=collect(\DB::select($sql));
                                     foreach ($query as $dt) { 
                                 ?>

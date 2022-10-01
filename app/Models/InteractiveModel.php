@@ -498,7 +498,7 @@ class InteractiveModel extends Model
                 SELECT
                     ap.*,us.nama_lengkap 
                 FROM
-                    mdn120202021.mec_interactive_appraisal ap
+                '.db_active().'.mec_interactive_appraisal ap
                 LEFT JOIN tbl_users us on ap.username=us.username
                 WHERE
                     id_interactive = '.$id_interactive.'

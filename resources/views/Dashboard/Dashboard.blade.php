@@ -98,10 +98,32 @@
                             <?php
                             if(Session::get('username') == 'admin'){
                                 // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )';
-                                $and_mp = 'AND guru_kelas.finger = "'.Session::get('username').'"';
+                                $and_mp = 'AND (
+                                                    guru_kelas.finger = "'.Session::get('username').'"
+                                                    OR guru_kelas.kode_grade in (
+                                                        SELECT
+                                                            kode_grade 
+                                                        FROM
+                                                        '.db_active().'.priv_sdm_akses 
+                                                        WHERE
+                                                            finger = "'.Session::get('username').'"
+                                                    )
+                                                ) 
+                                ';
                             }else{
                                 // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )'; 
-                                $and_mp = 'AND guru_kelas.finger = "'.Session::get('username').'"'; 
+                                $and_mp = 'AND (
+                                                guru_kelas.finger = "'.Session::get('username').'"
+                                                OR guru_kelas.kode_grade in (
+                                                    SELECT
+                                                        kode_grade 
+                                                    FROM
+                                                    '.db_active().'.priv_sdm_akses 
+                                                    WHERE
+                                                        finger = "'.Session::get('username').'"
+                                                )
+                                            ) 
+                                ';
                             }
                             // $sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english 
                             //     FROM

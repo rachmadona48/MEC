@@ -59,7 +59,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                             AND ans.id_week = "'.$id_week.'" 
                                                             AND ans.id_interactive = "'.$id_interactive.'" 
@@ -125,7 +125,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                             AND ans.id_week = "'.$id_week.'" 
                                                             AND ans.id_interactive = "'.$id_interactive.'" 
@@ -179,7 +179,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                             AND ans.id_week = "'.$id_week.'" 
                                                             AND ans.id_interactive = "'.$id_interactive.'" 
@@ -206,7 +206,7 @@
                                                                 <option value="">Choose an answer</option>
                                                                 <?php
                                                                     $sql_ans_mt = 'SELECT ans.*
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                                    FROM '.db_active().'.mec_interactive_answers ans
                                                                     WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                                     AND ans.id_week = "'.$id_week.'" 
                                                                     AND ans.id_interactive = "'.$id_interactive.'" 

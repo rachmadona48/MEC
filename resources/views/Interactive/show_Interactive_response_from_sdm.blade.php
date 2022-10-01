@@ -33,8 +33,8 @@
                                             <td style="width:2%"></td>
                                             <td>
                                                 <div class="lightBoxGallery">
-                                                    <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
-                                                        <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                    <a href="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                        <img src="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
                                                     </a>
                                                     
                                                     <div id="blueimp-gallery" class="blueimp-gallery">
@@ -52,14 +52,14 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.pelajaran = "'.$id_pelajaran.'"
                                                             AND ans.id_week = "'.$id_week.'" 
                                                             AND ans.id_interactive = "'.$id_interactive.'" 
                                                             AND ans.id_question = "'.$key->id.'" 
                                                             '
                                                     ;   
-                                                    // echo $sql;exit();
+                                                    // echo $sql_ans;exit();
                                                     $query_ans=collect(\DB::select($sql_ans));
                                                     
                                                     foreach ($query_ans as $key_ans) { 
@@ -80,12 +80,12 @@
                                                     <label>
                                                         <?php 
                                                             $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                    FROM '.db_active().'.mec_interactive_responses
                                                                     WHERE id_interactive = "'.$id_interactive.'" 
                                                                     AND id_question = "'.$key->id.'"
                                                                     '
                                                             ;   
-                                                            // echo $sql_ans;exit();
+                                                            // echo $sql_qt;exit();
                                                             $query_qt=collect(\DB::select($sql_qt))->first();
                                                         ?>
                                                         <b>Answer : <?php echo $query_qt->response; ?></b>
@@ -108,8 +108,8 @@
                                         <td style="width:2%"></td>
                                         <td>
                                             <div class="lightBoxGallery">
-                                                <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
-                                                    <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                <a href="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                    <img src="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
                                                 </a>
                                                 
                                                 <div id="blueimp-gallery" class="blueimp-gallery">
@@ -136,12 +136,12 @@
                                                 <label>
                                                     <?php 
                                                         $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                FROM '.db_active().'.mec_interactive_responses
                                                                 WHERE id_interactive = "'.$id_interactive.'" 
                                                                 AND id_question = "'.$key->id.'"
                                                                 '
                                                         ;   
-                                                        // echo $sql_ans;exit();
+                                                        // echo $sql_qt;exit();
                                                         $query_qt=collect(\DB::select($sql_qt))->first();
                                                     ?>
                                                     <b>Answer : <?php echo $query_qt->response; ?></b>
@@ -161,8 +161,8 @@
                                         <td style="width:2%"></td>
                                         <td>
                                             <div class="lightBoxGallery">
-                                                <a href="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
-                                                    <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
+                                                <a href="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" title="Image" data-gallery="">
+                                                    <img src="{!! asset('upload/'.db_active().'/question') !!}/<?php echo $key->file; ?>" alt="Image" width="70" height="70">
                                                 </a>
                                                 
                                                 <div id="blueimp-gallery" class="blueimp-gallery">

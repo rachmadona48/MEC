@@ -93,17 +93,24 @@ class MataPelajaranModel extends Model
     }
 
     public static function get_student_matpel($username){
-    	$sql_mp = 'SELECT p.kode as id_pelajaran, p.nama, p.english, p.grade as kode_grade
-					FROM
-						'.Session::get('kd_smt_active').'.pelajaran p,
-						'.Session::get('kd_smt_active').'.nilai_diknas n 
-					WHERE
-						( p.kode = n.pelajaran ) 
-						AND ( n.nim = '.$username.' ) 
-						AND ( p.english IS NOT NULL ) 
-						AND ( p.is_elearning IS NOT NULL ) 
-					ORDER BY
-						p.english'
+    	$sql_mp = '
+                    SELECT
+                        mpgrade.kode as id_pelajaran,
+                        pel.pelajaran_ktsp AS nama,
+                        pel.pelajaran_eng AS english,
+                        mpgrade.kode_grade 
+                    FROM
+                        '.db_active().'.pelajaran_nilai AS nilai
+                        INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                        INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
+                    WHERE
+                        mpgrade.is_elearning = "Y" 
+                        AND nilai.nim = "'.$username.'"
+                    GROUP BY
+                        pel.id 
+                    ORDER BY
+                        pel.pelajaran_eng ASC
+                    '
 					;	
         // echo $sql_mp;exit();
 	    $query_mp=DB::select($sql_mp);
@@ -112,7 +119,7 @@ class MataPelajaranModel extends Model
 
     public static function get_student_weekly($username){
         $sql_mp = 'SELECT minggu 
-                    FROM '.Session::get('kd_smt_active').'.weeklyguide
+                    FROM '.db_active().'.weeklyguide
                     WHERE pelajaran in (
                         SELECT
                             p.kode 
@@ -760,40 +767,33 @@ class MataPelajaranModel extends Model
 
 
     public static function PrivilegeElearning($username,$kode_grade,$pelajaran){
-    	if ($username == "admin"){
-    		$return = 2;
-    	}else{
-    		// $sql = 'select id from '.Session::get('kd_smt_active').'.priv_supervisor where grade="'. $kode_grade .'" and guru="'.$username.'"';
-            $sql = 'select id, kode_grade, finger 
-            from '.db_active().'.priv_sdm_akses 
-            where kode_grade="'. $kode_grade .'" and finger="'.$username.'"';
-            // echo $sql;
-    		$key=collect(\DB::select($sql));
-            if(count($key) > 0){
-    			$return = 2;
-    		}else{
-                $return = 1;
+        $sql_sw = 'SELECT nim,nama 
+                    FROM tbl_siswa 
+                    WHERE nim ="'.$username.'"
+                ';
+        // echo $sql_sw;
+    	$key_sw=collect(\DB::select($sql_sw));
+        // jika siswa
+        if(count($key_sw) > 0){
+            $return = 0;
+        }else{
+            // jika bukan siswa
+            if ($username == "admin"){
+                $return = 2;
+            }else{
+                // $sql = 'select id from '.Session::get('kd_smt_active').'.priv_supervisor where grade="'. $kode_grade .'" and guru="'.$username.'"';
+                $sql = 'select id, kode_grade, finger 
+                        from '.db_active().'.priv_sdm_akses 
+                        where kode_grade="'. $kode_grade .'" and finger="'.$username.'"';
+                // echo $sql;
+                $key=collect(\DB::select($sql));
+                if(count($key) > 0){
+                    $return = 2;
+                }else{
+                    $return = 1;
+                }
             }
-            
-    		// if(count($key) > 0){
-    		// 	$return = 2;
-    		// }else{
-    		// 	$sql2 = 'select id,supervisor from '.Session::get('kd_smt_active').'.priv_grade where pelajaran="'. $pelajaran .'" and guru="'.$username.'"';
-            //     // echo $sql2;exit();
-    		// 	$hasil=collect(\DB::select($sql2))->first();
-    		// 	if(count((array)$hasil) > 0){
-    		// 		if($hasil->supervisor){
-    		// 			$return = 2;
-    		// 		}else{
-    		// 			$return = 1;
-    		// 		}
-    		// 	}else{
-    		// 		$return = 0;
-    		// 	}
-    		// }
-
-            // echo 'priv '.$return;exit();
-    	}
+        }
     	return $return;
     }
 

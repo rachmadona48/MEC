@@ -25,7 +25,16 @@ class DashboardModel extends Model
 				// 				AND ( g.guru = "'.$username.'" )
 				// 		)';	
 	
-				$where = 'WHERE g.finger="'.$username.'"';	
+				$where = 'WHERE g.finger="'.$username.'"
+						or g.kode_grade in (
+							SELECT
+								kode_grade 
+							FROM
+							'.db_active().'.priv_sdm_akses 
+							WHERE
+								finger = "'.$username.'"
+						)
+				';	
 			}
 	
 			// $sql = 'SELECT
@@ -65,16 +74,31 @@ class DashboardModel extends Model
     }
 
     public static function getprofile_siswa($username){
-    	$sql = 'SELECT sdm.nama,sdm.jenis_kelamin,ag.agama,darah.gol_darah,
-				sdm.tempat_lahir,sdm.tgl_lahir,sdm.alamat,sdm.nisn,sdm.kode_pos,
-				sdm.tgl_gabung,sdm.no_telp,sdm.email,"Siswa" as profesi,ks.kelas,
-				jr.jurusan
-				from tbl_siswa sdm
-				LEFT JOIN ref_agama ag on sdm.agama = ag.id
-				LEFT JOIN ref_gol_darah darah on sdm.id_gol_darah = darah.id
-				LEFT JOIN '.Session::get('kd_smt_active').'.kelas_siswa ks on sdm.nim = ks.nim
-				LEFT JOIN '.Session::get('kd_smt_active').'.jurusan jr on ks.jurusan = jr.kode
-				WHERE sdm.nim = "'.$username.'"
+    	$sql = 'SELECT
+					sdm.nama,
+					sdm.jenis_kelamin,
+					ag.agama,
+					darah.gol_darah,
+					sdm.tempat_lahir,
+					sdm.tgl_lahir,
+					sdm.alamat,
+					sdm.nisn,
+					sdm.kode_pos,
+					sdm.tgl_gabung,
+					sdm.no_telp,
+					sdm.email,
+					"Siswa" AS profesi,
+					ks.kode as kelas,
+					jr.jurusan 
+				FROM
+					tbl_siswa sdm
+					LEFT JOIN ref_agama ag ON sdm.agama = ag.id
+					LEFT JOIN ref_gol_darah darah ON sdm.id_gol_darah = darah.id
+					LEFT JOIN '.db_active().'.mapping_kelas_siswa mpk on sdm.nim = mpk.nim
+					LEFT JOIN '.db_active().'.ref_kelas ks ON mpk.id_kelas = ks.id
+					LEFT JOIN '.db_active().'.ref_jurusan jr ON mpk.id_jurusan = jr.id 
+				WHERE
+					sdm.nim = "'.$username.'"
 			';
 		// echo $sql; exit();
 	    $query=collect(\DB::select($sql))->first();
