@@ -1,5 +1,7 @@
 @include('layouts.Header_matpel')
 <div class="row wrapper border-bottom white-bg page-heading">
+<input type="hidden" id="id_pelajaran" value="<?php echo $id_pelajaran; ?>" readonly="">
+<input type="hidden" id="kode_grade" value="<?php echo $kode_grade; ?>" readonly="">
     <div class="col-lg-12">
         <center><h2>Subject : <?php echo $judul; ?></h2></center>
     </div>
@@ -197,7 +199,7 @@
         <div class="col-lg-4">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Learning Type</h5>
+                    <h5>Learning Type </h5>
 
                     <div ibox-tools></div>
                 </div>
@@ -237,8 +239,13 @@
 </script> -->
 <script type="text/javascript">
     $(document).ready(function(){
-        f_pie_learning_type(<?php echo $id_pelajaran; ?>);  
-        get_discuss(<?php echo $kode_grade; ?>,<?php echo $id_pelajaran; ?>)
+        const id_pelajaran = $('#id_pelajaran').val();
+        const kode_grade = $('#kode_grade').val();
+        // console.log(kd_pelajaran)
+        // console.log(kd_pelajaran2)
+        // console.log(kode_grade)
+        f_pie_learning_type(id_pelajaran);  
+        get_discuss(kode_grade,id_pelajaran)
     });
     
 </script>

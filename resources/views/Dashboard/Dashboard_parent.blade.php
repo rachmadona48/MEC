@@ -41,7 +41,7 @@
                                     <select data-placeholder="Choose a Subject..." id="subject_discuss" class="chosen-select" style="width:350px;" tabindex="2">
                                         <option value="">Choose Subject</option>
                                         <?php foreach ($subject as $key) { ?>
-                                            <option value="<?php echo $key->kode;?>"><?php echo $key->english;?></option>
+                                            <option value="<?php echo $key->id_pelajaran;?>"><?php echo $key->english;?></option>
                                         <?php } ?>
                                     </select>
                                     </div>
@@ -102,22 +102,21 @@
                                             <?php
                                                 $sql_count_int = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive
+                                                    FROM '.db_active().'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        FROM '.db_active().'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
-                                                                p.kode 
+                                                                mpgrade.kode
                                                             FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                                '.db_active().'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY p.kode
+                                                                mpgrade.is_elearning = "Y" 
+                                                                AND nilai.nim = "'.Session::get('username').'" 
+                                                            GROUP BY
+                                                                mpgrade.kode
                                                         )
                                                         AND minggu = "'.$weekly->minggu.'" 
                                                     )
@@ -132,57 +131,54 @@
                                             <?php
                                                 $sql_count_hm = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive
+                                                    FROM '.db_active().'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        FROM '.db_active().'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
-                                                                p.kode 
+                                                                mpgrade.kode
                                                             FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                                '.db_active().'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY p.kode
+                                                                mpgrade.is_elearning = "Y" 
+                                                                AND nilai.nim = "'.Session::get('username').'" 
+                                                            GROUP BY
+                                                                mpgrade.kode
                                                         )
                                                         AND minggu = "'.$weekly->minggu.'" 
                                                     )
                                                     AND category = "Homework"
                                                     AND state = "Publish"
                                                 ';   
-                                                // echo $sql_count_int;exit();
+                                                // echo $sql_count_hm;exit();
                                                 $query_count_hm=collect(\DB::select($sql_count_hm))->first();
 
                                                 $sql_count_hm_done = '
                                                     SELECT
                                                         COUNT(*) as jml_done
                                                     FROM
-                                                        '.Session::get('kd_smt_active').'.mec_interactive it
-                                                    INNER JOIN '.Session::get('kd_smt_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                        '.db_active().'.mec_interactive it
+                                                    INNER JOIN '.db_active().'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
                                                     WHERE
                                                         id_week IN (
                                                         SELECT
                                                             id 
                                                         FROM
-                                                            '.Session::get('kd_smt_active').'.weeklyguide 
+                                                            '.db_active().'.weeklyguide 
                                                         WHERE
                                                             pelajaran IN (
-                                                            SELECT
-                                                                p.kode 
-                                                            FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
-                                                            WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY
-                                                                p.kode 
+                                                                SELECT
+                                                                    mpgrade.kode
+                                                                FROM
+                                                                    '.db_active().'.pelajaran_nilai AS nilai
+                                                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                WHERE
+                                                                    mpgrade.is_elearning = "Y" 
+                                                                    AND nilai.nim = "'.Session::get('username').'" 
+                                                                GROUP BY
+                                                                    mpgrade.kode 
                                                             ) 
                                                             AND minggu = "'.$weekly->minggu.'" 
                                                         ) 
@@ -197,22 +193,21 @@
                                             <?php
                                                 $sql_count_as = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive
+                                                    FROM '.db_active().'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        FROM '.db_active().'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
-                                                                p.kode 
+                                                                mpgrade.kode
                                                             FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                                '.db_active().'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY p.kode
+                                                                mpgrade.is_elearning = "Y" 
+                                                                AND nilai.nim = "'.Session::get('username').'" 
+                                                            GROUP BY
+                                                                mpgrade.kode 
                                                         )
                                                         AND minggu = "'.$weekly->minggu.'" 
                                                     )
@@ -226,28 +221,26 @@
                                                     SELECT
                                                         COUNT(*) as jml_done
                                                     FROM
-                                                        '.Session::get('kd_smt_active').'.mec_interactive it
-                                                    INNER JOIN '.Session::get('kd_smt_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                        '.db_active().'.mec_interactive it
+                                                    INNER JOIN '.db_active().'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
                                                     WHERE
                                                         id_week IN (
                                                         SELECT
                                                             id 
                                                         FROM
-                                                            '.Session::get('kd_smt_active').'.weeklyguide 
+                                                            '.db_active().'.weeklyguide 
                                                         WHERE
                                                             pelajaran IN (
-                                                            SELECT
-                                                                p.kode 
-                                                            FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
-                                                            WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY
-                                                                p.kode 
+                                                                SELECT
+                                                                    mpgrade.kode
+                                                                FROM
+                                                                    '.db_active().'.pelajaran_nilai AS nilai
+                                                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                WHERE
+                                                                    mpgrade.is_elearning = "Y" 
+                                                                    AND nilai.nim = "'.Session::get('username').'" 
+                                                                GROUP BY
+                                                                    mpgrade.kode 
                                                             ) 
                                                             AND minggu = "'.$weekly->minggu.'" 
                                                         ) 
@@ -262,22 +255,21 @@
                                             <?php
                                                 $sql_count_tlm = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.Session::get('kd_smt_active').'.slides_item
+                                                    FROM '.db_active().'.slides_item
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                                                        FROM '.db_active().'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
-                                                                p.kode 
+                                                                mpgrade.kode
                                                             FROM
-                                                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                                                '.db_active().'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
-                                                                ( p.kode = n.pelajaran ) 
-                                                                AND ( n.nim = "'.Session::get('username').'" ) 
-                                                                AND ( p.english IS NOT NULL ) 
-                                                                AND ( p.is_elearning IS NOT NULL ) 
-                                                            GROUP BY p.kode
+                                                                mpgrade.is_elearning = "Y" 
+                                                                AND nilai.nim = "'.Session::get('username').'" 
+                                                            GROUP BY
+                                                                mpgrade.kode 
                                                         )
                                                         AND minggu = "'.$weekly->minggu.'" 
                                                     )

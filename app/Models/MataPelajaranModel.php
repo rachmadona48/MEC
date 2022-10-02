@@ -1468,18 +1468,22 @@ class MataPelajaranModel extends Model
     public static function get_student_subject($username){
         $sql = '
                 SELECT
-                    p.kode,p.english
-                FROM
-                    '.Session::get('kd_smt_active').'.pelajaran p,
-                    '.Session::get('kd_smt_active').'.nilai_diknas n 
-                WHERE
-                    ( p.kode = n.pelajaran ) 
-                    AND ( n.nim = "'.$username.'" ) 
-                    AND ( p.english IS NOT NULL ) 
-                    AND ( p.is_elearning IS NOT NULL ) 
-                GROUP BY
-                    p.kode
-                ORDER BY p.english ASC
+                        mpgrade.kode as id_pelajaran,
+                        pel.pelajaran_ktsp AS nama,
+                        pel.pelajaran_eng AS english,
+                        mpgrade.kode_grade 
+                    FROM
+                        '.db_active().'.pelajaran_nilai AS nilai
+                        INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                        INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
+                    WHERE
+                        mpgrade.is_elearning = "Y" 
+                        AND nilai.nim = "'.$username.'"
+                    GROUP BY
+                        pel.id 
+                    ORDER BY
+                        pel.pelajaran_eng ASC
+                        
                 '
                 ;   
         // echo $sql;exit();

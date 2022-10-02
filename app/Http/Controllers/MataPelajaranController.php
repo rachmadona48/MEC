@@ -20,6 +20,7 @@ class MataPelajaranController extends Controller
     public function Matpel(Request $request,$kode_grade,$id_pelajaran)
     {
         if ($request->session()->has('id')) {
+            // echo $id_pelajaran;exit();
         	// echo 'matapelajaran';
             // $data['menu'] = MenuModel::akses_menu($request->session()->get('level'));
             $data['menu_matpel'] = MenuModel::akses_menu_matpel($request->session()->get('username'),$request->session()->get('tipe'),$kode_grade,$id_pelajaran);
@@ -28,8 +29,10 @@ class MataPelajaranController extends Controller
             $data['judul'] = $mp->english;
             $data['kode_grade'] = $kode_grade;
             $data['id_pelajaran'] = $id_pelajaran;
+            $data['id_pelajaran2'] = $id_pelajaran;
             $data['week'] = MataPelajaranModel::pelajaran_week($id_pelajaran);
             $data['count_week'] = MataPelajaranModel::pelajaran_count_week($id_pelajaran);
+            // echo $id_pelajaran;exit();
             return view('MataPelajaran.Matpel',$data);
         }else{
             return \App::call('App\Http\Controllers\Awal@index');
