@@ -57,7 +57,11 @@
                                     <center>
                                         <!-- <?php 
                                             $sql_mp = '
-                                            SELECT english from '.Session::get('kd_smt_active').'.pelajaran WHERE kode = "'.$key->pelajaran.'" '
+                                            SELECT pel.pelajaran_eng AS english
+                                            from '.db_active().'.mapping_pelajaran_grade AS mpgrade
+                                            INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id
+                                            WHERE mpgrade.kode = "'.$key->pelajaran.'"
+                                            '
                                             ;   
                                             // echo $sql_count;exit();
                                             $query_mp=collect(\DB::select($sql_mp))->first();
@@ -74,7 +78,7 @@
 
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                                                            FROM '.db_active().'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   
@@ -88,7 +92,7 @@
 
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                                                            FROM '.db_active().'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   
@@ -103,7 +107,7 @@
                                         <?php }elseif ($key->type=='Canvas'){ ?>
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_appraisal
+                                                            FROM '.db_active().'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   

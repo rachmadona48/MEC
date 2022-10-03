@@ -14,25 +14,25 @@ class ParentModel extends Model
     public static function parent_data_tlm($minggu,$username){
         $sql = 'SELECT it.*,date_format( it.tanggal, "%e %b %Y %H:%i" ) AS tgl ,s.nama,
                 date_format(it.tglsuper,"%W, %M %e, %Y   %H:%i") as tgl2,date_format(it.approve,"%W, %M %e, %Y   %H:%i") as tgl3,
-                p.english
-                FROM '.Session::get('kd_smt_active').'.slides_item it
+                pel.pelajaran_eng AS english
+                FROM '.db_active().'.slides_item it
                 left join tbl_sdm s on it.finger=s.finger
-                LEFT JOIN '.Session::get('kd_smt_active').'.pelajaran p on it.pelajaran=p.kode
+                LEFT JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
+	            INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
                 WHERE it.id_week in (
                     SELECT id
-                    FROM '.Session::get('kd_smt_active').'.weeklyguide
+                    FROM '.db_active().'.weeklyguide
                     WHERE pelajaran in (
                         SELECT
-                            p.kode 
+                            mpgrade.kode
                         FROM
-                            '.Session::get('kd_smt_active').'.pelajaran p,
-                            '.Session::get('kd_smt_active').'.nilai_diknas n 
+                            '.db_active().'.pelajaran_nilai AS nilai
+                            INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                         WHERE
-                            ( p.kode = n.pelajaran ) 
-                            AND ( n.nim = "'.$username.'" ) 
-                            AND ( p.english IS NOT NULL ) 
-                            AND ( p.is_elearning IS NOT NULL ) 
-                        GROUP BY p.kode
+                            mpgrade.is_elearning = "Y" 
+                            AND nilai.nim = "'.$username.'"
+                        GROUP BY
+                            mpgrade.kode 
                     )
                     AND minggu = "'.$minggu.'" 
                 )
@@ -70,31 +70,31 @@ class ParentModel extends Model
         //             '
         //             ;
 
-        $sql = '    SELECT pl.english,it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
+        $sql = '    SELECT pel.pelajaran_eng AS english,it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                     DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
-                    FROM '.Session::get('kd_smt_active').'.mec_interactive it
-                    LEFT JOIN '.Session::get('kd_smt_active').'.pelajaran pl on it.pelajaran = pl.kode AND substr(it.pelajaran, 1, 2)=pl.grade
+                    FROM '.db_active().'.mec_interactive it
+                    LEFT JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
+                    INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id
                     WHERE it.id_week in (
                         SELECT id
-                        FROM '.Session::get('kd_smt_active').'.weeklyguide
+                        FROM '.db_active().'.weeklyguide
                         WHERE pelajaran in (
                             SELECT
-                                p.kode 
+                                mpgrade.kode
                             FROM
-                                '.Session::get('kd_smt_active').'.pelajaran p,
-                                '.Session::get('kd_smt_active').'.nilai_diknas n 
+                                '.db_active().'.pelajaran_nilai AS nilai
+                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                             WHERE
-                                ( p.kode = n.pelajaran ) 
-                                AND ( n.nim = "17.090" ) 
-                                AND ( p.english IS NOT NULL ) 
-                                AND ( p.is_elearning IS NOT NULL ) 
-                            GROUP BY p.kode
+                                mpgrade.is_elearning = "Y" 
+                                AND nilai.nim = "'.$username.'"
+                            GROUP BY
+                                mpgrade.kode 
                         )
-                        AND minggu = "15" 
+                        AND minggu = "'.$minggu.'" 
                     ) 
                     AND it.state = "Publish"
                     GROUP BY it.id
-                    ORDER BY pl.english,it.date_from DESC
+                    ORDER BY pel.pelajaran_eng,it.date_from DESC
                     
                     '
                     ;

@@ -33,7 +33,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.Session::get('kd_smt_active').'.mec_interactive_answers ans
+                                                            FROM '.db_active().'.mec_interactive_answers ans
                                                             WHERE ans.id_interactive = "'.$id_interactive.'" 
                                                             AND ans.id_question = "'.$key->id.'" 
                                                             '
@@ -59,7 +59,7 @@
                                                     <label>
                                                         <?php 
                                                             $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                    FROM '.db_active().'.mec_interactive_responses
                                                                     WHERE id_interactive = "'.$id_interactive.'" 
                                                                     AND id_question = "'.$key->id.'"
                                                                     '
@@ -97,7 +97,7 @@
                                                     <label>
                                                         <?php 
                                                             $sql_qt = 'SELECT id as id_responses,response,skor,`true`
-                                                                    FROM '.Session::get('kd_smt_active').'.mec_interactive_responses
+                                                                    FROM '.db_active().'.mec_interactive_responses
                                                                     WHERE id_interactive = "'.$id_interactive.'" 
                                                                     AND id_question = "'.$key->id.'"
                                                                     '
