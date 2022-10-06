@@ -47,7 +47,7 @@ class MenuModel extends Model
 								SELECT
 									kode_grade 
 								FROM
-								'.db_active().'.priv_sdm_akses 
+								'.Session::get('db_active').'.priv_sdm_akses 
 								WHERE
 									finger = "'.$username.'"
 							)
@@ -56,7 +56,7 @@ class MenuModel extends Model
 		    	$sql = 'SELECT
 						g.kode_grade as kode
 					FROM
-						'.db_active().'.priv_guru_kelas as g
+						'.Session::get('db_active').'.priv_guru_kelas as g
 					'.$where.'
 					group by g.kode_grade 
 					order by kode';	
@@ -79,7 +79,7 @@ class MenuModel extends Model
 											SELECT
 												kode_grade 
 											FROM
-												'.db_active().'.priv_sdm_akses 
+												'.Session::get('db_active').'.priv_sdm_akses 
 											WHERE
 												finger = "'.$username.'"
 										)
@@ -93,7 +93,7 @@ class MenuModel extends Model
 											SELECT
 												kode_grade 
 											FROM
-												'.db_active().'.priv_sdm_akses 
+												'.Session::get('db_active').'.priv_sdm_akses 
 											WHERE
 												finger = "'.$username.'"
 										)
@@ -107,8 +107,8 @@ class MenuModel extends Model
 							pel.pelajaran_eng AS english 
 						FROM
 							db_madania_bogor.tbl_pelajaran AS pel
-							INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
-							INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+							INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+							INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
 						WHERE
 							guru_kelas.kode_grade = "'.$key->kode.'"
 							'.$and_mp.'
@@ -154,8 +154,8 @@ class MenuModel extends Model
 								pel.pelajaran_eng AS english,
 								mpgrade.kode_grade 
 							FROM
-								'.db_active().'.pelajaran_nilai AS nilai
-								INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+								'.Session::get('db_active').'.pelajaran_nilai AS nilai
+								INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
 								INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
 							WHERE
 								mpgrade.is_elearning = "Y" 
@@ -209,7 +209,7 @@ class MenuModel extends Model
 											SELECT
 												kode_grade 
 											FROM
-											'.db_active().'.priv_sdm_akses 
+											'.Session::get('db_active').'.priv_sdm_akses 
 											WHERE
 												finger = "'.$username.'"
 										)
@@ -226,7 +226,7 @@ class MenuModel extends Model
 											SELECT
 												kode_grade 
 											FROM
-											'.db_active().'.priv_sdm_akses 
+											'.Session::get('db_active').'.priv_sdm_akses 
 											WHERE
 												finger = "'.$username.'"
 										)
@@ -240,8 +240,8 @@ class MenuModel extends Model
 							pel.pelajaran_eng AS english 
 						FROM
 							db_madania_bogor.tbl_pelajaran AS pel
-							INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
-							INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+							INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+							INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
 						WHERE
 							guru_kelas.kode_grade = "'.$kode_grade.'"
 							'.$and_mp.'
@@ -269,7 +269,7 @@ class MenuModel extends Model
 			                    <a onclick="show_week(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Week</span></a>
 			                </li>'; 
 
-	                $sql_w = 'select id,minggu from '.db_active().'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
+	                $sql_w = 'select id,minggu from '.Session::get('db_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
 	                ';
 	                // echo $sql_w;exit();
 	                $key_w=collect(\DB::select($sql_w));
@@ -315,8 +315,8 @@ class MenuModel extends Model
 								pel.pelajaran_eng AS english,
 								mpgrade.kode_grade 
 							FROM
-								'.db_active().'.pelajaran_nilai AS nilai
-								INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+								'.Session::get('db_active').'.pelajaran_nilai AS nilai
+								INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
 								INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
 							WHERE
 								mpgrade.is_elearning = "Y" 
@@ -339,7 +339,7 @@ class MenuModel extends Model
 			    			<li>
 			                    <a href="'.url('/matpel/'.$key_mp->kode_grade.'/'.$id_pelajaran).'"><i class="fa fa-spinner"></i> <span class="nav-label">Refresh This List</span></a>
 			                </li>';   
-	                $sql_w = 'select id,minggu from '.db_active().'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
+	                $sql_w = 'select id,minggu from '.Session::get('db_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
 	                ';
 	                $key_w=collect(\DB::select($sql_w));
 	                foreach ($key_w as $w) {
@@ -390,8 +390,8 @@ class MenuModel extends Model
 				pel.pelajaran_eng AS english 
 			FROM
 				db_madania_bogor.tbl_pelajaran AS pel
-				INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
-				INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+				INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+				INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
 			WHERE
 				mpg.kode = "'.$id_pelajaran.'"
 			GROUP BY

@@ -93,7 +93,7 @@
 
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.db_active().'.mec_interactive_appraisal
+                                                            FROM '.Session::get('db_active').'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   
@@ -109,7 +109,7 @@
 
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.db_active().'.mec_interactive_appraisal
+                                                            FROM '.Session::get('db_active').'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   
@@ -124,7 +124,7 @@
                                         <?php }elseif ($key->type=='Canvas'){ ?>
                                             <?php
                                                 $sql_count = 'SELECT count(*) as jml_d
-                                                            FROM '.db_active().'.mec_interactive_appraisal
+                                                            FROM '.Session::get('db_active').'.mec_interactive_appraisal
                                                             WHERE id_interactive = "'.$key->id.'" 
                                                             AND username ="'.$username.'"'
                                                             ;   

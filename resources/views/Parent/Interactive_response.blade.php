@@ -34,7 +34,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.db_active().'.mec_interactive_answers ans
+                                                            FROM '.Session::get('db_active').'.mec_interactive_answers ans
                                                             WHERE ans.id_interactive = "'.$id_interactive.'" 
                                                             AND ans.id_question = "'.$key->id.'" 
                                                             '
@@ -77,7 +77,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.db_active().'.mec_interactive_answers ans
+                                                            FROM '.Session::get('db_active').'.mec_interactive_answers ans
                                                             WHERE ans.id_interactive = "'.$id_interactive.'" 
                                                             AND ans.id_question = "'.$key->id.'" 
                                                             order by ans.id DESC limit 1
@@ -110,7 +110,7 @@
                                             <td>
                                                 <?php 
                                                     $sql_ans = 'SELECT ans.*
-                                                            FROM '.db_active().'.mec_interactive_answers ans
+                                                            FROM '.Session::get('db_active').'.mec_interactive_answers ans
                                                             WHERE ans.id_interactive = "'.$id_interactive.'" 
                                                             AND ans.id_question = "'.$key->id.'" 
                                                             '
@@ -135,7 +135,7 @@
                                                                 <option value="">Choose an answer</option>
                                                                 <?php
                                                                     $sql_ans_mt = 'SELECT ans.*
-                                                                    FROM '.db_active().'.mec_interactive_answers ans
+                                                                    FROM '.Session::get('db_active').'.mec_interactive_answers ans
                                                                     WHERE ans.id_interactive = "'.$id_interactive.'" 
                                                                     AND ans.id_question = "'.$key->id.'" 
                                                                     '

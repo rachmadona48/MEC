@@ -15,19 +15,19 @@ class ParentModel extends Model
         $sql = 'SELECT it.*,date_format( it.tanggal, "%e %b %Y %H:%i" ) AS tgl ,s.nama,
                 date_format(it.tglsuper,"%W, %M %e, %Y   %H:%i") as tgl2,date_format(it.approve,"%W, %M %e, %Y   %H:%i") as tgl3,
                 pel.pelajaran_eng AS english
-                FROM '.db_active().'.slides_item it
+                FROM '.Session::get('db_active').'.slides_item it
                 left join tbl_sdm s on it.finger=s.finger
-                LEFT JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
+                LEFT JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
 	            INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
                 WHERE it.id_week in (
                     SELECT id
-                    FROM '.db_active().'.weeklyguide
+                    FROM '.Session::get('db_active').'.weeklyguide
                     WHERE pelajaran in (
                         SELECT
                             mpgrade.kode
                         FROM
-                            '.db_active().'.pelajaran_nilai AS nilai
-                            INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                            '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                            INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                         WHERE
                             mpgrade.is_elearning = "Y" 
                             AND nilai.nim = "'.$username.'"
@@ -72,18 +72,18 @@ class ParentModel extends Model
 
         $sql = '    SELECT pel.pelajaran_eng AS english,it.*,DATE_FORMAT(date_from, "%d %M %Y") as dateFrom,DATE_FORMAT(date_to, "%d %M %Y") as dateTo,
                     DATE_FORMAT(date_from, "%m/%d/%Y") as dateFrom2,DATE_FORMAT(date_to, "%m/%d/%Y") as dateTo2
-                    FROM '.db_active().'.mec_interactive it
-                    LEFT JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
+                    FROM '.Session::get('db_active').'.mec_interactive it
+                    LEFT JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON it.pelajaran = mpgrade.kode
                     INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id
                     WHERE it.id_week in (
                         SELECT id
-                        FROM '.db_active().'.weeklyguide
+                        FROM '.Session::get('db_active').'.weeklyguide
                         WHERE pelajaran in (
                             SELECT
                                 mpgrade.kode
                             FROM
-                                '.db_active().'.pelajaran_nilai AS nilai
-                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                             WHERE
                                 mpgrade.is_elearning = "Y" 
                                 AND nilai.nim = "'.$username.'"

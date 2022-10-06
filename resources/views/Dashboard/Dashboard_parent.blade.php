@@ -102,16 +102,16 @@
                                             <?php
                                                 $sql_count_int = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.db_active().'.mec_interactive
+                                                    FROM '.Session::get('db_active').'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.db_active().'.weeklyguide
+                                                        FROM '.Session::get('db_active').'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
                                                                 mpgrade.kode
                                                             FROM
-                                                                '.db_active().'.pelajaran_nilai AS nilai
-                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
                                                                 mpgrade.is_elearning = "Y" 
                                                                 AND nilai.nim = "'.Session::get('username').'" 
@@ -131,16 +131,16 @@
                                             <?php
                                                 $sql_count_hm = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.db_active().'.mec_interactive
+                                                    FROM '.Session::get('db_active').'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.db_active().'.weeklyguide
+                                                        FROM '.Session::get('db_active').'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
                                                                 mpgrade.kode
                                                             FROM
-                                                                '.db_active().'.pelajaran_nilai AS nilai
-                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
                                                                 mpgrade.is_elearning = "Y" 
                                                                 AND nilai.nim = "'.Session::get('username').'" 
@@ -159,21 +159,21 @@
                                                     SELECT
                                                         COUNT(*) as jml_done
                                                     FROM
-                                                        '.db_active().'.mec_interactive it
-                                                    INNER JOIN '.db_active().'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                        '.Session::get('db_active').'.mec_interactive it
+                                                    INNER JOIN '.Session::get('db_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
                                                     WHERE
                                                         id_week IN (
                                                         SELECT
                                                             id 
                                                         FROM
-                                                            '.db_active().'.weeklyguide 
+                                                            '.Session::get('db_active').'.weeklyguide 
                                                         WHERE
                                                             pelajaran IN (
                                                                 SELECT
                                                                     mpgrade.kode
                                                                 FROM
-                                                                    '.db_active().'.pelajaran_nilai AS nilai
-                                                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                    '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                    INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                                 WHERE
                                                                     mpgrade.is_elearning = "Y" 
                                                                     AND nilai.nim = "'.Session::get('username').'" 
@@ -193,16 +193,16 @@
                                             <?php
                                                 $sql_count_as = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.db_active().'.mec_interactive
+                                                    FROM '.Session::get('db_active').'.mec_interactive
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.db_active().'.weeklyguide
+                                                        FROM '.Session::get('db_active').'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
                                                                 mpgrade.kode
                                                             FROM
-                                                                '.db_active().'.pelajaran_nilai AS nilai
-                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
                                                                 mpgrade.is_elearning = "Y" 
                                                                 AND nilai.nim = "'.Session::get('username').'" 
@@ -221,21 +221,21 @@
                                                     SELECT
                                                         COUNT(*) as jml_done
                                                     FROM
-                                                        '.db_active().'.mec_interactive it
-                                                    INNER JOIN '.db_active().'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
+                                                        '.Session::get('db_active').'.mec_interactive it
+                                                    INNER JOIN '.Session::get('db_active').'.mec_interactive_appraisal ap on it.id = ap.id_interactive AND ap.username = "'.Session::get('username').'"
                                                     WHERE
                                                         id_week IN (
                                                         SELECT
                                                             id 
                                                         FROM
-                                                            '.db_active().'.weeklyguide 
+                                                            '.Session::get('db_active').'.weeklyguide 
                                                         WHERE
                                                             pelajaran IN (
                                                                 SELECT
                                                                     mpgrade.kode
                                                                 FROM
-                                                                    '.db_active().'.pelajaran_nilai AS nilai
-                                                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                    '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                    INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                                 WHERE
                                                                     mpgrade.is_elearning = "Y" 
                                                                     AND nilai.nim = "'.Session::get('username').'" 
@@ -255,16 +255,16 @@
                                             <?php
                                                 $sql_count_tlm = '
                                                     SELECT COUNT(*) as jml_d
-                                                    FROM '.db_active().'.slides_item
+                                                    FROM '.Session::get('db_active').'.slides_item
                                                     WHERE id_week in (
                                                         SELECT id
-                                                        FROM '.db_active().'.weeklyguide
+                                                        FROM '.Session::get('db_active').'.weeklyguide
                                                         WHERE pelajaran in (
                                                             SELECT
                                                                 mpgrade.kode
                                                             FROM
-                                                                '.db_active().'.pelajaran_nilai AS nilai
-                                                                INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                                                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                                INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                                                             WHERE
                                                                 mpgrade.is_elearning = "Y" 
                                                                 AND nilai.nim = "'.Session::get('username').'" 

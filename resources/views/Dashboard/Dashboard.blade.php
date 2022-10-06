@@ -104,7 +104,7 @@
                                                         SELECT
                                                             kode_grade 
                                                         FROM
-                                                        '.db_active().'.priv_sdm_akses 
+                                                        '.Session::get('db_active').'.priv_sdm_akses 
                                                         WHERE
                                                             finger = "'.Session::get('username').'"
                                                     )
@@ -118,7 +118,7 @@
                                                     SELECT
                                                         kode_grade 
                                                     FROM
-                                                    '.db_active().'.priv_sdm_akses 
+                                                    '.Session::get('db_active').'.priv_sdm_akses 
                                                     WHERE
                                                         finger = "'.Session::get('username').'"
                                                 )
@@ -146,8 +146,8 @@
                                     pel.pelajaran_eng AS english 
                                 FROM
                                     db_madania_bogor.tbl_pelajaran AS pel
-                                    INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
-                                    INNER JOIN '.db_active().'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+                                    INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+                                    INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
                                 WHERE
                                     guru_kelas.kode_grade = "'.$key_sdm->kode.'"
                                     '.$and_mp.'

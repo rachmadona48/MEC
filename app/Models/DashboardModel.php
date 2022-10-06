@@ -30,7 +30,7 @@ class DashboardModel extends Model
 							SELECT
 								kode_grade 
 							FROM
-							'.db_active().'.priv_sdm_akses 
+							'.Session::get('db_active').'.priv_sdm_akses 
 							WHERE
 								finger = "'.$username.'"
 						)
@@ -48,7 +48,7 @@ class DashboardModel extends Model
 			$sql = 'SELECT
 						g.kode_grade as kode
 					FROM
-						'.db_active().'.priv_guru_kelas as g
+						'.Session::get('db_active').'.priv_guru_kelas as g
 					'.$where.'
 					group by g.kode_grade 
 					order by kode';	
@@ -94,9 +94,9 @@ class DashboardModel extends Model
 					tbl_siswa sdm
 					LEFT JOIN ref_agama ag ON sdm.agama = ag.id
 					LEFT JOIN ref_gol_darah darah ON sdm.id_gol_darah = darah.id
-					LEFT JOIN '.db_active().'.mapping_kelas_siswa mpk on sdm.nim = mpk.nim
-					LEFT JOIN '.db_active().'.ref_kelas ks ON mpk.id_kelas = ks.id
-					LEFT JOIN '.db_active().'.ref_jurusan jr ON mpk.id_jurusan = jr.id 
+					LEFT JOIN '.Session::get('db_active').'.mapping_kelas_siswa mpk on sdm.nim = mpk.nim
+					LEFT JOIN '.Session::get('db_active').'.ref_kelas ks ON mpk.id_kelas = ks.id
+					LEFT JOIN '.Session::get('db_active').'.ref_jurusan jr ON mpk.id_jurusan = jr.id 
 				WHERE
 					sdm.nim = "'.$username.'"
 			';
@@ -106,7 +106,7 @@ class DashboardModel extends Model
     }
 
     public static function getwali_kelas($username){
-    	$sql = 'SELECT count(*) as walas FROM '.db_active().'.ref_kelas_wali
+    	$sql = 'SELECT count(*) as walas FROM '.Session::get('db_active').'.ref_kelas_wali
 				WHERE finger = "'.$username.'"
 				AND ketua = "1"
 			';
@@ -118,8 +118,8 @@ class DashboardModel extends Model
     public static function getgrade_kelas($username){
 		// echo db_active(); exit();
     	$sql = 'SELECT wl.id_kelas,kl.kode_grade,kl.kode as kode_kelas 
-				FROM '.db_active().'.ref_kelas_wali wl 
-				LEFT JOIN '.db_active().'.ref_kelas kl on wl.id_kelas = kl.id
+				FROM '.Session::get('db_active').'.ref_kelas_wali wl 
+				LEFT JOIN '.Session::get('db_active').'.ref_kelas kl on wl.id_kelas = kl.id
 				WHERE finger = "'.$username.'"
 				AND ketua = "1"
 				AND kl.kode is not NULL
@@ -145,8 +145,8 @@ class DashboardModel extends Model
     		if($username != 'admin'){
     			$where = "WHERE ifo.id_kelas in (
 							SELECT wl.id_kelas
-							FROM ".db_active().".ref_kelas_wali wl 
-							LEFT JOIN ".db_active().".ref_kelas kl on wl.id_kelas = kl.id
+							FROM ".Session::get('db_active').".ref_kelas_wali wl 
+							LEFT JOIN ".Session::get('db_active').".ref_kelas kl on wl.id_kelas = kl.id
 							WHERE wl.finger in (".$username.")
 							AND kl.kode is not NULL
 							and smt_active = '".Session::get('kd_smt_active')."'
@@ -155,7 +155,7 @@ class DashboardModel extends Model
     	}else{
     		$where = "WHERE ifo.id_kelas in (
 						SELECT id_kelas
-						from ".db_active().".mapping_kelas_siswa
+						from ".Session::get('db_active').".mapping_kelas_siswa
 						WHERE nim = '".$username."'
 						and smt_active = '".Session::get('kd_smt_active')."'
 					)";
@@ -163,7 +163,7 @@ class DashboardModel extends Model
 
     	$sql = "SELECT count(*) as jml_d
 				FROM db_madania_bogor.mec_info ifo
-				LEFT JOIN ".db_active().".ref_kelas kl on ifo.id_kelas = kl.id
+				LEFT JOIN ".Session::get('db_active').".ref_kelas kl on ifo.id_kelas = kl.id
 				".$where."
 				ORDER BY ifo.id DESC
 				LIMIT 4
@@ -179,8 +179,8 @@ class DashboardModel extends Model
     		if($username != 'admin'){
     			$where = "WHERE ifo.id_kelas in (
 							SELECT wl.id_kelas
-							FROM ".db_active().".ref_kelas_wali wl 
-							LEFT JOIN ".db_active().".ref_kelas kl on wl.id_kelas = kl.id
+							FROM ".Session::get('db_active').".ref_kelas_wali wl 
+							LEFT JOIN ".Session::get('db_active').".ref_kelas kl on wl.id_kelas = kl.id
 							WHERE wl.finger in (".$username.")
 							AND kl.kode is not NULL
 							and smt_active = '".Session::get('kd_smt_active')."'
@@ -189,7 +189,7 @@ class DashboardModel extends Model
     	}else{
     		$where = "WHERE ifo.id_kelas in (
 						SELECT id_kelas
-						from ".db_active().".mapping_kelas_siswa
+						from ".Session::get('db_active').".mapping_kelas_siswa
 						WHERE nim = '".$username."'
 						and smt_active = '".Session::get('kd_smt_active')."'
 					)";
@@ -198,7 +198,7 @@ class DashboardModel extends Model
     	$sql = "SELECT ifo.id,ifo.id_user,ifo.kode_grade,kl.kode as kode_kelas,ifo.title,
 				ifo.description,ifo.file,ifo.datetime,DATE_FORMAT(ifo.datetime,'%H:%i:%s %d-%m-%Y') as date_info
 				FROM db_madania_bogor.mec_info ifo
-				LEFT JOIN ".db_active().".ref_kelas kl on ifo.id_kelas = kl.id
+				LEFT JOIN ".Session::get('db_active').".ref_kelas kl on ifo.id_kelas = kl.id
 				".$where."
 				ORDER BY ifo.id DESC
 				LIMIT 4
@@ -213,7 +213,7 @@ class DashboardModel extends Model
     	$sql = "SELECT ifo.id,ifo.id_user,ifo.kode_grade,kl.kode as kode_kelas,ifo.title,
 				ifo.description,ifo.file,ifo.datetime,DATE_FORMAT(ifo.datetime,'%H:%i:%s %d-%m-%Y') as date_info
 				FROM db_madania_bogor.mec_info ifo
-				LEFT JOIN ".db_active().".ref_kelas kl on ifo.id_kelas = kl.id
+				LEFT JOIN ".Session::get('db_active').".ref_kelas kl on ifo.id_kelas = kl.id
 				WHERE ifo.id = ".$id."
 				ORDER BY ifo.id DESC
 			";

@@ -10,7 +10,7 @@ use Session;
 class MataPelajaranModel extends Model
 {
     public static function pelajaran_week($id_pelajaran){
-        $sql = "SELECT * from ".db_active().".weeklyguide 
+        $sql = "SELECT * from ".Session::get('db_active').".weeklyguide 
                 where pelajaran='".$id_pelajaran."' and state = 'Publish'
                 order by minggu asc
             ";
@@ -21,7 +21,7 @@ class MataPelajaranModel extends Model
     }
 
     public static function pelajaran_count_week($id_pelajaran){
-        $sql = "SELECT count(*) as jml_d from ".db_active().".weeklyguide 
+        $sql = "SELECT count(*) as jml_d from ".Session::get('db_active').".weeklyguide 
                 where pelajaran='".$id_pelajaran."'
                 order by minggu asc
             ";
@@ -33,7 +33,7 @@ class MataPelajaranModel extends Model
     
     public static function cek_week($pelajaran,$minggu,$user_id){
     	$sql = 'SELECT count(*) as jml_d
-					FROM '.db_active().'.weeklyguide
+					FROM '.Session::get('db_active').'.weeklyguide
 					WHERE pelajaran='.$pelajaran.' and minggu="'.$minggu.'"  
 					and finger = "'.$user_id.'" '
 				;	
@@ -47,7 +47,7 @@ class MataPelajaranModel extends Model
                 SELECT id,minggu,pelajaran,tgl_awal,tgl_akhir,state,
                     DATE_FORMAT(tgl_awal, "%d %M %Y") as tglawal,DATE_FORMAT(tgl_akhir, "%d %M %Y") as tglakhir,
                     DATE_FORMAT(tgl_awal, "%d-%m-%Y") as tglawal2,DATE_FORMAT(tgl_akhir, "%d-%m-%Y") as tglakhir2
-                from '.db_active().'.weeklyguide
+                from '.Session::get('db_active').'.weeklyguide
                 WHERE pelajaran = "'.$id_pelajaran.'"
                 ORDER BY minggu DESC
                 '
@@ -62,7 +62,7 @@ class MataPelajaranModel extends Model
     	/*$sql = "INSERT into mec_info(id_user,id_kelas,kode_grade,title,description,file,datetime,smt_active)
 				value(".$user_id.",".$id_kelas.",'".$grade."','".$title."','".$description."','".$file_name."','".date('Y-m-d H:i:s')."','".smt_active()['kd_smt_active']."')
 			";*/
-		$sql = "insert into ".db_active().".weeklyguide (minggu,pelajaran,tanggal,finger,tgl_awal,tgl_akhir) 
+		$sql = "insert into ".Session::get('db_active').".weeklyguide (minggu,pelajaran,tanggal,finger,tgl_awal,tgl_akhir) 
 			values ('".$minggu."','".$pelajaran."','".date('Y-m-d H:i:s')."','".$user_id."','".$tgl_awal."','".$tgl_akhir."')";
 		// echo $sql;exit(); 
 	    $query=collect(\DB::insert($sql));
@@ -71,7 +71,7 @@ class MataPelajaranModel extends Model
 
     public static function Change_state_week($id_week,$state){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET state='".$state."'
                 where id = ".$id_week."
         ";
@@ -82,7 +82,7 @@ class MataPelajaranModel extends Model
 
     public static function Save_edit_week($id_week,$tgl_awal,$tgl_akhir){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET tgl_awal='".$tgl_awal."',
                 tgl_akhir='".$tgl_akhir."'
                 where id = ".$id_week."
@@ -100,8 +100,8 @@ class MataPelajaranModel extends Model
                         pel.pelajaran_eng AS english,
                         mpgrade.kode_grade 
                     FROM
-                        '.db_active().'.pelajaran_nilai AS nilai
-                        INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                        '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                        INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                         INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
                     WHERE
                         mpgrade.is_elearning = "Y" 
@@ -119,19 +119,18 @@ class MataPelajaranModel extends Model
 
     public static function get_student_weekly($username){
         $sql_mp = 'SELECT minggu 
-                    FROM '.db_active().'.weeklyguide
+                    FROM '.Session::get('db_active').'.weeklyguide
                     WHERE pelajaran in (
                         SELECT
-                            p.kode 
+                            mpgrade.kode
                         FROM
-                            '.Session::get('kd_smt_active').'.pelajaran p,
-                            '.Session::get('kd_smt_active').'.nilai_diknas n 
+                            '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                            INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode 
                         WHERE
-                            ( p.kode = n.pelajaran ) 
-                            AND ( n.nim = '.$username.' ) 
-                            AND ( p.english IS NOT NULL ) 
-                            AND ( p.is_elearning IS NOT NULL ) 
-                        GROUP BY p.kode
+                            mpgrade.is_elearning = "Y" 
+                            AND nilai.nim = "'.$username.'"
+                        GROUP BY
+                            mpgrade.kode
                     )
                     GROUP BY minggu
                     ORDER BY minggu DESC'
@@ -147,11 +146,11 @@ class MataPelajaranModel extends Model
                 w.alokasi_waktu,w.kompetensi_inti,w.kompetensi_indikator,w.teknik_pembelajaran,w.Refleksi,w.sumber_alat,w.aims,
                 w.mode_delivery,md.deskripsi as md_deskripsi,
                 lt.deskripsi as lt_deskripsi
-				FROM '.db_active().'.weeklyguide w
+				FROM '.Session::get('db_active').'.weeklyguide w
                 left join tbl_sdm s on w.finger=s.finger
                 left join tbl_sdm spv on w.supervisor=spv.finger
-                left join '.db_active().'.mec_mode_delivery md on w.mode_delivery = md.id
-                left join '.db_active().'.mec_learning_type lt on w.learning_type = lt.id
+                left join '.Session::get('db_active').'.mec_mode_delivery md on w.mode_delivery = md.id
+                left join '.Session::get('db_active').'.mec_learning_type lt on w.learning_type = lt.id
 				WHERE w.id='.$id_week
 				;	
 		// echo $sql;exit();
@@ -161,7 +160,7 @@ class MataPelajaranModel extends Model
 
     public static function get_mode_delivery(){
         $sql = 'SELECT id,deskripsi
-                FROM '.db_active().'.mec_mode_delivery
+                FROM '.Session::get('db_active').'.mec_mode_delivery
                 ORDER BY id ASC'
                 ;   
         // echo $sql;exit();
@@ -171,7 +170,7 @@ class MataPelajaranModel extends Model
 
     public static function get_outcomes(){
         $sql = 'SELECT id,deskripsi
-                FROM '.db_active().'.mec_outcomes
+                FROM '.Session::get('db_active').'.mec_outcomes
                 ORDER BY id ASC'
                 ;   
         // echo $sql;exit();
@@ -181,7 +180,7 @@ class MataPelajaranModel extends Model
 
     public static function get_learning_type(){
         $sql = 'SELECT id,deskripsi
-                FROM '.db_active().'.mec_learning_type
+                FROM '.Session::get('db_active').'.mec_learning_type
                 ORDER BY id ASC'
                 ;   
         // echo $sql;exit();
@@ -191,7 +190,7 @@ class MataPelajaranModel extends Model
 
     public static function get_kd_indikator($id_week,$id_pelajaran){
         $sql = 'SELECT id,kompetensi_dasar,indikator
-                FROM '.db_active().'.mec_week_kd_indikator
+                FROM '.Session::get('db_active').'.mec_week_kd_indikator
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -203,7 +202,7 @@ class MataPelajaranModel extends Model
 
     public static function get_kd_indikator_by_id($id){
         $sql = 'SELECT id,kompetensi_dasar,indikator
-                FROM '.db_active().'.mec_week_kd_indikator
+                FROM '.Session::get('db_active').'.mec_week_kd_indikator
                 WHERE id = '.$id.' '
                 ;   
         // echo $sql;exit();
@@ -213,12 +212,12 @@ class MataPelajaranModel extends Model
 
     public static function get_materi_pembelajaran($id_week,$id_pelajaran){
         // $sql = 'SELECT id,materi
-        //         FROM '.db_active().'.mec_week_mapel
+        //         FROM '.Session::get('db_active').'.mec_week_mapel
         //         WHERE id_week = '.$id_week.'
         //         ORDER BY id ASC'
         //         ; 
         $sql = 'SELECT id,judul as materi
-                FROM '.db_active().'.slides_item
+                FROM '.Session::get('db_active').'.slides_item
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -231,12 +230,12 @@ class MataPelajaranModel extends Model
 
     public static function get_materi_pembelajaran_by_id($id){
         // $sql = 'SELECT id,materi
-        //         FROM '.db_active().'.mec_week_mapel
+        //         FROM '.Session::get('db_active').'.mec_week_mapel
         //         WHERE id = '.$id.'
         //         ORDER BY id ASC'
         //         ; 
         $sql = 'SELECT id,judul as materi
-                FROM '.db_active().'.slides_item
+                FROM '.Session::get('db_active').'.slides_item
                 WHERE id = '.$id.'
                 ORDER BY id ASC'
                 ;   
@@ -247,7 +246,7 @@ class MataPelajaranModel extends Model
 
     public static function get_langkah_pembelajaran($id_week,$id_pelajaran){
         $sql = 'SELECT id,kegiatan,durasi,muatan
-                FROM '.db_active().'.mec_week_langkah_pembelajaran
+                FROM '.Session::get('db_active').'.mec_week_langkah_pembelajaran
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -260,7 +259,7 @@ class MataPelajaranModel extends Model
 
     public static function get_langkah_pembelajaran_by_id($id){
         $sql = 'SELECT id,kegiatan,durasi,muatan
-                FROM '.db_active().'.mec_week_langkah_pembelajaran
+                FROM '.Session::get('db_active').'.mec_week_langkah_pembelajaran
                 WHERE id = '.$id
                 ;   
         // echo $sql;exit();
@@ -271,7 +270,7 @@ class MataPelajaranModel extends Model
 
     public static function get_hasil_pembelajaran($id_week,$id_pelajaran){
         $sql = 'SELECT id,indikator,tehnik,bentuk_instrumen,sampel_instrumen
-                FROM '.db_active().'.mec_week_hasil_pembelajaran
+                FROM '.Session::get('db_active').'.mec_week_hasil_pembelajaran
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -284,7 +283,7 @@ class MataPelajaranModel extends Model
 
     public static function get_hasil_pembelajaran_by_id($id){
         $sql = 'SELECT id,indikator,tehnik,bentuk_instrumen,sampel_instrumen
-                FROM '.db_active().'.mec_week_hasil_pembelajaran
+                FROM '.Session::get('db_active').'.mec_week_hasil_pembelajaran
                 WHERE id = '.$id
                 ;   
         // echo $sql;exit();
@@ -295,7 +294,7 @@ class MataPelajaranModel extends Model
 
     public static function Get_mst_outcomes($id_week,$id_pelajaran){
         $sql = "SELECT mst.*
-                from ".db_active().".mec_outcomes mst
+                from ".Session::get('db_active').".mec_outcomes mst
                 where (mst.id_parent = 0 or mst.id_parent is null)
                 order by mst.id asc
             ";
@@ -307,8 +306,8 @@ class MataPelajaranModel extends Model
 
     public static function get_mstRubrik($id_week,$id_pelajaran){
         $sql = "SELECT mst.*,mwb.id as id_mwb 
-                from ".db_active().".mec_master_rubrik mst
-                LEFT JOIN ".db_active().".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
+                from ".Session::get('db_active').".mec_master_rubrik mst
+                LEFT JOIN ".Session::get('db_active').".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
                 where (mst.id_parent = 0 or mst.id_parent is null)
                 and mwb.id is null
                 order by mst.id asc
@@ -320,7 +319,7 @@ class MataPelajaranModel extends Model
     }
 
     public static function get_mstChild_outcomes($id_parent){
-        $sql = "SELECT * from ".db_active().".mec_outcomes
+        $sql = "SELECT * from ".Session::get('db_active').".mec_outcomes
                 where id_parent = ".$id_parent."
                 order by id asc
             ";
@@ -331,7 +330,7 @@ class MataPelajaranModel extends Model
     }
 
     public static function get_mstChild_rubrik($id_mst_rubrik){
-        $sql = "SELECT * from ".db_active().".mec_master_rubrik
+        $sql = "SELECT * from ".Session::get('db_active').".mec_master_rubrik
                 where id_parent = ".$id_mst_rubrik."
                 order by id asc
             ";
@@ -345,9 +344,9 @@ class MataPelajaranModel extends Model
         $html = "";
 
         $sql = "SELECT mwo.id as id_mwo,mst.id,mst.id_parent,mst.deskripsi as deskripsi_child,prt.deskripsi as dekripsi_parent
-                from ".db_active().".mec_week_outcomes mwo
-                LEFT JOIN ".db_active().".mec_outcomes mst on mwo.outcomes = mst.id
-                LEFT JOIN ".db_active().".mec_outcomes prt on mst.id_parent = prt.id
+                from ".Session::get('db_active').".mec_week_outcomes mwo
+                LEFT JOIN ".Session::get('db_active').".mec_outcomes mst on mwo.outcomes = mst.id
+                LEFT JOIN ".Session::get('db_active').".mec_outcomes prt on mst.id_parent = prt.id
                 WHERE mwo.id_week = ".$id_week." and mwo.pelajaran = ".$id_pelajaran."
                 order by mst.id asc "
                 ;  
@@ -388,8 +387,8 @@ class MataPelajaranModel extends Model
     public static function get_week_rubrik($kode_grade,$id_pelajaran,$id_week,$week,$privilege){
         $html = "";
         $sql = "SELECT mst.*,mwb.id as id_mwb 
-                from ".db_active().".mec_master_rubrik mst
-                LEFT JOIN ".db_active().".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
+                from ".Session::get('db_active').".mec_master_rubrik mst
+                LEFT JOIN ".Session::get('db_active').".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
                 where (mst.id_parent = 0 or mst.id_parent is null)
                 and mwb.id is not null
                 order by mst.id asc"
@@ -405,8 +404,8 @@ class MataPelajaranModel extends Model
                 
 
                 $sql_child = "SELECT mst.*,mwb.id as id_mwb,mwb.maks_skor
-                from ".db_active().".mec_master_rubrik mst
-                LEFT JOIN ".db_active().".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
+                from ".Session::get('db_active').".mec_master_rubrik mst
+                LEFT JOIN ".Session::get('db_active').".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
                 where mst.id_parent = ".$key->id."
                 and mwb.id is not null
                 order by mst.id asc"
@@ -458,8 +457,8 @@ class MataPelajaranModel extends Model
     public static function get_week_rubrik_pdf($kode_grade,$id_pelajaran,$id_week,$week){
         $html = "";
         $sql = "SELECT mst.*,mwb.id as id_mwb 
-                from ".db_active().".mec_master_rubrik mst
-                LEFT JOIN ".db_active().".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
+                from ".Session::get('db_active').".mec_master_rubrik mst
+                LEFT JOIN ".Session::get('db_active').".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
                 where (mst.id_parent = 0 or mst.id_parent is null)
                 and mwb.id is not null
                 order by mst.id asc"
@@ -475,8 +474,8 @@ class MataPelajaranModel extends Model
                 
 
                 $sql_child = "SELECT mst.*,mwb.id as id_mwb,mwb.maks_skor
-                from ".db_active().".mec_master_rubrik mst
-                LEFT JOIN ".db_active().".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
+                from ".Session::get('db_active').".mec_master_rubrik mst
+                LEFT JOIN ".Session::get('db_active').".mec_week_rubrik mwb on mst.id = mwb.rubrik and mwb.id_week = ".$id_week." and mwb.pelajaran = ".$id_pelajaran."
                 where mst.id_parent = ".$key->id."
                 and mwb.id is not null
                 order by mst.id asc"
@@ -514,9 +513,9 @@ class MataPelajaranModel extends Model
         $html = "";
 
         $sql = "SELECT mwo.id as id_mwo,mst.id,mst.id_parent,mst.deskripsi as deskripsi_child,prt.deskripsi as dekripsi_parent
-                from ".db_active().".mec_week_outcomes mwo
-                LEFT JOIN ".db_active().".mec_outcomes mst on mwo.outcomes = mst.id
-                LEFT JOIN ".db_active().".mec_outcomes prt on mst.id_parent = prt.id
+                from ".Session::get('db_active').".mec_week_outcomes mwo
+                LEFT JOIN ".Session::get('db_active').".mec_outcomes mst on mwo.outcomes = mst.id
+                LEFT JOIN ".Session::get('db_active').".mec_outcomes prt on mst.id_parent = prt.id
                 WHERE mwo.id_week = ".$id_week." and mwo.pelajaran = ".$id_pelajaran."
                 order by mst.id asc "
                 ;  
@@ -544,7 +543,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_outcomes($id_week,$id_pelajaran,$child_outcomes,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -552,7 +551,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_outcomes(id_week,pelajaran,outcomes) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_outcomes(id_week,pelajaran,outcomes) 
             values (".$id_week.",".$id_pelajaran.",".$child_outcomes.")";
         // echo $sql_kd;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -562,7 +561,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_rubrik($id_week,$id_pelajaran,$rubrik,$maks_skor=0,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -570,7 +569,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_rubrik(id_week,pelajaran,rubrik,maks_skor) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_rubrik(id_week,pelajaran,rubrik,maks_skor) 
             values (".$id_week.",".$id_pelajaran.",".$rubrik.",'".$maks_skor."')";
         // echo $sql_kd;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -580,7 +579,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_rubrik($id_week,$id_pelajaran,$rubrik,$maks_skor=0,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -589,7 +588,7 @@ class MataPelajaranModel extends Model
         $query=collect(\DB::update($sql));
 
         $sql_kd = "
-                UPDATE ".db_active().".mec_week_rubrik
+                UPDATE ".Session::get('db_active').".mec_week_rubrik
                 SET maks_skor=".$maks_skor."
                 where id_week = ".$id_week."
                 AND pelajaran = ".$id_pelajaran."
@@ -604,7 +603,7 @@ class MataPelajaranModel extends Model
     public static function del_outcomes($id_pelajaran,$id_week,$week_outcomes){
 
         date_default_timezone_set('Asia/Jakarta');
-        $sql_del = "DELETE FROM ".db_active().".mec_week_outcomes where id = ".$week_outcomes."
+        $sql_del = "DELETE FROM ".Session::get('db_active').".mec_week_outcomes where id = ".$week_outcomes."
                     AND id_week = ".$id_week." AND pelajaran = ".$id_pelajaran."
             ";
         // echo $sql_del;exit(); 
@@ -614,15 +613,15 @@ class MataPelajaranModel extends Model
 
     public static function del_rubrik($id_pelajaran,$id_week,$week_rubrik){
         $sql = "SELECT mwb.*,mst.id as id_mst
-                FROM ".db_active().".mec_week_rubrik mwb
-                LEFT JOIN ".db_active().".mec_master_rubrik mst on mwb.rubrik = mst.id
+                FROM ".Session::get('db_active').".mec_week_rubrik mwb
+                LEFT JOIN ".Session::get('db_active').".mec_master_rubrik mst on mwb.rubrik = mst.id
                 WHERE mwb.id = ".$week_rubrik."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::select($sql))->first();
 
         $sql_rb = "SELECT id 
-                    FROM ".db_active().".mec_master_rubrik
+                    FROM ".Session::get('db_active').".mec_master_rubrik
                     WHERE (id = ".$query->id_mst." or id_parent = ".$query->id_mst.")
             ";
         // echo $sql_rb;exit(); 
@@ -636,7 +635,7 @@ class MataPelajaranModel extends Model
         // print_r($id_del);exit();
 
         date_default_timezone_set('Asia/Jakarta');
-        $sql_del = "DELETE FROM ".db_active().".mec_week_rubrik where rubrik in (".$id_del.")
+        $sql_del = "DELETE FROM ".Session::get('db_active').".mec_week_rubrik where rubrik in (".$id_del.")
                     AND id_week = ".$id_week." AND pelajaran = ".$id_pelajaran."
             ";
         // echo $sql_del;exit(); 
@@ -647,8 +646,8 @@ class MataPelajaranModel extends Model
     public static function get_mec_Child_rubrik($id_week,$id_pelajaran,$id_mst_rubrik,$id_mec_rubrik){
         $sql = "
                 SELECT mwb.*,mst.id_parent,mst.nama
-                FROM ".db_active().".mec_week_rubrik mwb
-                LEFT JOIN ".db_active().".mec_master_rubrik mst on mwb.rubrik = mst.id
+                FROM ".Session::get('db_active').".mec_week_rubrik mwb
+                LEFT JOIN ".Session::get('db_active').".mec_master_rubrik mst on mwb.rubrik = mst.id
                 WHERE mwb.id_week = ".$id_week."
                 AND mwb.pelajaran = ".$id_pelajaran."
                 AND mst.id_parent = ".$id_mst_rubrik."
@@ -718,7 +717,7 @@ class MataPelajaranModel extends Model
 
     public static function get_rubrik_diskusi($id_week,$id_pelajaran){
         $sql = 'SELECT id,nm_siswa,keaktifan,kerjasama,presentasi,bertanya,menjawab,jml_skor
-                FROM '.db_active().'.mec_week_rubrik_diskusi
+                FROM '.Session::get('db_active').'.mec_week_rubrik_diskusi
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -731,7 +730,7 @@ class MataPelajaranModel extends Model
 
     public static function get_rubrik_diskusi_by_id($id){
         $sql = 'SELECT id,nm_siswa,keaktifan,kerjasama,presentasi,bertanya,menjawab,jml_skor
-                FROM '.db_active().'.mec_week_rubrik_diskusi
+                FROM '.Session::get('db_active').'.mec_week_rubrik_diskusi
                 WHERE id = '.$id
                 ;   
         // echo $sql;exit();
@@ -743,7 +742,7 @@ class MataPelajaranModel extends Model
 
     public static function get_rubrik_tugas($id_week,$id_pelajaran){
         $sql = 'SELECT id,nm_siswa,ketepatan,skala,kerapihan,simbol,jml_skor
-                FROM '.db_active().'.mec_week_rubrik_tugas
+                FROM '.Session::get('db_active').'.mec_week_rubrik_tugas
                 WHERE id_week = '.$id_week.'
                 AND pelajaran = '.$id_pelajaran.'
                 ORDER BY id ASC'
@@ -756,7 +755,7 @@ class MataPelajaranModel extends Model
 
     public static function get_rubrik_tugas_by_id($id){
         $sql = 'SELECT id,nm_siswa,ketepatan,skala,kerapihan,simbol,jml_skor
-                FROM '.db_active().'.mec_week_rubrik_tugas
+                FROM '.Session::get('db_active').'.mec_week_rubrik_tugas
                 WHERE id = '.$id
                 ;   
         // echo $sql;exit();
@@ -783,7 +782,7 @@ class MataPelajaranModel extends Model
             }else{
                 // $sql = 'select id from '.Session::get('kd_smt_active').'.priv_supervisor where grade="'. $kode_grade .'" and guru="'.$username.'"';
                 $sql = 'select id, kode_grade, finger 
-                        from '.db_active().'.priv_sdm_akses 
+                        from '.Session::get('db_active').'.priv_sdm_akses 
                         where kode_grade="'. $kode_grade .'" and finger="'.$username.'"';
                 // echo $sql;
                 $key=collect(\DB::select($sql));
@@ -799,7 +798,7 @@ class MataPelajaranModel extends Model
 
     public static function Update_topic($id_week,$kolom,$data_topic,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET ".$kolom." = '".$data_topic."',
                 finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
@@ -812,7 +811,7 @@ class MataPelajaranModel extends Model
 
     public static function Update_topic_date($id_week,$tgl_awal,$tgl_akhir){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET tgl_awal= '".$tgl_awal."',
                 tgl_akhir = '".$tgl_akhir."'
                 where id = ".$id_week."
@@ -824,7 +823,7 @@ class MataPelajaranModel extends Model
 
     public static function Update_topic_approve($id_week,$kolom,$data_topic,$approve,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET ".$kolom." = '".$data_topic."',
                 tanggal = '".date('Y-m-d H:i:s')."',
                 supervisor=".$username.",
@@ -845,7 +844,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_topic_kd_indikator($id_week,$id_pelajaran,$kompetensi_dasar,$indikator,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -853,7 +852,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_kd_indikator (id_week,pelajaran,kompetensi_dasar,indikator) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_kd_indikator (id_week,pelajaran,kompetensi_dasar,indikator) 
             values (".$id_week.",".$id_pelajaran.",'".$kompetensi_dasar."','".$indikator."')";
         // echo $sql;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -863,7 +862,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_topic_kd_indikator($id_week,$id,$kompetensi_dasar,$indikator,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -871,7 +870,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "UPDATE ".db_active().".mec_week_kd_indikator
+        $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_kd_indikator
                 SET kompetensi_dasar='".$kompetensi_dasar."',
                 indikator='".$indikator."'
                 where id = ".$id."
@@ -884,7 +883,7 @@ class MataPelajaranModel extends Model
 
     public static function Delete_kd_indi($id){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "DELETE FROM ".db_active().".mec_week_kd_indikator where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".mec_week_kd_indikator where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -893,7 +892,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_materi_pelajaran($id_week,$id_pelajaran,$materi,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -901,9 +900,9 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        // $sql_kd = "insert into ".db_active().".mec_week_mapel (id_week,materi) 
+        // $sql_kd = "insert into ".Session::get('db_active').".mec_week_mapel (id_week,materi) 
         //     values (".$id_week.",'".$materi."')";
-        $sql_kd = "insert into ".db_active().".slides_item (id_week,pelajaran,judul,finger,tanggal) 
+        $sql_kd = "insert into ".Session::get('db_active').".slides_item (id_week,pelajaran,judul,finger,tanggal) 
             values (".$id_week.",'".$id_pelajaran."','".$materi."','".$username."','".date('Y-m-d H:i:s')."')";
             
         // echo $sql_kd;exit(); 
@@ -914,7 +913,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_materi_pelajaran($id_week,$id,$materi,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -922,12 +921,12 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        // $sql_kd = "UPDATE ".db_active().".mec_week_mapel
+        // $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_mapel
         //         SET materi='".$materi."'
         //         where id = ".$id."
         // ";
 
-        $sql = "UPDATE ".db_active().".slides_item
+        $sql = "UPDATE ".Session::get('db_active').".slides_item
                 SET judul='".$materi."',
                 finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
@@ -941,10 +940,10 @@ class MataPelajaranModel extends Model
 
     public static function Delete_mapel($id){
         date_default_timezone_set('Asia/Jakarta');
-        // $sql = "DELETE FROM ".db_active().".mec_week_mapel where id = ".$id."
+        // $sql = "DELETE FROM ".Session::get('db_active').".mec_week_mapel where id = ".$id."
         //     ";
 
-        $sql = "DELETE FROM ".db_active().".slides_item where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".slides_item where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -953,7 +952,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_langkah_pembelajaran($id_week,$id_pelajaran,$kegiatan,$durasi,$muatan,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -961,7 +960,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_langkah_pembelajaran (id_week,pelajaran,kegiatan,durasi,muatan) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_langkah_pembelajaran (id_week,pelajaran,kegiatan,durasi,muatan) 
             values (".$id_week.",".$id_pelajaran.",'".$kegiatan."','".$durasi."','".$muatan."')";
         // echo $sql;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -971,7 +970,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_langkah_pembelajaran($id_week,$id,$kegiatan,$durasi,$muatan,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -979,7 +978,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "UPDATE ".db_active().".mec_week_langkah_pembelajaran
+        $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_langkah_pembelajaran
                 SET kegiatan='".$kegiatan."',
                 durasi='".$durasi."',
                 muatan='".$muatan."'
@@ -994,7 +993,7 @@ class MataPelajaranModel extends Model
     public static function Delete_langkahPembelajaran($id){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "DELETE FROM ".db_active().".mec_week_langkah_pembelajaran where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".mec_week_langkah_pembelajaran where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -1003,7 +1002,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_hasil_pembelajaran($id_week,$id_pelajaran,$indikator,$tehnik,$bentuk_instrumen,$sampel_instrumen,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1011,7 +1010,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_hasil_pembelajaran (id_week,pelajaran,indikator,tehnik,bentuk_instrumen,sampel_instrumen) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_hasil_pembelajaran (id_week,pelajaran,indikator,tehnik,bentuk_instrumen,sampel_instrumen) 
             values (".$id_week.",".$id_pelajaran.",'".$indikator."','".$tehnik."','".$bentuk_instrumen."','".$sampel_instrumen."')";
         // echo $sql;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -1021,7 +1020,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_hasil_pembelajaran($id_week,$id,$indikator,$tehnik,$bentuk_instrumen,$sampel_instrumen,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1029,7 +1028,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "UPDATE ".db_active().".mec_week_hasil_pembelajaran
+        $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_hasil_pembelajaran
                 SET indikator='".$indikator."',
                 tehnik='".$tehnik."',
                 bentuk_instrumen='".$bentuk_instrumen."',
@@ -1045,7 +1044,7 @@ class MataPelajaranModel extends Model
     public static function Delete_hasilPembelajaran($id){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "DELETE FROM ".db_active().".mec_week_hasil_pembelajaran where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".mec_week_hasil_pembelajaran where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -1055,7 +1054,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_rubrik_diskusi($id_week,$id_pelajaran,$nm_siswa,$keaktifan,$kerjasama,$presentasi,$bertanya,$menjawab,$jml_skor,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1063,7 +1062,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_rubrik_diskusi (id_week,pelajaran,nm_siswa,keaktifan,kerjasama,presentasi,bertanya,menjawab,jml_skor) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_rubrik_diskusi (id_week,pelajaran,nm_siswa,keaktifan,kerjasama,presentasi,bertanya,menjawab,jml_skor) 
             values (".$id_week.",".$id_pelajaran.",'".$nm_siswa."',".$keaktifan.",".$kerjasama.",".$presentasi.",".$bertanya.",".$menjawab.",".$jml_skor.")";
         // echo $sql;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -1073,7 +1072,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_rubrik_diskusi($id_week,$id,$nm_siswa,$keaktifan,$kerjasama,$presentasi,$bertanya,$menjawab,$jml_skor,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1081,7 +1080,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "UPDATE ".db_active().".mec_week_rubrik_diskusi
+        $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_rubrik_diskusi
                 SET nm_siswa='".$nm_siswa."',
                 keaktifan=".$keaktifan.",
                 kerjasama=".$kerjasama.",
@@ -1100,7 +1099,7 @@ class MataPelajaranModel extends Model
     public static function Delete_rubrikDiskusi($id){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "DELETE FROM ".db_active().".mec_week_rubrik_diskusi where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".mec_week_rubrik_diskusi where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -1109,7 +1108,7 @@ class MataPelajaranModel extends Model
 
     public static function sv_rubrik_tugas($id_week,$id_pelajaran,$nm_siswa,$ketepatan,$skala,$kerapihan,$simbol,$jml_skor,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1117,7 +1116,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "insert into ".db_active().".mec_week_rubrik_tugas (id_week,pelajaran,nm_siswa,ketepatan,skala,kerapihan,simbol,jml_skor) 
+        $sql_kd = "insert into ".Session::get('db_active').".mec_week_rubrik_tugas (id_week,pelajaran,nm_siswa,ketepatan,skala,kerapihan,simbol,jml_skor) 
             values (".$id_week.",".$id_pelajaran.",'".$nm_siswa."',".$ketepatan.",".$skala.",".$kerapihan.",".$simbol.",".$jml_skor.")";
         // echo $sql;exit(); 
         $query_kd=collect(\DB::insert($sql_kd));
@@ -1127,7 +1126,7 @@ class MataPelajaranModel extends Model
 
     public static function upd_rubrik_tugas($id_week,$id,$nm_siswa,$ketepatan,$skala,$kerapihan,$simbol,$jml_skor,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".weeklyguide
+        $sql = "UPDATE ".Session::get('db_active').".weeklyguide
                 SET finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_week."
@@ -1135,7 +1134,7 @@ class MataPelajaranModel extends Model
         // echo $sql;exit();
         $query=collect(\DB::update($sql));
 
-        $sql_kd = "UPDATE ".db_active().".mec_week_rubrik_tugas
+        $sql_kd = "UPDATE ".Session::get('db_active').".mec_week_rubrik_tugas
                 SET nm_siswa='".$nm_siswa."',
                 ketepatan=".$ketepatan.",
                 skala=".$skala.",
@@ -1153,7 +1152,7 @@ class MataPelajaranModel extends Model
     public static function Delete_rubrikTugas($id){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "DELETE FROM ".db_active().".mec_week_rubrik_tugas where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".mec_week_rubrik_tugas where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -1163,7 +1162,7 @@ class MataPelajaranModel extends Model
     public static function get_data_tlm_weekly($pelajaran,$id_week){
         $sql = 'SELECT it.*,date_format( it.tanggal, "%e %b %Y %H:%i" ) AS tgl ,s.nama,
                 date_format(it.tglsuper,"%W, %M %e, %Y   %H:%i") as tgl2,date_format(it.approve,"%W, %M %e, %Y   %H:%i") as tgl3
-                FROM '.db_active().'.slides_item it
+                FROM '.Session::get('db_active').'.slides_item it
                 left join tbl_sdm s on it.finger=s.finger
                 WHERE it.pelajaran = "'.$pelajaran.'"
                 AND it.id_week = "'.$id_week.'" '
@@ -1176,7 +1175,7 @@ class MataPelajaranModel extends Model
     public static function get_data_tlm_weekly_by_id($id){
         $sql = 'SELECT it.*,spv.nama as nm_spv,date_format( it.tanggal, "%e %b %Y %H:%i" ) AS tgl ,s.nama,
                 date_format(it.tglsuper,"%W, %M %e, %Y   %H:%i") as tgl2,date_format(it.approve,"%W, %M %e, %Y   %H:%i") as tgl3
-                FROM '.db_active().'.slides_item it
+                FROM '.Session::get('db_active').'.slides_item it
                 left join tbl_sdm s on it.finger=s.finger
                 left join tbl_sdm spv on it.supervisor=spv.finger
                 WHERE it.id = '.$id
@@ -1194,8 +1193,8 @@ class MataPelajaranModel extends Model
                 date_format( sl.tanggal, "%e %b %Y %H:%i" ) AS tgl,
                 it.judul
             FROM
-                '.db_active().'.slides_lampiran sl
-                LEFT JOIN '.db_active().'.slides_item it on sl.item = it.id
+                '.Session::get('db_active').'.slides_lampiran sl
+                LEFT JOIN '.Session::get('db_active').'.slides_item it on sl.item = it.id
             WHERE
                 sl.item = '.$id.'
             ORDER BY
@@ -1215,8 +1214,8 @@ class MataPelajaranModel extends Model
                 date_format( sl.tanggal, "%e %b %Y %H:%i" ) AS tgl,
                 it.judul
             FROM
-                '.db_active().'.slides_lampiran sl
-                LEFT JOIN '.db_active().'.slides_item it on sl.item = it.id
+                '.Session::get('db_active').'.slides_lampiran sl
+                LEFT JOIN '.Session::get('db_active').'.slides_item it on sl.item = it.id
             WHERE
                 sl.id = '.$id.' '
         ;   
@@ -1227,7 +1226,7 @@ class MataPelajaranModel extends Model
 
     public static function add_tlm($user_id,$pelajaran,$minggu,$judul,$isi){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "insert into ".db_active().".slides_item (id_week,pelajaran,tanggal,finger,judul,isi) 
+        $sql = "insert into ".Session::get('db_active').".slides_item (id_week,pelajaran,tanggal,finger,judul,isi) 
             values ('".$minggu."','".$pelajaran."','".date('Y-m-d H:i:s')."','".$user_id."','".$judul."','".$isi."')";
         // echo $sql;exit(); 
         $query=collect(\DB::insert($sql));
@@ -1236,7 +1235,7 @@ class MataPelajaranModel extends Model
 
     public static function update_tlm_isi($id_tlm,$isi,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".slides_item
+        $sql = "UPDATE ".Session::get('db_active').".slides_item
                 SET isi='".$isi."',
                 finger=".$username.",
                 tanggal = '".date('Y-m-d H:i:s')."'
@@ -1249,7 +1248,7 @@ class MataPelajaranModel extends Model
 
     public static function Update_tlm_approve($id_tlm,$memo,$approve,$username){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "UPDATE ".db_active().".slides_item
+        $sql = "UPDATE ".Session::get('db_active').".slides_item
                 SET memo = '".$memo."',
                 tanggal = '".date('Y-m-d H:i:s')."',
                 supervisor=".$username.",
@@ -1285,7 +1284,7 @@ class MataPelajaranModel extends Model
 
     public static function Delete_tlm_slide($id){
         date_default_timezone_set('Asia/Jakarta');
-        $sql = "DELETE FROM ".db_active().".slides_lampiran where id = ".$id."
+        $sql = "DELETE FROM ".Session::get('db_active').".slides_lampiran where id = ".$id."
             ";
         // echo $sql;exit(); 
         $query=collect(\DB::delete($sql));
@@ -1295,8 +1294,8 @@ class MataPelajaranModel extends Model
     public static function get_alokasi_waktu_lt($id_pelajaran,$id_lt){
         $sql = '
                 SELECT IFNULL(sum(wg.alokasi_waktu),0) as jml_d
-                FROM '.db_active().'.weeklyguide wg
-                LEFT JOIN '.db_active().'.mec_learning_type lt on wg.learning_type = lt.id
+                FROM '.Session::get('db_active').'.weeklyguide wg
+                LEFT JOIN '.Session::get('db_active').'.mec_learning_type lt on wg.learning_type = lt.id
                 WHERE pelajaran = '.$id_pelajaran.'
                 AND wg.learning_type = '.$id_lt.'  '
             ;   
@@ -1315,7 +1314,7 @@ class MataPelajaranModel extends Model
                     date_format( f.mulai, "%d-%m-%Y" ) AS t1,
                     date_format( f.ditutup, "%d-%m-%Y" ) AS t2 
                 FROM
-                    '.db_active().'.forum_topic f
+                    '.Session::get('db_active').'.forum_topic f
                     LEFT JOIN db_madania_bogor.tbl_sdm s on f.guru = s.finger
                 WHERE
                     f.pelajaran = "'.$id_pelajaran.'"
@@ -1331,10 +1330,10 @@ class MataPelajaranModel extends Model
         date_default_timezone_set('Asia/Jakarta');
         if(!empty($ditutup)){
             $ditutup = date('Y-m-d',strtotime($ditutup));
-            $sql = "insert into ".db_active().".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
+            $sql = "insert into ".Session::get('db_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
             values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
         }else{
-            $sql = "insert into ".db_active().".forum_topic (pelajaran,guru,judul,isi,mulai) 
+            $sql = "insert into ".Session::get('db_active').".forum_topic (pelajaran,guru,judul,isi,mulai) 
             values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."')";
         }
 
@@ -1347,14 +1346,14 @@ class MataPelajaranModel extends Model
         date_default_timezone_set('Asia/Jakarta');
         if(!empty($ditutup)){
             $ditutup = date('Y-m-d',strtotime($ditutup));
-            $sql = "UPDATE ".db_active().".forum_topic 
+            $sql = "UPDATE ".Session::get('db_active').".forum_topic 
                     SET judul='".$judul."',
                     ditutup='".$ditutup."',
                     isi='".$isi."'
                     where id = ".$id."
                     ";
         }else{
-            $sql = "UPDATE ".db_active().".forum_topic 
+            $sql = "UPDATE ".Session::get('db_active').".forum_topic 
                     SET judul='".$judul."',
                     isi='".$isi."'
                     where id = ".$id."
@@ -1369,11 +1368,11 @@ class MataPelajaranModel extends Model
     }
 
     public static function delete_discuss($id){
-        $sql_del = "DELETE FROM ".db_active().".forum_topic where id = ".$id;
+        $sql_del = "DELETE FROM ".Session::get('db_active').".forum_topic where id = ".$id;
         // echo $sql_del;exit(); 
         $query_del=collect(\DB::delete($sql_del));
 
-        $sql_del_cm = "DELETE FROM ".db_active().".forum_comment where topic = ".$id;
+        $sql_del_cm = "DELETE FROM ".Session::get('db_active').".forum_comment where topic = ".$id;
         // echo $sql_del;exit(); 
         $query_del_cm=collect(\DB::delete($sql_del_cm));
 
@@ -1390,7 +1389,7 @@ class MataPelajaranModel extends Model
                     date_format( f.mulai, "%d-%m-%Y %h:%i" ) AS t1,
                     date_format( f.ditutup, "%d-%m-%Y" ) AS t2 
                 FROM
-                    '.db_active().'.forum_topic f
+                    '.Session::get('db_active').'.forum_topic f
                     LEFT JOIN db_madania_bogor.tbl_sdm s on f.guru = s.finger
                 WHERE
                     f.id = '.$id.' '
@@ -1410,7 +1409,7 @@ class MataPelajaranModel extends Model
                     cm.siswa,
                     date_format( cm.tanggal, "%d %M %Y %h:%i" ) AS tgl
                 FROM
-                    '.db_active().'.forum_comment cm
+                    '.Session::get('db_active').'.forum_comment cm
                 WHERE
                     cm.topic = '.$id.' 
                     AND cm.parent_comment is null'
@@ -1426,10 +1425,10 @@ class MataPelajaranModel extends Model
             // $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
             // values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
 
-            $sql = "insert into ".db_active().".forum_comment (topic,guru,nama,isi,tanggal,komputer) 
+            $sql = "insert into ".Session::get('db_active').".forum_comment (topic,guru,nama,isi,tanggal,komputer) 
             values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."','".$ip_client."')";
         }else{
-            $sql = "insert into ".db_active().".forum_comment (topic,siswa,nama,isi,tanggal,komputer) 
+            $sql = "insert into ".Session::get('db_active').".forum_comment (topic,siswa,nama,isi,tanggal,komputer) 
             values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."','".$ip_client."')";
         }
 
@@ -1444,10 +1443,10 @@ class MataPelajaranModel extends Model
             // $sql = "insert into ".Session::get('kd_smt_active').".forum_topic (pelajaran,guru,judul,isi,mulai,ditutup) 
             // values ('".$id_pelajaran."','".$username."','".$judul."','".$isi."','".date('Y-m-d H:i:s')."','".$ditutup."')";
 
-            $sql = "insert into ".db_active().".forum_comment (topic,guru,nama,isi,tanggal,parent_comment,komputer) 
+            $sql = "insert into ".Session::get('db_active').".forum_comment (topic,guru,nama,isi,tanggal,parent_comment,komputer) 
             values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."',".$parent_comment.",'".$ip_client."')";
         }else{
-            $sql = "insert into ".db_active().".forum_comment (topic,siswa,nama,isi,tanggal,parent_comment,komputer) 
+            $sql = "insert into ".Session::get('db_active').".forum_comment (topic,siswa,nama,isi,tanggal,parent_comment,komputer) 
             values (".$id.",'".$username."','".$nama."','".$comment_discuss."','".date('Y-m-d H:i:s')."',".$parent_comment.",'".$ip_client."')";
         }
 
@@ -1458,7 +1457,7 @@ class MataPelajaranModel extends Model
 
     public static function delete_comment($id){
 
-        $sql_del_cm = "DELETE FROM ".db_active().".forum_comment where id = ".$id;
+        $sql_del_cm = "DELETE FROM ".Session::get('db_active').".forum_comment where id = ".$id;
         // echo $sql_del;exit(); 
         $query_del_cm=collect(\DB::delete($sql_del_cm));
 
@@ -1473,8 +1472,8 @@ class MataPelajaranModel extends Model
                         pel.pelajaran_eng AS english,
                         mpgrade.kode_grade 
                     FROM
-                        '.db_active().'.pelajaran_nilai AS nilai
-                        INNER JOIN '.db_active().'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
+                        '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                        INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpgrade ON nilai.kode_pelajaran = mpgrade.kode
                         INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON mpgrade.id_pelajaran = pel.id 
                     WHERE
                         mpgrade.is_elearning = "Y" 

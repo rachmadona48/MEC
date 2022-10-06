@@ -51,7 +51,7 @@
                                     cm.siswa,
                                     date_format( cm.tanggal, "%d %M %Y %h:%i" ) AS tgl
                                 FROM
-                                    '.db_active().'.forum_comment cm
+                                    '.Session::get('db_active').'.forum_comment cm
                                 WHERE
                                     cm.topic = '.$id.'
                                     AND cm.parent_comment = '.$key->id.'

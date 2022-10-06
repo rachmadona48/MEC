@@ -27,7 +27,7 @@ class BukomModel extends Model
         	$sql = "
 				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
-				FROM ".db_active().".mec_bukom bk
+				FROM ".Session::get('db_active').".mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.user_pengirim = '".$user."'
 				";
@@ -35,8 +35,8 @@ class BukomModel extends Model
 			$sql = "
 				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
-				FROM ".db_active().".mec_bukom_penerima pn
-				LEFT JOIN ".db_active().".mec_bukom bk on pn.id_bukom = bk.id
+				FROM ".Session::get('db_active').".mec_bukom_penerima pn
+				LEFT JOIN ".Session::get('db_active').".mec_bukom bk on pn.id_bukom = bk.id
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE pn.user_penerima = '".$user."'
 				AND bk.status = 'Send'
@@ -54,7 +54,7 @@ class BukomModel extends Model
 		if($type_user=='sdm'){
 			$sql = "SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
-				FROM ".db_active().".mec_bukom bk
+				FROM ".Session::get('db_active').".mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.user_pengirim = '".$user."'
 				and 1 = 1";
@@ -62,8 +62,8 @@ class BukomModel extends Model
 			$sql = "
 				SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, '%a %D %b %Y') as date_create,bk.date_send
-				FROM ".db_active().".mec_bukom_penerima pn
-				LEFT JOIN ".db_active().".mec_bukom bk on pn.id_bukom = bk.id
+				FROM ".Session::get('db_active').".mec_bukom_penerima pn
+				LEFT JOIN ".Session::get('db_active').".mec_bukom bk on pn.id_bukom = bk.id
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE pn.user_penerima = '".$user."'
 				AND bk.status = 'Send'
@@ -174,7 +174,7 @@ class BukomModel extends Model
     	$sql = 'SELECT bk.id,bk.status,sdm.nama,bk.subyek,bk.isi,bk.lampiran1,bk.ukuran1,bk.nmfile1,bk.lampiran2,bk.ukuran2,
 				bk.nmfile2,bk.lampiran3,bk.ukuran3,bk.nmfile3,DATE_FORMAT(bk.date_create, "%a %D %b %Y") as date_create,
 				DATE_FORMAT(bk.date_send, "%a %D %b %Y") as date_send
-				FROM '.db_active().'.mec_bukom bk
+				FROM '.Session::get('db_active').'.mec_bukom bk
 				LEFT JOIN tbl_sdm sdm on bk.user_pengirim = sdm.finger
 				WHERE bk.id = '.$id_bukom.'
 			';
@@ -185,17 +185,17 @@ class BukomModel extends Model
 
     public static function Get_bukom_penerima($id_bukom){
     	// $sql = 'SELECT sdm.nama,ks.kelas
-		// 		FROM '.db_active().'.mec_bukom_penerima pn
-		// 		LEFT JOIN '.db_active().'.kelas_siswa ks on pn.user_penerima = ks.nim
+		// 		FROM '.Session::get('db_active').'.mec_bukom_penerima pn
+		// 		LEFT JOIN '.Session::get('db_active').'.kelas_siswa ks on pn.user_penerima = ks.nim
 		// 		LEFT JOIN tbl_siswa sdm on pn.user_penerima = sdm.nim
 		// 		WHERE pn.id_bukom = '.$id_bukom.'
 		// 		ORDER BY ks.kelas ASC
 		// 	';
 
 		$sql = 'SELECT sdm.nama,ks.kode as kelas
-				FROM '.db_active().'.mec_bukom_penerima pn
-				LEFT JOIN '.db_active().'.mapping_kelas_siswa mpk on pn.user_penerima = mpk.nim
-				LEFT JOIN '.db_active().'.ref_kelas ks on mpk.id_kelas = ks.id
+				FROM '.Session::get('db_active').'.mec_bukom_penerima pn
+				LEFT JOIN '.Session::get('db_active').'.mapping_kelas_siswa mpk on pn.user_penerima = mpk.nim
+				LEFT JOIN '.Session::get('db_active').'.ref_kelas ks on mpk.id_kelas = ks.id
 				LEFT JOIN tbl_siswa sdm on pn.user_penerima = sdm.nim
 				WHERE pn.id_bukom = '.$id_bukom.'
 				ORDER BY ks.kode ASC
@@ -223,8 +223,8 @@ class BukomModel extends Model
 		// 				rp.isi_reply,
 		// 				DATE_FORMAT( rp.date_reply, "%a %D %b %Y" ) AS date_reply 
 		// 			FROM
-		// 				'.db_active().'.mec_bukom_reply rp
-		// 				LEFT JOIN '.db_active().'.kelas_siswa ks ON rp.user_reply = ks.nim
+		// 				'.Session::get('db_active').'.mec_bukom_reply rp
+		// 				LEFT JOIN '.Session::get('db_active').'.kelas_siswa ks ON rp.user_reply = ks.nim
 		// 				LEFT JOIN tbl_sdm sdm ON rp.user_reply = sdm.finger
 		// 				LEFT JOIN tbl_siswa sw ON rp.user_reply = sw.nim 
 		// 			WHERE
@@ -246,9 +246,9 @@ class BukomModel extends Model
 					rp.isi_reply,
 					DATE_FORMAT( rp.date_reply, "%a %D %b %Y" ) AS date_reply 
 				FROM
-					'.db_active().'.mec_bukom_reply rp
-					LEFT JOIN '.db_active().'.mapping_kelas_siswa mpk on rp.user_reply = mpk.nim
-					LEFT JOIN '.db_active().'.ref_kelas ks on mpk.id_kelas = ks.id
+					'.Session::get('db_active').'.mec_bukom_reply rp
+					LEFT JOIN '.Session::get('db_active').'.mapping_kelas_siswa mpk on rp.user_reply = mpk.nim
+					LEFT JOIN '.Session::get('db_active').'.ref_kelas ks on mpk.id_kelas = ks.id
 					LEFT JOIN tbl_sdm sdm ON rp.user_reply = sdm.finger
 					LEFT JOIN tbl_siswa sw ON rp.user_reply = sw.nim 
 				WHERE
@@ -264,7 +264,7 @@ class BukomModel extends Model
     public static function Update_send_bukom($id_bukom,$status){
         date_default_timezone_set('Asia/Jakarta');
 
-        $sql = "UPDATE ".db_active().".mec_bukom
+        $sql = "UPDATE ".Session::get('db_active').".mec_bukom
                 SET status = '".$status."',
                 date_send = '".date('Y-m-d H:i:s')."'
                 where id = ".$id_bukom."

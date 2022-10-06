@@ -8,6 +8,7 @@ if (! function_exists('db_active')) {
 				WHERE db_semester = "db_mdn_bogor"
 				and aktif = "1"
 			';
+        // echo $sql;exit();
 	    $query=collect(\DB::select($sql))->first();
 	    return $query->default_semester_aktif;
     }
@@ -31,17 +32,23 @@ if (! function_exists('db_active')) {
         $sql = 'SELECT count(*) as jml_db
                     FROM INFORMATION_SCHEMA.SCHEMATA
                     WHERE SCHEMA_NAME = "'.Session::get('db_active').'"'
-                ;   
+                ; 
+        
 
         $key_mp=collect(\DB::select($sql))->first();
         return $key_mp->jml_db;
     }
 
     function cek_db_old(){
+        // $sql = 'SELECT count(*) as jml_db
+        //             FROM INFORMATION_SCHEMA.SCHEMATA
+        //             WHERE SCHEMA_NAME = "'.Session::get('kd_smt_active').'"'
+        //         ; 
+        
         $sql = 'SELECT count(*) as jml_db
                     FROM INFORMATION_SCHEMA.SCHEMATA
-                    WHERE SCHEMA_NAME = "'.Session::get('kd_smt_active').'"'
-                ;   
+                    WHERE SCHEMA_NAME = "'.Session::get('db_active').'"'
+                ; 
         // echo $sql;exit();
         $key_mp=collect(\DB::select($sql))->first();
         return $key_mp->jml_db;
