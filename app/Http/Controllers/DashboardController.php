@@ -18,7 +18,7 @@ class DashboardController extends Controller
     	
     	if ($request->session()->has('id')) {
             $data['menu'] = MenuModel::akses_menu($request->session()->get('level'));
-            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'));
+            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'),$request->session()->get('level'));
             // echo db_active();exit();
             $data['walas'] = DashboardModel::getwali_kelas($request->session()->get('username'));
             $data['grade_kelas'] = DashboardModel::getgrade_kelas($request->session()->get('username'));
@@ -35,7 +35,7 @@ class DashboardController extends Controller
                 $data['subject'] = MataPelajaranModel::get_student_subject($request->session()->get('username'));
                 return view('Dashboard.Dashboard_parent',$data);
             }else if($request->session()->get('tipe') == 'sdm'){
-                $data['grade_sdm'] = DashboardModel::grade_sdm($request->session()->get('username'),$request->session()->get('tipe'));
+                $data['grade_sdm'] = DashboardModel::grade_sdm($request->session()->get('username'),$request->session()->get('tipe'),$request->session()->get('level'));
                 return view('Dashboard.Dashboard',$data);
             }
             
@@ -51,7 +51,7 @@ class DashboardController extends Controller
     	if ($request->session()->has('id')) {
     		$data=[];
             $data['menu'] = MenuModel::akses_menu($request->session()->get('level'));
-            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'));
+            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'),$request->session()->get('level'));
     		if ($request->session()->get('tipe')=='sdm'){
     			$profile = DashboardModel::getprofile_sdm($request->session()->get('username'));
     			$nama ='';
@@ -144,7 +144,7 @@ class DashboardController extends Controller
     {
         if ($request->session()->has('id')) {
             $data['menu'] = MenuModel::akses_menu($request->session()->get('level'));
-            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'));
+            $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'),$request->session()->get('level'));
             $data['detail_info'] = DashboardModel::get_detail_info($id);
             return view('Dashboard.Detail_info',$data);
         }else{

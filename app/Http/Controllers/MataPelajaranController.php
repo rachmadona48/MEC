@@ -23,7 +23,7 @@ class MataPelajaranController extends Controller
             // echo $id_pelajaran;exit();
         	// echo 'matapelajaran';
             // $data['menu'] = MenuModel::akses_menu($request->session()->get('level'));
-            $data['menu_matpel'] = MenuModel::akses_menu_matpel($request->session()->get('username'),$request->session()->get('tipe'),$kode_grade,$id_pelajaran);
+            $data['menu_matpel'] = MenuModel::akses_menu_matpel($request->session()->get('username'),$request->session()->get('tipe'),$kode_grade,$id_pelajaran,$request->session()->get('level'));
             $data['id_menu'] = '#menu_'.$kode_grade.'_'.$id_pelajaran;
             $mp = MenuModel::matpel($id_pelajaran);
             $data['judul'] = $mp->english;

@@ -34,12 +34,13 @@ class MenuModel extends Model
 		return $menu;
     }
 
-    public static function akses_menu2($username,$id_level,$tipe){
+    public static function akses_menu2($username,$id_level,$tipe,$level){
     	$menu = "";
     	/*jika db active ada*/
     	if (cek_db_old()>=1){
     		if($tipe == 'sdm'){
-		    	if($username == 'admin'){
+		    	// if($username == 'admin'){
+				if($level == '1'){
 		    		$where = '';
 		    	}else{
 					$where = 'WHERE g.finger="'.$username.'"
@@ -70,21 +71,22 @@ class MenuModel extends Model
 				                <a href="#"><i class="fa fa-cube"></i> <span class="nav-label">Grade '.$key->kode.'</span></a>
 				                <ul class="nav nav-second-level collapse">';
 
-				                if($username == 'admin'){
-						    		// $and_mp = '';
-						    		$and_mp = '
-									AND (
-										guru_kelas.finger = "'.$username.'"
-										OR guru_kelas.kode_grade in (
-											SELECT
-												kode_grade 
-											FROM
-												'.Session::get('db_active').'.priv_sdm_akses 
-											WHERE
-												finger = "'.$username.'"
-										)
-									) 
-									';
+				                // if($username == 'admin'){
+								if($level == '1'){
+						    		$and_mp = '';
+						    		// $and_mp = '
+									// AND (
+									// 	guru_kelas.finger = "'.$username.'"
+									// 	OR guru_kelas.kode_grade in (
+									// 		SELECT
+									// 			kode_grade 
+									// 		FROM
+									// 			'.Session::get('db_active').'.priv_sdm_akses 
+									// 		WHERE
+									// 			finger = "'.$username.'"
+									// 	)
+									// ) 
+									// ';
 						    	}else{
 									$and_mp = '
 									AND (
@@ -194,27 +196,28 @@ class MenuModel extends Model
 		return $menu;
     }
 
-    public static function akses_menu_matpel($username,$tipe,$kode_grade,$id_pelajaran){
+    public static function akses_menu_matpel($username,$tipe,$kode_grade,$id_pelajaran,$level=""){
     	$menu = "";
     	/*jika db active dan db smt ada*/
     	if (cek_db_old()>=1){
 	    	if($tipe == 'sdm'){
 
-	    			if($username == 'admin'){
-						// $and_mp = '';
+	    			// if($username == 'admin'){
+					if($level == "1"){
+						$and_mp = '';
 						// $and_mp = ' AND ( g.guru = "'.$username.'" ) ';
-						$and_mp = 'AND (
-										guru_kelas.finger = "'.$username.'"
-										OR guru_kelas.kode_grade in (
-											SELECT
-												kode_grade 
-											FROM
-											'.Session::get('db_active').'.priv_sdm_akses 
-											WHERE
-												finger = "'.$username.'"
-										)
-									) 
-						'; 
+						// $and_mp = 'AND (
+						// 				guru_kelas.finger = "'.$username.'"
+						// 				OR guru_kelas.kode_grade in (
+						// 					SELECT
+						// 						kode_grade 
+						// 					FROM
+						// 					'.Session::get('db_active').'.priv_sdm_akses 
+						// 					WHERE
+						// 						finger = "'.$username.'"
+						// 				)
+						// 			) 
+						// '; 
 			    	}else{
 			    		/*$and_mp = '
 			    				AND pgk.finger = '.$username.'

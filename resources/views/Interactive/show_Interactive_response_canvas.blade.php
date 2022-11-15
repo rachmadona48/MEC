@@ -20,8 +20,8 @@
                     // echo $id_h5p[0][3];
                     ?>
                     <!-- <?php echo $link_canvas; ?> -->
-                    <iframe src="http://103.119.230.51:81/wp-admin/admin-ajax.php?action=h5p_embed&id=<?php echo $id_h5p[0][3] ?>" width="845" height="536" frameborder="0" allowfullscreen="allowfullscreen" title="Covid 19"></iframe>
-                    <script src="http://103.119.230.51:81/wp-content/plugins/h5p/h5p-php-library/js/h5p-resizer.js" charset="UTF-8"></script>
+                    <iframe src="<?php echo h5p();?>/wp-admin/admin-ajax.php?action=h5p_embed&id=<?php echo $id_h5p[0][3] ?>" width="845" height="536" frameborder="0" allowfullscreen="allowfullscreen" title="Covid 19"></iframe>
+                    <script src="<?php echo h5p();?>/wp-content/plugins/h5p/h5p-php-library/js/h5p-resizer.js" charset="UTF-8"></script>
                 </div>
                 <div class="ibox-content">
                     <i><b>Score (automatically,temporary) : <?php echo $skor_temp; ?></b></i><br/>

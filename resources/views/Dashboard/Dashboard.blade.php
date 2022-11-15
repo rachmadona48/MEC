@@ -96,20 +96,22 @@
                     <div id="collapseOne_sdm_<?php echo $key_sdm->kode; ?>" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <?php
-                            if(Session::get('username') == 'admin'){
+                            // if(Session::get('username') == 'admin'){
+                            if(Session::get('level') == '1'){
                                 // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )';
-                                $and_mp = 'AND (
-                                                    guru_kelas.finger = "'.Session::get('username').'"
-                                                    OR guru_kelas.kode_grade in (
-                                                        SELECT
-                                                            kode_grade 
-                                                        FROM
-                                                        '.Session::get('db_active').'.priv_sdm_akses 
-                                                        WHERE
-                                                            finger = "'.Session::get('username').'"
-                                                    )
-                                                ) 
-                                ';
+                                // $and_mp = 'AND (
+                                //                     guru_kelas.finger = "'.Session::get('username').'"
+                                //                     OR guru_kelas.kode_grade in (
+                                //                         SELECT
+                                //                             kode_grade 
+                                //                         FROM
+                                //                         '.Session::get('db_active').'.priv_sdm_akses 
+                                //                         WHERE
+                                //                             finger = "'.Session::get('username').'"
+                                //                     )
+                                //                 ) 
+                                // ';
+                                $and_mp = '';
                             }else{
                                 // $and_mp = 'AND ( g.guru = "'.Session::get('username').'" )'; 
                                 $and_mp = 'AND (

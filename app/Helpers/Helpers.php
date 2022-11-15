@@ -53,4 +53,11 @@ if (! function_exists('db_active')) {
         $key_mp=collect(\DB::select($sql))->first();
         return $key_mp->jml_db;
     }
+
+    function h5p(){
+        $sql = 'SELECT VALUE FROM mec_setting WHERE kode = "h5p"'; 
+        // echo $sql;exit();
+        $key=collect(\DB::select($sql))->first();
+        return $key->VALUE;
+    }
 }

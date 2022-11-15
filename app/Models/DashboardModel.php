@@ -8,8 +8,9 @@ use Session;
 
 class DashboardModel extends Model
 {
-	public static function grade_sdm($username,$tipe){
-		if($username == 'admin'){
+	public static function grade_sdm($username,$tipe,$level=""){
+			// if($username == 'admin'){
+			if($level == '1'){
 				$where = '';
 			}else{	
 	
