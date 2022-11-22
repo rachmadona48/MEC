@@ -25,43 +25,56 @@
   width: 100%;
   height: 100%;
   opacity: 1;
-  background-image: url({!! asset('image/background.png') !!});
+  /* background-image: url({!! asset('image/background.png') !!}); */
+  background-color: #ebedf7;
   background-position: 50% 0;
   background-size: cover;">
 
-    <div class="loginColumns animated fadeInDown" style="max-width: 900px;">
-        <div class="ibox-content" style="border-color: #1973ab;opacity: 0.95;border-radius: 10px;">
+    <div class="loginColumns animated fadeInDown" style="max-width: 50%;">
+        <div class="ibox-content" style="border-color: #1c5273;opacity: 0.95;border-radius: 30px;border-style: solid;">
             <div class="row">
 
-                <div class="col-md-4">
-                    <!-- <h2 class="font-bold">Welcome</h2> -->
+                <!-- <div class="col-md-4">
                     <div class="item active">
                         <center><img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/logo.jpg') !!}"></center>
                     </div>
+                </div> -->
+                <div class="col-md-12">
+                    <div class="item active">
+                        <center><img alt="image" style="width: 10%" class="img-responsive" src="{!! asset('image/logo.jpg') !!}"></center>
+                        <center><h3 class="font-bold">Sign in to Madania Extended Class Room</h3></center>
+                    </div>
                 </div>
-
-                <div class="col-md-8">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
                     <div class="m-t" role="form" style="margin-top: 40px;">
                         <center>
-                            <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Teacher/Staff" style="width: 130px;height: 130px;font-size: 70px;" onclick="login_sdm()">
-                                <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/teacher.png') !!}">
-                            </button>
-
-                            <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Student" style="width: 130px;height: 130px;font-size: 70px;" onclick="login_student()">
-                                <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/student.png') !!}">
-                            </button>
-
-                            <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Parent" style="width: 130px;height: 130px;font-size: 70px;" onclick="login_parent()">
-                                <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/parent.png') !!}">
-                            </button>
+                            <div class="col-md-4">
+                                <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Teacher/Staff" style="width: 130px;height: 130px;font-size: 70px;border-radius: 30px;" onclick="login_sdm()">
+                                    <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/teacher.png') !!}">
+                                </button>
+                                <h3 class="font-bold">Teacher</h3>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Student" style="width: 130px;height: 130px;font-size: 70px;border-radius: 30px;" onclick="login_student()">
+                                    <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/student.png') !!}">
+                                </button>
+                                <h3 class="font-bold">Student</h3>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-success dim btn-large-dim btn-outline" type="button" data-toggle="tooltip" data-placement="top" title="Login Parent" style="width: 130px;height: 130px;font-size: 70px;border-radius: 30px;" onclick="login_parent()">
+                                    <img alt="image" style="width: 100%" class="img-responsive" src="{!! asset('image/parent.png') !!}">
+                                </button>
+                                <h3 class="font-bold">Parent</h3>
+                            </div>
                         </center>
-                        
-
                     </div>
+                    
                     <p class="m-t">
                         <small class="pull-right">Madania-Extended-Class &copy; 2021</small>
                     </p>
                 </div>
+                <div class="col-md-1"></div>
             </div>
         </div>
     </div>

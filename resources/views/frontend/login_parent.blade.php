@@ -26,37 +26,36 @@
   width: 100%;
   height: 100%;
   opacity: 1;
-  background-image: url({!! asset('image/background.png') !!});
+  /* background-image: url({!! asset('image/background.png') !!}); */
+  background-color: #ebedf7;
   background-position: 50% 0;
   background-size: cover;">
 
-    <div class="loginColumns animated fadeInDown">
-        <div class="ibox-content" style="border-color: #1973ab;opacity: 0.95;border-radius: 10px;">
+    <div class="loginColumns animated fadeInDown" style="max-width: 50%;">
+        <div class="ibox-content" style="border-color: #1c5273;opacity: 0.95;border-radius: 30px;border-style: solid;">
             <div class="row">
 
-                <div class="col-md-6">
-                    <!-- <h2 class="font-bold">Welcome</h2> -->
+                <div class="col-md-12">
                     <div class="item active">
-                        <center><img alt="image" style="width: 80%" class="img-responsive" src="{!! asset('image/logo.jpg') !!}"></center>
+                        <center><img alt="image" style="width: 10%" class="img-responsive" src="{!! asset('image/logo.jpg') !!}"></center>
+                        <center><h3 class="font-bold">Parent Login</h3></center>
                     </div>
                 </div>
 
+                <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="m-t" role="form">
-                        <div class="form-group" style="font-family: system-ui;font-size: x-large;">
-                            <center>Parent Login</center>
-                        </div>
                         <div class="form-group">
-                            <input type="text" id="username" class="form-control required" placeholder="Username">
+                            <input type="text" id="username" class="form-control required" placeholder="Student ID" style="border-radius: 10px;">
                             <input type="hidden" id="_token" value="{{Session::token()}}">
                         </div>
                         
                         <div class="form-group">
-                            <input type="password" id="password" class="form-control required" placeholder="Password">
+                            <input type="password" id="password" class="form-control required" placeholder="Password" style="border-radius: 10px;">
                         </div>
                         <div id="id_alert" class="alert alert-warning" style="padding: 7px !important;display: none;">
                         </div>
-                        <button class="btn btn-success block full-width m-b" onclick="login()">Login</button>
+                        <button class="btn btn-success block full-width m-b" style="border-radius: 10px;" onclick="login()">Login</button>
                         <!-- <a href="{{ url('google') }}" class="btn btn-danger block full-width m-b">
                             Login with @madania.sch.id
                         </a> -->
@@ -66,6 +65,7 @@
                         <small class="pull-right"><a href="{{ url('/awal') }}"> Madania-Extended-Class &copy; 2021<a/></small>
                     </p>
                 </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </div>

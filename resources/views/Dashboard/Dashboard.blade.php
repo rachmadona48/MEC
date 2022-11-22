@@ -31,8 +31,8 @@
     <?php if(Session::get('tipe') != 'sdm') { ?> 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="panel panel-default" style="border-top-right-radius:10px !important;border-top-left-radius:10px !important">
+                    <div class="panel-heading" style="border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_student">Kelas <?php echo $kelas_siswa; ?></a>
                         </h5>
@@ -60,15 +60,15 @@
 
                                         <?php 
                                         if (file_exists( public_path() . '/upload/'.Session::get('kd_smt_active').'/icon_subject/' .$subject->id_pelajaran. '.png')){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$subject->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;">
+                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$subject->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                                         <?php }else{ ?>
-                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;">
+                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                                         <?php }
                                         ?>
 
                                         <!-- <div style="color: #fff;position: absolute;bottom: 125px;left: 20px;"><?php echo $subject->english; ?></div> -->
                                     </div>
-                                    <div class="widget-text-box" style="height: 90px;">
+                                    <div class="widget-text-box" style="height: 90px;border-bottom-right-radius:10px !important;border-bottom-left-radius:10px !important">
                                         <p style="color: black;"><?php echo $subject->english; ?></p>
                                     </div>
                                 </a>
@@ -87,8 +87,8 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="panel panel-default" style="border-radius:10px !important">
+                    <div class="panel-heading" style="border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne_sdm_<?php echo $key_sdm->kode; ?>">Grade <?php echo $key_sdm->kode; ?></a>
                         </h5>
@@ -183,15 +183,15 @@
                                     <div class="widget-head-color-box text-center">
                                         <?php 
                                         if (file_exists( public_path() . '/upload/'.Session::get('kd_smt_active').'/icon_subject/' .$key_mp->id_pelajaran. '.png')){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$key_mp->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;">
+                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$key_mp->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                                         <?php }else{ ?>
-                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;">
+                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
                                         <?php }
                                         ?>
                                         
                                         <!-- <div style="color: #fff;position: absolute;bottom: 125px;left: 20px;"><?php echo $key_mp->english; ?></div> -->
                                     </div>
-                                    <div class="widget-text-box" style="height: 90px;">
+                                    <div class="widget-text-box" style="height: 90px;border-bottom-right-radius:10px !important;border-bottom-left-radius:10px !important">
                                         <p style="color: black;"><?php echo $key_mp->english; ?></p>
                                     </div>
                                 </a>
