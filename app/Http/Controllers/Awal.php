@@ -56,15 +56,14 @@ class Awal extends Controller
     public function cek_login(Request $request)
     {
         $username = $request->username;
-        $user = AwalModel::getuserData($username);
         $password = $request->password;
+        $user = AwalModel::getuserData($username,$password);
         if(empty($user)){
             $respon='GAGAL';
             $msg='User not Found!';
         }else{
             if ($user->tipe=='siswa'){
-                $cek_siswa_intranet = AwalModel::get_siswa_intranet($username);
-                if($password==$cek_siswa_intranet->sandi){
+                if($user->password==$user->password_input){
                     Session::put('id', $user->id);
                     Session::put('username', $user->username);
                     Session::put('nama_lengkap', $user->nama_lengkap);
@@ -81,17 +80,22 @@ class Awal extends Controller
                     $msg='Wrong password!';
                 }
             }else{
-                Session::put('id', $user->id);
-                Session::put('username', $user->username);
-                Session::put('nama_lengkap', $user->nama_lengkap);
-                Session::put('level', $user->level);
-                Session::put('tipe', $user->tipe);
-                Session::put('nm_level', $user->nm_level);
-                Session::put('smt_active', smt_active()['smt_active']);
-                Session::put('kd_smt_active', smt_active()['kd_smt_active']);
-                Session::put('db_active', db_active());
-                $respon='SUKSES';
-                $msg='';
+                if($user->password==$user->password_input){
+                    Session::put('id', $user->id);
+                    Session::put('username', $user->username);
+                    Session::put('nama_lengkap', $user->nama_lengkap);
+                    Session::put('level', $user->level);
+                    Session::put('tipe', $user->tipe);
+                    Session::put('nm_level', $user->nm_level);
+                    Session::put('smt_active', smt_active()['smt_active']);
+                    Session::put('kd_smt_active', smt_active()['kd_smt_active']);
+                    Session::put('db_active', db_active());
+                    $respon='SUKSES';
+                    $msg='';
+                }else{
+                    $respon='GAGAL';
+                    $msg='Wrong password!';
+                }
             }
             
         }
@@ -103,20 +107,20 @@ class Awal extends Controller
     public function cek_login_parent(Request $request)
     {
         $username = $request->username;
-        $user = AwalModel::getuserData($username);
         $password = $request->password;
+        $username_siswa = str_replace("parent", "", $username);
+        $user = AwalModel::getuserData_parent($username,$username_siswa,$password);
         if(empty($user)){
             $respon='GAGAL';
             $msg='User not Found!';
         }else{
-            if ($user->tipe=='siswa'){
-                $cek_siswa_intranet = AwalModel::get_siswa_intranet($username);
-                if($password==$cek_siswa_intranet->sandi_ortu){
+            if ($user->tipe=='ortu'){
+                if($user->password==$user->password_input){
                     Session::put('id', $user->id);
-                    Session::put('username', $user->username);
+                    Session::put('username', $username_siswa);
                     Session::put('nama_lengkap', $user->nama_lengkap);
                     Session::put('level', $user->level);
-                    Session::put('tipe', 'ortu');
+                    Session::put('tipe', $user->tipe);
                     Session::put('nm_level', 'Orang Tua');
                     Session::put('smt_active', smt_active()['smt_active']);
                     Session::put('kd_smt_active', smt_active()['kd_smt_active']);

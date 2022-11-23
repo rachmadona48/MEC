@@ -60,9 +60,9 @@
 
                                         <?php 
                                         if (file_exists( public_path() . '/upload/'.Session::get('kd_smt_active').'/icon_subject/' .$subject->id_pelajaran. '.png')){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$subject->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
+                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$subject->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important;border: 1px solid darkgray !important;">
                                         <?php }else{ ?>
-                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
+                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important;border: 1px solid darkgray !important;">
                                         <?php }
                                         ?>
 
@@ -183,9 +183,9 @@
                                     <div class="widget-head-color-box text-center">
                                         <?php 
                                         if (file_exists( public_path() . '/upload/'.Session::get('kd_smt_active').'/icon_subject/' .$key_mp->id_pelajaran. '.png')){ ?>
-                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$key_mp->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
+                                            <img src="{!! asset('upload/'.Session::get('kd_smt_active').'/icon_subject/'.$key_mp->id_pelajaran.'.png') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important;border: 1px solid darkgray !important;">
                                         <?php }else{ ?>
-                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important">
+                                            <img src="{!! asset('image/subject/img_subject.jpg') !!}" alt="" style="height: 57.5px;width: 100%;border-top-right-radius:10px !important;border-top-left-radius:10px !important;border: 1px solid darkgray !important;">
                                         <?php }
                                         ?>
                                         
