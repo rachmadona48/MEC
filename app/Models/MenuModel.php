@@ -259,7 +259,7 @@ class MenuModel extends Model
 					$key_mp=collect(\DB::select($sql_mp))->first();
 				    $menu .= '
 			    			<li id="menu_'.$kode_grade.'_'.$id_pelajaran.'">
-				                <a href="'.url('/matpel/'.$kode_grade.'/'.$id_pelajaran).'"><i class="fa fa-fire"></i> <span class="nav-label">'.$key_mp->english.'</span></a>
+				                <a href="'.url('/matpel/'.$kode_grade.'/'.$id_pelajaran).'"><i class="fa fa-fire"></i> <span class="nav-label">Grade '.$kode_grade.':'.$key_mp->english.'</span></a>
 				            </li>
 				                '; 
 

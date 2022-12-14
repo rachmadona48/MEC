@@ -5,7 +5,7 @@
                 <div class="ibox-title">
                     <h5>List Week</h5>
                     <div class="ibox-tools">
-                            <button class="btn btn-success btn-xs" onclick="add_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>')">Add Interactive</button>
+                            <button class="btn btn-success btn-xs" onclick="add_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>')">Add Week</button>
                     </div>
                 </div>
                 <div class="ibox-content">
