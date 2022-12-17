@@ -39,20 +39,35 @@ class DashboardModel extends Model
 			}
 	
 			// $sql = 'SELECT
-			// 			p.grade as kode
-			// 		FROM
-			// 			'.Session::get('kd_smt_active').'.pelajaran p 
-			// 		'.$where.'
-			// 		GROUP BY p.grade
-			// 		ORDER BY p.grade';	
+			// 			g.kode_grade as kode
+			// 			FROM
+			// 				'.Session::get('db_active').'.priv_guru_kelas as g
+			// 			'.$where.'
+			// 			group by g.kode_grade 
+			// 			order by kode';	
 	
-			$sql = 'SELECT
-						g.kode_grade as kode
+			$sql = 'SELECT kode
 					FROM
-						'.Session::get('db_active').'.priv_guru_kelas as g
-					'.$where.'
-					group by g.kode_grade 
-					order by kode';	
+					(
+					SELECT
+						g.kode_grade AS kode 
+					FROM
+					'.Session::get('db_active').'.priv_guru_kelas AS g 
+						'.$where.'
+					UNION ALL
+					SELECT
+						kl.kode_grade AS kode 
+					FROM
+					'.Session::get('db_active').'.ref_kelas_wali wl
+						LEFT JOIN '.Session::get('db_active').'.ref_kelas kl ON wl.id_kelas = kl.id 
+					WHERE
+						finger = "'.$username.'"
+						AND ketua = "1" 
+						AND kl.kode IS NOT NULL
+					) dt
+					GROUP BY kode
+					ORDER BY kode ASC
+					';	
 	
 			// echo $sql;exit();
 			$query=DB::select($sql);

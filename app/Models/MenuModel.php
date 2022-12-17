@@ -237,23 +237,64 @@ class MenuModel extends Model
 						'; 
 			    	}
 		    
-					$sql_mp = 'SELECT
-							mpg.kode AS id_pelajaran,
-							pel.pelajaran_ktsp AS nama,
-							pel.pelajaran_eng AS english 
-						FROM
-							db_madania_bogor.tbl_pelajaran AS pel
-							INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
-							INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
-						WHERE
-							guru_kelas.kode_grade = "'.$kode_grade.'"
-							'.$and_mp.'
-							AND mpg.is_elearning = "Y" 
-							AND mpg.kode = "'.$id_pelajaran.'"
-						GROUP BY
-							guru_kelas.kode_pelajaran 
-						ORDER BY
-							english
+					// $sql_mp = 'SELECT
+					// 		mpg.kode AS id_pelajaran,
+					// 		pel.pelajaran_ktsp AS nama,
+					// 		pel.pelajaran_eng AS english 
+					// 	FROM
+					// 		db_madania_bogor.tbl_pelajaran AS pel
+					// 		INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+					// 		INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+					// 	WHERE
+					// 		guru_kelas.kode_grade = "'.$kode_grade.'"
+					// 		'.$and_mp.'
+					// 		AND mpg.is_elearning = "Y" 
+					// 		AND mpg.kode = "'.$id_pelajaran.'"
+					// 	GROUP BY
+					// 		guru_kelas.kode_pelajaran 
+					// 	ORDER BY
+					// 		english
+					// ';
+
+					$sql_mp = 'SELECT id_pelajaran,nama,english,kode_pelajaran
+								FROM
+								(
+								SELECT
+									mpg.kode AS id_pelajaran,
+									pel.pelajaran_ktsp AS nama,
+									pel.pelajaran_eng AS english,
+								guru_kelas.kode_pelajaran	
+								FROM
+									tbl_pelajaran AS pel
+									INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON pel.id = mpg.id_pelajaran
+									INNER JOIN '.Session::get('db_active').'.priv_guru_kelas AS guru_kelas ON mpg.kode = guru_kelas.kode_pelajaran 
+								WHERE
+									guru_kelas.kode_grade = "'.$kode_grade.'"
+									'.$and_mp.'
+									AND mpg.is_elearning = "Y" 
+									AND guru_kelas.kode_pelajaran <> "" 
+									
+								UNION ALL
+								
+								SELECT 
+									mpg.kode AS id_pelajaran,
+									pel.pelajaran_ktsp AS nama,
+									pel.pelajaran_eng AS english,
+									gk.kode_pelajaran 
+								FROM
+									'.Session::get('db_active').'.ref_kelas_wali wl
+									LEFT JOIN '.Session::get('db_active').'.ref_kelas kl ON wl.id_kelas = kl.id
+									LEFT JOIN '.Session::get('db_active').'.priv_guru_kelas gk ON wl.id_kelas = gk.id_kelas
+									INNER JOIN '.Session::get('db_active').'.mapping_pelajaran_grade AS mpg ON gk.kode_pelajaran = mpg.kode
+									INNER JOIN tbl_pelajaran pel ON mpg.id_pelajaran = pel.id 
+								WHERE
+									wl.finger = "'.$username.'"
+									AND mpg.kode_grade = "'.$kode_grade.'"
+									AND wl.ketua = "1" 
+									AND kl.kode IS NOT NULL
+								) dt
+								GROUP BY kode_pelajaran
+								ORDER BY english
 					';
 					// echo $sql_mp;exit();
 					$key_mp=collect(\DB::select($sql_mp))->first();
