@@ -21,6 +21,7 @@ class DashboardController extends Controller
             $data['menu2'] = MenuModel::akses_menu2($request->session()->get('username'),$request->session()->get('level'),$request->session()->get('tipe'),$request->session()->get('level'));
             // echo db_active();exit();
             $data['walas'] = DashboardModel::getwali_kelas($request->session()->get('username'));
+            $data['grade_walas'] = DashboardModel::grade_walas($request->session()->get('username'));
             $data['grade_kelas'] = DashboardModel::getgrade_kelas($request->session()->get('username'));
             
             if($request->session()->get('tipe') == 'siswa'){

@@ -131,6 +131,23 @@ class DashboardModel extends Model
 	    return $query->walas;
     }
 
+	public static function grade_walas($username){
+    	$sql = '
+				SELECT
+					kl.kode_grade AS kode_grade_walas
+				FROM
+					'.Session::get('db_active').'.ref_kelas_wali wl
+					LEFT JOIN '.Session::get('db_active').'.ref_kelas kl ON wl.id_kelas = kl.id 
+				WHERE
+					finger = "'.$username.'"
+					AND ketua = "1" 
+					AND kl.kode IS NOT NULL 
+			';
+			// echo $sql;exit();
+	    $query=collect(\DB::select($sql))->first();
+	    return $query;
+    }
+
     public static function getgrade_kelas($username){
 		// echo db_active(); exit();
     	$sql = 'SELECT wl.id_kelas,kl.kode_grade,kl.kode as kode_kelas 
