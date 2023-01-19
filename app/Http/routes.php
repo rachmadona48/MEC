@@ -53,6 +53,8 @@ Route::resource('/insert_week', 'MataPelajaranController@Insert_week');
 Route::resource('/save_edit_week', 'MataPelajaranController@Save_edit_week');
 Route::resource('/change_state_week', 'MataPelajaranController@Change_state_week');
 Route::resource('/matpel_week', 'MataPelajaranController@Matpel_week');
+Route::resource('/matpel_ld', 'MataPelajaranController@Matpel_ld');
+Route::resource('/matpel_edit_ld', 'MataPelajaranController@Matpel_edit_ld');
 Route::resource('/update_topic', 'MataPelajaranController@Update_topic');
 Route::resource('/update_topic_date', 'MataPelajaranController@Update_topic_date');
 Route::resource('/update_topic_approve', 'MataPelajaranController@Update_topic_approve');

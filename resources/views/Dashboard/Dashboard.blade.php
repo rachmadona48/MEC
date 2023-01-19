@@ -186,6 +186,21 @@
                                                 AND guru_kelas.kode_pelajaran <> "" 
                                             ) dt
                                             GROUP BY kode_pelajaran
+                                            UNION ALL
+                                            SELECT
+                                                nilai.kode_pelajaran AS id_pelajaran,
+                                                pel.pelajaran_ktsp AS nama,
+                                                pel.pelajaran_eng AS english,
+                                                nilai.kode_pelajaran AS kode_pelajaran
+                                            FROM
+                                                '.Session::get('db_active').'.pelajaran_nilai AS nilai
+                                                INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON nilai.id_pelajaran = pel.id 
+                                            WHERE
+                                                nilai.kode_grade = "'.$key_sdm->kode.'" 
+                                                AND nilai.kode_pelajaran <> "" 
+                                                AND nilai.finger = "'.Session::get('username').'" 
+                                            GROUP BY
+                                                nilai.kode_pelajaran
                                             ORDER BY english
                                 
                                 ';

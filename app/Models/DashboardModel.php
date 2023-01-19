@@ -64,6 +64,16 @@ class DashboardModel extends Model
 						finger = "'.$username.'"
 						AND ketua = "1" 
 						AND kl.kode IS NOT NULL
+					UNION ALL
+					SELECT
+						nilai.kode_grade AS kode
+					FROM
+					'.Session::get('db_active').'.pelajaran_nilai AS nilai
+					WHERE
+						nilai.kode_pelajaran <> "" 
+						AND nilai.finger = "'.$username.'" 
+					GROUP BY
+						nilai.kode_grade
 					) dt
 					GROUP BY kode
 					ORDER BY kode ASC

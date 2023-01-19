@@ -200,6 +200,23 @@ class MataPelajaranController extends Controller
         echo json_encode($return);
     }
 
+    public function Matpel_ld(Request $request)
+    {
+        
+        $kode_grade = $request->kode_grade;
+        $id_pelajaran = $request->id_pelajaran;
+        $data['data'] = MataPelajaranModel::list_learning_designer($id_pelajaran);
+        $data['kode_grade'] = $kode_grade;
+        $data['id_pelajaran'] = $id_pelajaran;
+        $div = view('MataPelajaran.Learning_designer',$data);
+        $div=$div->render();
+        $respon='SUKSES';
+        $msg='';
+
+        $return = array('respon' => $respon,'msg' => $msg,'div' => $div);
+        echo json_encode($return);
+    }
+
     public function Update_topic(Request $request)
     {
         $id_week = $request->id_week;

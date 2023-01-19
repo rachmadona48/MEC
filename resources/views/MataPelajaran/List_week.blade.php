@@ -3,9 +3,9 @@
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-title">
-                    <h5>List Week</h5>
+                    <h5>List Session</h5>
                     <div class="ibox-tools">
-                            <button class="btn btn-success btn-xs" onclick="add_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>')">Add Week</button>
+                            <button class="btn btn-success btn-xs" onclick="add_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>')">Add Session</button>
                     </div>
                 </div>
                 <div class="ibox-content">
@@ -13,7 +13,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr style="background-color: skyblue;">
-                                <th><center>Week</center></th>
+                                <th><center>Session</center></th>
                                 <th><center>Start Date</center></th>
                                 <th><center>End Date</center></th>
                                 <th><center>Action</center></th>
@@ -26,7 +26,7 @@
                                 
                                 <td>
                                     <center>
-                                        Week <?php echo $key->minggu;?>
+                                        Session <?php echo $key->minggu;?>
                                     </center>
                                 </td>
                                 <td>
@@ -49,7 +49,7 @@
                                             <button class="btn btn-outline btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Change state to publish" onclick="change_state_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','Publish')"><i class="fa fa-times"></i><?php echo $key->state;?></button>
                                         <?php } ?>
 
-                                        <button class="btn btn-outline btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Edit Date Week" onclick="edit_date_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->tglawal2; ?>','<?php echo $key->tglakhir2; ?>')"><i class="fa fa-indent"></i></button>
+                                        <button class="btn btn-outline btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="Edit Date Session" onclick="edit_date_week('<?php echo $kode_grade; ?>','<?php echo $id_pelajaran; ?>','<?php echo $key->id; ?>','<?php echo $key->tglawal2; ?>','<?php echo $key->tglakhir2; ?>')"><i class="fa fa-indent"></i></button>
                                     </center>
                                 </td>
                             </tr>

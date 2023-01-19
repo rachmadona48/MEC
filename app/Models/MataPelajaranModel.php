@@ -158,6 +158,24 @@ class MataPelajaranModel extends Model
     	return $key;
     }
 
+    public static function list_learning_designer($pelajaran){
+    	$sql = 'SELECT w.*,s.nama,spv.nama as nm_spv,date_format(w.tanggal,"%W, %M %e, %Y   %H:%i") as tgl,date_format(w.tanggal,"%d %M %Y") as tgl_2,w.supervisor,w.memo,
+                date_format(w.tglsuper,"%W, %M %e, %Y   %H:%i") as tgl2,date_format(w.approve,"%W, %M %e, %Y   %H:%i") as tgl3,date_format( w.approve, "%d %M %Y" ) AS tgl_approve,w.topic,
+                w.alokasi_waktu,w.kompetensi_inti,w.kompetensi_indikator,w.teknik_pembelajaran,w.Refleksi,w.sumber_alat,w.aims,
+                w.mode_delivery,md.deskripsi as md_deskripsi,
+                lt.deskripsi as lt_deskripsi
+				FROM '.Session::get('db_active').'.weeklyguide w
+                left join tbl_sdm s on w.finger=s.finger
+                left join tbl_sdm spv on w.supervisor=spv.finger
+                left join '.Session::get('db_active').'.mec_mode_delivery md on w.mode_delivery = md.id
+                left join '.Session::get('db_active').'.mec_learning_type lt on w.learning_type = lt.id
+				WHERE w.pelajaran='.$pelajaran
+				;	
+		// echo $sql;exit();
+    	$key=collect(\DB::select($sql));
+    	return $key;
+    }
+
     public static function get_mode_delivery(){
         $sql = 'SELECT id,deskripsi
                 FROM '.Session::get('db_active').'.mec_mode_delivery

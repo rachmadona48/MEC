@@ -75,6 +75,16 @@ class MenuModel extends Model
 								finger = "'.$username.'"
 								AND ketua = "1" 
 								AND kl.kode IS NOT NULL
+							UNION ALL
+							SELECT
+								nilai.kode_grade AS kode
+							FROM
+							'.Session::get('db_active').'.pelajaran_nilai AS nilai
+							WHERE
+								nilai.kode_pelajaran <> "" 
+								AND nilai.finger = "'.$username.'" 
+							GROUP BY
+								nilai.kode_grade
 						) dt
 						GROUP BY kode
 						ORDER BY kode ASC
@@ -157,6 +167,20 @@ class MenuModel extends Model
 									
 								GROUP BY
 									guru_kelas.kode_pelajaran 
+								UNION ALL
+								SELECT
+									nilai.kode_pelajaran AS id_pelajaran,
+									pel.pelajaran_ktsp AS nama,
+									pel.pelajaran_eng AS english 
+								FROM
+									'.Session::get('db_active').'.pelajaran_nilai AS nilai
+									INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON nilai.id_pelajaran = pel.id 
+								WHERE
+									nilai.kode_grade = "'.$key->kode.'" 
+									AND nilai.kode_pelajaran <> "" 
+									AND nilai.finger = "'.$username.'" 
+								GROUP BY
+									nilai.kode_pelajaran
 								ORDER BY
 									english
 							';
@@ -338,6 +362,21 @@ class MenuModel extends Model
 											AND mpg.kode = "'.$id_pelajaran.'"
 									) dt
 									GROUP BY kode_pelajaran
+									UNION ALL
+									SELECT
+										nilai.kode_pelajaran AS id_pelajaran,
+										pel.pelajaran_ktsp AS nama,
+										pel.pelajaran_eng AS english ,
+										nilai.kode_pelajaran AS kode_pelajaran 
+									FROM
+										'.Session::get('db_active').'.pelajaran_nilai AS nilai
+										INNER JOIN db_madania_bogor.tbl_pelajaran AS pel ON nilai.id_pelajaran = pel.id 
+									WHERE
+										nilai.kode_grade = "'.$kode_grade.'"
+										AND nilai.kode_pelajaran = "'.$id_pelajaran.'" 
+										AND nilai.finger = "'.$username.'" 
+									GROUP BY
+										nilai.kode_pelajaran 
 									ORDER BY english
 						';
 					}
@@ -354,9 +393,14 @@ class MenuModel extends Model
 			    	// 		<li>
 			     //                <a href="#" onclick="add_week(\''.$id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Add New Week</span></a>
 			     //            </li>'; 
+				 	$menu .= '
+						<li>
+							<a onclick="matpel_ld(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Learning Designer</span></a>
+						</li>';
+
 			     	$menu .= '
 			    			<li>
-			                    <a onclick="show_week(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Week</span></a>
+			                    <a onclick="show_week(\''.$kode_grade.'\',\''.$key_mp->id_pelajaran.'\')"><i class="fa fa-folder"></i> <span class="nav-label">Session</span></a>
 			                </li>'; 
 
 	                $sql_w = 'select id,minggu from '.Session::get('db_active').'.weeklyguide where pelajaran="'.$key_mp->id_pelajaran.'" and state ="Publish" order by minggu desc
@@ -367,7 +411,7 @@ class MenuModel extends Model
 
 	                	$menu .= '
 	                			<li>
-				                    <a href="#"><i class="fa fa-sitemap"></i><span class="nav-label"> Week '.$w->minggu.'</span><span class="fa arrow"></span></a>
+				                    <a href="#"><i class="fa fa-sitemap"></i><span class="nav-label"> Session '.$w->minggu.'</span><span class="fa arrow"></span></a>
 				                    <ul class="nav nav-second-level collapse">
 				                
 				                        <li id="menu_topic_'.$kode_grade.'_'.$id_pelajaran.'_'.$w->id.'">

@@ -30,7 +30,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Add Week</h4>
+                <h4 class="modal-title">Add Session</h4>
             </div>
             <div class="modal-body" style="padding: 20px 30px 100px 30px;">
                 <input type="hidden" class="input-sm form-control" id="pelajaran_week" readonly />
@@ -41,7 +41,7 @@
                         <select data-placeholder="Pilih Week" class="form-control m-b" id="id_minggu">
                             <?php
                             for ($a=1;$a<26;$a++) { ?>
-                                <option value="<?php echo $a; ?>">Week <?php echo $a; ?></option>
+                                <option value="<?php echo $a; ?>">Session <?php echo $a; ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -71,7 +71,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Edit Date Week</h4>
+                <h4 class="modal-title">Edit Date Session</h4>
             </div>
             <div class="modal-body" style="padding: 20px 30px 100px 30px;">
                 <input type="hidden" class="input-sm form-control" id="pelajaran_edit_week" readonly />

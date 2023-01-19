@@ -1706,6 +1706,44 @@
         });
     }
 
+    function matpel_ld(kode_grade,id_pelajaran){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/matpel_ld') }}",
+            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    function edit_ld(kode_grade,id_pelajaran,id_ld){
+        var _token  = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type:'POST',
+            url: "{{ url('/matpel_edit_ld') }}",
+            data: {_token:_token,kode_grade:kode_grade,id_pelajaran:id_pelajaran,id_week:id_week,minggu:minggu},
+            dataType: 'json',
+            success: (data) => {
+                if(data.respon == 'SUKSES'){
+                    $("#div_tlm").html(data.div);
+                    $('#div_discuss').remove();
+                }
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
     function matpel_week_tlm(kode_grade,id_pelajaran,id_week,minggu){
         var _token  = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
